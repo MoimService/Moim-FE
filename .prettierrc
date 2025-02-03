@@ -1,0 +1,25 @@
+{
+  "singleQuote": true,
+  "semi": true,
+  "useTabs": false,
+  "tabWidth": 2,
+  "printWidth": 80,
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "endOfLine": "lf",
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "importOrder": [
+    "^@utils/(.*)$",
+    "^@apis/(.*)$",
+    "^@hooks/(.*)$",
+    "^@recoils/(.*)$",
+    "^@pages/(.*)$",
+    "^@base/(.*)$",
+    "^@common/(.*)$",
+    "^@components/(.*)$",
+    "^@styles/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}
