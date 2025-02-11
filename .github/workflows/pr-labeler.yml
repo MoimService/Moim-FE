@@ -1,0 +1,42 @@
+name: PR Labeler
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Label PR based on commit messages
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const commits = await github.rest.pulls.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            const labels = new Set();
+
+            commits.data.forEach(commit => {
+              const msg = commit.commit.message;
+              if (msg.startsWith('feat[')) labels.add('✨ feat');
+              if (msg.startsWith('fix[')) labels.add('🐛 fix');
+              if (msg.startsWith('style[')) labels.add('💄 style');
+              if (msg.startsWith('refactor[')) labels.add('♻️ refactor');
+              if (msg.startsWith('test[')) labels.add('✅ test');
+              if (msg.startsWith('docs[')) labels.add('📝 docs');
+              if (msg.startsWith('chore[')) labels.add('🔧 chore');
+            });
+
+            if (labels.size > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: Array.from(labels)
+              });
+            }

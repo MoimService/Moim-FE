@@ -1,0 +1,51 @@
+name: PR Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened] # 모든 브랜치에 대한 PR 체크
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint check
+        run: npm run lint:fix # package.json의 script 사용
+
+      - name: Format check
+        run: npm run format # package.json의 script 사용
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Run tests
+        run: npm run test # package.json의 script 사용
+
+      - name: Build check
+        run: npm run build # package.json의 script 사용
+
+      - name: Report Status
+        if: always()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const status = ${{ job.status }};
+            const emoji = status === 'success' ? '✅' : '❌';
+            const body = `${emoji} CI Status: ${status}\n\n검사 항목:\n- Lint\n- Format\n- Type Check\n- Tests\n- Build`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
