@@ -16,9 +16,17 @@ const compat = new FlatCompat({
   recommendedConfig: {},
 });
 
+/** @type {import('eslint').Linter.Config[]} */
 const eslintConfig = [
   {
-    ignores: ['node_modules/', 'dist/', 'public/'],
+    ignores: [
+      'node_modules/',
+      'dist/',
+      'public/',
+      '.next/',
+      '**/*.js',
+      'next-env.d.ts',
+    ],
   },
   ...compat.extends(
     'eslint:recommended',
@@ -36,9 +44,7 @@ const eslintConfig = [
       parserOptions: {
         ecmaVersion: 2023,
         sourceType: 'module',
-        ecmaFeatures: {
-          jsx: true,
-        },
+        ecmaFeatures: { jsx: true },
         project: './tsconfig.json',
       },
     },
@@ -57,33 +63,22 @@ const eslintConfig = [
       ],
       '@typescript-eslint/no-unused-vars': [
         'warn',
-        {
-          args: 'after-used',
-          varsIgnorePattern: '^_',
-        },
+        { args: 'after-used', varsIgnorePattern: '^_' },
       ],
       'jsx-a11y/label-has-associated-control': [
         'error',
-        {
-          required: { some: ['nesting', 'id'] },
-        },
+        { required: { some: ['nesting', 'id'] } },
       ],
       'no-console': 'warn',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'react/jsx-no-useless-fragment': 'warn',
     },
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
+    settings: { react: { version: 'detect' } },
   },
   {
     files: ['*.tsx', '*.jsx'],
-    rules: {
-      '@typescript-eslint/no-use-before-define': 'off',
-    },
+    rules: { '@typescript-eslint/no-use-before-define': 'off' },
   },
 ];
 

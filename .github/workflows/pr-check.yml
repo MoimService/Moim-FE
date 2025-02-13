@@ -1,0 +1,90 @@
+name: PR Check
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        id: install
+        run: npm ci
+
+      - name: Lint check
+        id: lint
+        continue-on-error: true
+        run: npm run lint:fix
+
+      - name: Format check
+        id: format
+        continue-on-error: true
+        run: npm run format
+
+      - name: Type check
+        id: typecheck
+        continue-on-error: true
+        run: npx tsc --noEmit
+
+      - name: Run tests
+        id: test
+        continue-on-error: true
+        run: npm run test
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Build check
+        id: build
+        continue-on-error: true
+        run: npm run build
+
+      - name: Report Status
+        if: always()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const steps = {
+              lint: '${{ steps.lint.outcome }}',
+              format: '${{ steps.format.outcome }}',
+              typecheck: '${{ steps.typecheck.outcome }}',
+              test: '${{ steps.test.outcome }}',
+              build: '${{ steps.build.outcome }}'
+            };
+
+            const emoji = (status) => status === 'success' ? '✅' : '❌';
+
+            const body = `## CI Status Report\n\n` +
+              `### 검사 결과\n` +
+              `- Lint: ${emoji(steps.lint)} ${steps.lint}\n` +
+              `- Format: ${emoji(steps.format)} ${steps.format}\n` +
+              `- Type Check: ${emoji(steps.typecheck)} ${steps.typecheck}\n` +
+              `- Tests: ${emoji(steps.test)} ${steps.test}\n` +
+              `- Build: ${emoji(steps.build)} ${steps.build}\n\n` +
+              `${Object.values(steps).every(s => s === 'success') ? '✅ 모든 검사가 통과되었습니다.' : '❌ 일부 검사가 실패했습니다.'}`;
+
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body: body
+            });
+
+            if (Object.values(steps).some(s => s === 'failure')) {
+              core.setFailed('Some checks failed');
+            }

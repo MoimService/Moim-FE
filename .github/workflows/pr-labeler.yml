@@ -1,0 +1,73 @@
+name: PR Labeler
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Label PR based on commit messages
+        uses: actions/github-script@v6
+        with:
+          script: |
+            try {
+              const { data: commits } = await github.rest.pulls.listCommits({
+                ...context.repo,
+                pull_number: context.issue.number
+              });
+
+              const labels = new Set();
+              commits.forEach(commit => {
+                const msg = commit.commit.message;
+                // Using regex to match your commit convention: type(issue) message
+                const typeMatch = msg.match(/^(feat|fix|style|refactor|test|docs|chore|setting)\(/i);
+                
+                if (typeMatch) {
+                  const type = typeMatch[1].toLowerCase();
+                  switch (type) {
+                    case 'feat':
+                      labels.add('✨ feat');
+                      break;
+                    case 'fix':
+                      labels.add('🐛 fix');
+                      break;
+                    case 'style':
+                      labels.add('💄 style');
+                      break;
+                    case 'refactor':
+                      labels.add('♻️ refactor');
+                      break;
+                    case 'test':
+                      labels.add('✅ test');
+                      break;
+                    case 'docs':
+                      labels.add('📝 docs');
+                      break;
+                    case 'chore':
+                      labels.add('🔧 chore');
+                      break;
+                    case 'setting':
+                      labels.add('⚙️ setting');
+                      break;
+                  }
+                }
+              });
+
+              if (labels.size > 0) {
+                await github.rest.issues.addLabels({
+                  ...context.repo,
+                  issue_number: context.issue.number,
+                  labels: Array.from(labels)
+                });
+              }
+            } catch (error) {
+              core.setFailed(`Action failed with error: ${error}`);
+            }
