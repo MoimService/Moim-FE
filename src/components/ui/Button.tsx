@@ -56,6 +56,31 @@ export interface ButtonProps
   icon?: React.ReactNode;
 }
 
+/**
+ * 기본적인 버튼 컴포넌트입니다.
+ * @example
+ * // 기본 사용법
+ * <Button>텍스트</Button>
+ *
+ * // 아이콘과 함께 사용
+ * <Button icon={<Star />}>텍스트</Button>
+ *
+ * // variant 사용
+ * <Button variant="outline">텍스트</Button>
+ *
+ * // size 사용
+ * <Button size="sm">텍스트</Button>
+ *
+ * @param {object} props
+ * @param {string} [props.className] - Tailwind CSS 클래스를 통한 커스텀 스타일
+ * @param {'solid' | 'default' | 'outline' | 'text'} [props.variant='solid'] - 버튼의 시각적 스타일 variant
+ * @param {'default' | 'sm'} [props.size='default'] - 버튼 크기 (default: 332x46px, sm: 120x40px)
+ * @param {React.ReactNode} [props.icon] - 버튼 텍스트 좌측에 위치할 아이콘 (lucide-react 권장)
+ * @param {boolean} [props.disabled] - 버튼 비활성화 상태
+ * @param {() => void} [props.onClick] - 클릭 이벤트 핸들러
+ * @param {boolean} [props.asChild=false] - true일 경우 다른 컴포넌트로 래핑 가능
+ */
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     { className, variant, size, icon, children, asChild = false, ...props },
