@@ -23,8 +23,7 @@ function CardExamples() {
             <Button
               className="h-6 w-6"
               variant="text"
-              size="sm"
-              icon={<Heart />}
+              icon={<Heart className="text-Cgray500" />}
             ></Button>
           </CardTitle>
           <CardDescription>서울 성동구 서울숲길 17 공원</CardDescription>
@@ -43,6 +42,7 @@ function CardExamples() {
       >
         <CardThumbnail></CardThumbnail>
         <CardContent>
+          {/* TODO: 칩버튼, 프로그래스바 추가예정 */}
           <CardCategory>1번 카테고리</CardCategory>
           <CardTitle className="flex justify-between">
             <div>코드잇 스프린트</div>
