@@ -1,12 +1,4 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/Dropdown';
 import Image from 'next/image';
-
-const menus = ['마이페이지', '로그아웃'];
 
 export default function Home() {
   return (
@@ -104,15 +96,6 @@ export default function Home() {
           Go to nextjs.org →
         </a>
       </footer>
-      <div>test</div>
-      <DropdownMenu>
-        <DropdownMenuTrigger>Open</DropdownMenuTrigger>
-        <DropdownMenuContent>
-          {menus.map((menu) => (
-            <DropdownMenuItem key={menu}>{menu}</DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
     </div>
   );
 }

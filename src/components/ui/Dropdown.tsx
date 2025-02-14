@@ -23,7 +23,7 @@ const DropdownMenuContent = React.forwardRef<
       className={cn(
         'z-50 min-w-[116px] overflow-hidden rounded-md bg-popover p-[4px] text-popover-foreground shadow-md',
         'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
-        'bg-Cgray200 w-[116px]',
+        'w-[116px] bg-Cgray200',
         className,
       )}
       {...props}
@@ -42,11 +42,11 @@ const DropdownMenuItem = React.forwardRef<
 >(({ className, inset, size = 'l', onSelect, ...props }, ref) => (
   <DropdownMenuPrimitive.Item
     ref={ref}
-    onSelect={onSelect} // Radix UI의 onSelect 이벤트 활용
+    onSelect={onSelect}
     className={cn(
       'relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0',
       inset && 'pl-8',
-      'text-Cgray400 hover:bg-Cgray300 hover:text-Cgray700 typo-body1 px-[12px] py-[8px] rounded-[10px] box-border w-[108px] h-[34px]',
+      'typo-body1 box-border h-[34px] w-[108px] rounded-[10px] px-[12px] py-[8px] text-Cgray400 hover:bg-Cgray300 hover:text-Cgray700',
       {
         s: 'typo-body2',
         l: 'typo-body1',

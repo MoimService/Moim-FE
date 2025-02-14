@@ -5,7 +5,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/Dropdown';
+} from '@/components/ui/Dropdown';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
