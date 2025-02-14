@@ -30,8 +30,8 @@ const useCardContext = () => {
 const cardVariants = cva('flex bg-BG p-4', {
   variants: {
     type: {
-      vertical: ['flex-col w-[466px]'],
-      horizon: ['flex-row w-[1340px]'],
+      vertical: ['w-[466px] flex-col'],
+      horizon: ['w-[1340px] flex-row'],
     },
   },
   defaultVariants: {
@@ -59,8 +59,8 @@ const cardThumbnailVariants = cva(
   {
     variants: {
       type: {
-        vertical: ['mt-[12px] w-[432px] h-[252px]'],
-        horizon: ['ml-[24px] w-[252px] h-[208px]'],
+        vertical: ['mt-[12px] h-[252px] w-[432px]'],
+        horizon: ['ml-[24px] h-[208px] w-[252px]'],
       },
     },
     defaultVariants: {
@@ -133,7 +133,7 @@ const cardContentVariants = cva('flex flex-col', {
   variants: {
     type: {
       vertical: ['mt-[12px]'],
-      horizon: ['ml-[24px] w-[690px]'],
+      horizon: ['mx-[24px] w-[690px]'],
     },
   },
   defaultVariants: {
@@ -163,11 +163,7 @@ const CardFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn('flex items-center p-6 pt-0', className)}
-    {...props}
-  />
+  <div ref={ref} className={cn('flex items-center', className)} {...props} />
 ));
 CardFooter.displayName = 'CardFooter';
 
