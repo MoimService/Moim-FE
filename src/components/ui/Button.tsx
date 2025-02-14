@@ -10,7 +10,6 @@ const buttonVariants = cva(
       variant: {
         solid: [
           'bg-main',
-          'typo-button1',
           'text-white',
           'hover:opacity-90',
           'disabled:bg-disable disabled:text-disable_text',
@@ -18,27 +17,24 @@ const buttonVariants = cva(
         default: [
           'bg-default',
           'text-main',
-          'typo-button1',
           'hover:opacity-90',
           'disabled:bg-disable disabled:text-disable_text',
         ],
         outline: [
           'border border-main',
           'text-main',
-          'typo-button1',
           'hover:bg-default',
           'disabled:border-disable disabled:text-disable_text',
         ],
         text: [
           'text-main',
-          'typo-button1',
           'hover:text-opacity-80',
           'disabled:text-disable_text',
         ],
       },
       size: {
-        default: 'h-[46px] w-[332px]',
-        sm: 'h-10 w-[120px]',
+        default: ['typo-button1 h-[46px] w-[332px]'],
+        sm: ['typo-button2 h-10 w-[120px]'],
       },
     },
     defaultVariants: {
