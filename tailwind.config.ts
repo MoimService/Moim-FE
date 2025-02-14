@@ -2,6 +2,7 @@ import type { Config } from 'tailwindcss';
 import { PluginAPI } from 'tailwindcss/types/config';
 
 export default {
+  darkMode: ['class'],
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -29,9 +30,6 @@ export default {
         BG: '#121212',
         BG_2: '1B1B1D',
       },
-    },
-    fontFamily: {
-      sans: ['var(--font-pretendard)', 'sans-serif'],
     },
   },
   plugins: [
@@ -94,5 +92,6 @@ export default {
         },
       });
     },
+    require('tailwindcss-animate'),
   ],
 } satisfies Config;

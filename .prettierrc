@@ -24,5 +24,6 @@
     "^[./]"
   ],
   "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  "importOrderSortSpecifiers": true,
+  "tailwindFunctions": ["clsx", "cn", "cva"]
 }
