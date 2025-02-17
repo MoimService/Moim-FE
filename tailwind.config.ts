@@ -25,6 +25,7 @@ export default {
         black: '#000000',
         warning: '#Fb3b49',
         clear: '#00c48c',
+        green: '#D0F6EC',
         Cgray700: '#B4BBCE',
         Cgray800: '#D8DEE8',
         BG: '#121212',
