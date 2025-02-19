@@ -4,13 +4,14 @@ import React from 'react';
 interface AlertModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm?: () => void;
   confirmText?: string;
   cancelText?: string;
   children: React.ReactNode;
   modalClassName?: string;
   contentClassName?: string;
   buttonClassName?: string;
+  closeOnly?: boolean;
 }
 
 /**
@@ -19,6 +20,7 @@ interface AlertModalProps {
  * @component
  * @example
  * ```tsx
+ * // 기본 모달 (확인/취소 버튼)
  * <Modal
  *   isOpen={true}
  *   onClose={() => setIsOpen(false)}
@@ -29,14 +31,26 @@ interface AlertModalProps {
  * >
  *   <p>모달 내용</p>
  * </Modal>
+ *
+ * // 닫기 버튼만 있는 모달
+ * <Modal
+ *   isOpen={true}
+ *   onClose={() => setIsOpen(false)}
+ *   closeOnly
+ *   cancelText="닫기"
+ *   modalClassName="w-96"
+ * >
+ *   <p>모달 내용</p>
+ * </Modal>
  * ```
  *
  * @param props - 모달 컴포넌트 프로퍼티
  * @param props.isOpen - 모달의 표시 여부를 제어
  * @param props.onClose - 모달이 닫힐 때 호출되는 콜백 함수
- * @param props.onConfirm - 확인 버튼 클릭 시 호출되는 콜백 함수
- * @param props.confirmText - 확인 버튼의 텍스트 (기본값: '확인')
- * @param props.cancelText - 취소 버튼의 텍스트 (기본값: '취소')
+ * @param props.onConfirm - 확인 버튼 클릭 시 호출되는 콜백 함수 (closeOnly가 false일 때만 필요)
+ * @param props.closeOnly - true일 경우 닫기 버튼만 표시 (기본값: false)
+ * @param props.confirmText - 확인 버튼의 텍스트 (기본값: '확인', closeOnly가 false일 때만 사용)
+ * @param props.cancelText - 취소/닫기 버튼의 텍스트 (기본값: closeOnly가 true일 때 '닫기', false일 때 '취소')
  * @param props.children - 모달 내부에 표시될 컨텐츠
  * @param props.modalClassName - 모달 컨테이너에 적용할 추가 클래스명
  * @param props.contentClassName - 모달 컨텐츠 영역에 적용할 추가 클래스명
@@ -55,6 +69,7 @@ const Modal: React.FC<AlertModalProps> = ({
   modalClassName = '',
   contentClassName = '',
   buttonClassName = '',
+  closeOnly = false,
 }) => {
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     if (e.target === e.currentTarget) {
@@ -71,16 +86,13 @@ const Modal: React.FC<AlertModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    // backdrop
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-BG_2 bg-opacity-50"
       onClick={handleBackdropClick}
       onKeyDown={handleKeyDown}
-      role="button"
-      tabIndex={0}
+      role="presentation"
       aria-label="Close modal"
     >
-      {/* 실제 모달 컨테이너 */}
       <div
         className={`rounded-lg bg-BG_2 shadow-xl ${modalClassName}`}
         role="dialog"
@@ -90,12 +102,20 @@ const Modal: React.FC<AlertModalProps> = ({
         <div className={`p-6 ${contentClassName}`}>{children}</div>
 
         <div className={`flex justify-end gap-2 p-4 ${buttonClassName}`}>
-          <Button onClick={onClose} variant={'outline'} type="button">
-            {cancelText}
-          </Button>
-          <Button onClick={onConfirm} type="button">
-            {confirmText}
-          </Button>
+          {closeOnly ? (
+            <Button onClick={onClose} type="button">
+              {cancelText}
+            </Button>
+          ) : (
+            <>
+              <Button onClick={onClose} variant={'outline'} type="button">
+                {cancelText}
+              </Button>
+              <Button onClick={onConfirm} type="button">
+                {confirmText}
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </div>
