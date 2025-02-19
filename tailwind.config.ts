@@ -10,6 +10,10 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        md: '376px',
+        lg: '745px',
+      },
       colors: {
         main: '#525FEE',
         default: '#C2C9FF',
@@ -28,7 +32,7 @@ export default {
         Cgray700: '#B4BBCE',
         Cgray800: '#D8DEE8',
         BG: '#121212',
-        BG_2: '1B1B1D',
+        BG_2: '#1B1B1D',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
