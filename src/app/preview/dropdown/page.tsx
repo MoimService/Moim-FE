@@ -15,7 +15,7 @@ import { useState } from 'react';
  *
  * <Dropdown
  *   options={options}
- *   placeholder="선택하세요"
+ *   trigger="선택하세요"
  *   variant="default"
  *   size="l"
  * />
@@ -51,6 +51,12 @@ export default function Home() {
     { value: 'latest', label: '최신순' },
     { value: 'oldest', label: '오래된순' },
     { value: 'like', label: '좋아요순' },
+  ];
+
+  const filterAreaOptions = [
+    { value: 'frontend', label: '프론트엔드' },
+    { value: 'backend', label: '백엔드' },
+    { value: 'designer', label: '디자이너' },
   ];
 
   // 옵션 예시 2: 액션이 포함된 메뉴
@@ -98,7 +104,6 @@ export default function Home() {
         {/* 회전 화살표 아이콘 예시 */}
         <Dropdown
           options={filterOptions}
-          defaultValue={selectedFilter || undefined}
           onChange={setSelectedFilter}
           trigger="최신순"
           variant="icon"
@@ -108,7 +113,6 @@ export default function Home() {
         {/* 양방향 화살표 아이콘 예시 */}
         <Dropdown
           options={filterOptions}
-          defaultValue={selectedFilter || undefined}
           onChange={setSelectedFilter}
           trigger="최신순"
           variant="doubleArrow"
@@ -128,7 +132,8 @@ export default function Home() {
             height: 40,
             alt: 'Profile',
           }}
-          className="h-10 w-10 rounded-full"
+          className="ml-[200px] h-10 w-10 rounded-full"
+          contentClassName="mr-[85px]"
         />
       </section>
 
@@ -136,8 +141,9 @@ export default function Home() {
       <section>
         <h2 className="mb-6 text-2xl font-bold">4. 커스텀 스타일 드롭다운</h2>
         <Dropdown
-          options={menuOptions}
-          trigger="커스텀 스타일"
+          options={filterAreaOptions}
+          trigger="Selected"
+          onChange={setSelectedFilter}
           className="w-[460px]"
           contentClassName="w-[460px]"
           variant="icon"

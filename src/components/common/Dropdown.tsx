@@ -13,8 +13,7 @@ interface IDropdownOption {
 }
 
 interface IDropdownProps {
-  options: IDropdownOption[]; // 드롭다운에 표시될 옵션들
-  defaultValue?: string; // 초기 선택값
+  options?: IDropdownOption[]; // 드롭다운에 표시될 옵션들
   onChange?: (value: string) => void; // 선택 변경 시 호출될 콜백
   variant?: 'default' | 'icon' | 'doubleArrow' | 'image'; // 드롭다운 스타일 변형
   size?: 's' | 'l'; // 크기 옵션
@@ -28,8 +27,7 @@ interface IDropdownProps {
 }
 
 const Dropdown = ({
-  options,
-  defaultValue,
+  options = [],
   onChange,
   variant = 'default',
   size = 'l',
@@ -40,7 +38,7 @@ const Dropdown = ({
   trigger = '선택하세요',
 }: IDropdownProps) => {
   const [isOpen, setIsOpen] = React.useState(false); // 드롭다운 열림/닫힘 상태
-  const [selectedValue, setSelectedValue] = React.useState(defaultValue); // 현재 선택된 값
+  const [selectedValue, setSelectedValue] = React.useState<string | null>(null); // 현재 선택된 값
 
   const selectedOption = options.find((opt) => opt.value === selectedValue); // 선택된 옵션 찾기
 
@@ -69,12 +67,13 @@ const Dropdown = ({
     } //이미지 드롭다운
 
     if (variant === 'default') {
-      return <span>{selectedOption?.label || trigger}</span>;
+      return <span>{trigger}</span>;
     } // 기본 스타일
 
+    // 아이콘이 있는 variant의 경우 선택된 값이 있으면 그 값을, 없으면 trigger를 표시
     return (
       <>
-        <span>{selectedOption?.label || trigger}</span>
+        <span>{selectedOption ? selectedOption.label : trigger}</span>
         {variant === 'doubleArrow' ? (
           <ChevronsUpDown className="h-[24px] w-[24px]" />
         ) : (
@@ -86,9 +85,14 @@ const Dropdown = ({
             )}
           />
         )}
-      </> // 아이콘이 있는 스타일
-    );
+      </>
+    ); // 아이콘이 있는 스타일
   };
+
+  const shouldChangeBackground =
+    variant !== 'default' &&
+    variant !== 'image' &&
+    !className?.includes('w-[460px]');
 
   return (
     <DropdownMenuPrimitive.Root onOpenChange={setIsOpen}>
@@ -98,10 +102,10 @@ const Dropdown = ({
           variant === 'default' ? 'justify-center' : 'justify-between',
           'px-4',
           sizeClasses,
-          isOpen
-            ? 'bg-main text-white' // focus 상태일 때 배경색과 텍스트 색상
-            : 'bg-Cgray200 text-Cgray400', // focus가 풀렸을 때 배경색과 텍스트 색상
-          'transition-colors', // transition 효과
+          shouldChangeBackground
+            ? cn(isOpen ? 'bg-main text-white' : 'bg-Cgray200 text-Cgray400')
+            : 'bg-Cgray200 text-Cgray400',
+          'transition-colors',
           imageProps ? 'p-0' : '',
           className,
         )}
