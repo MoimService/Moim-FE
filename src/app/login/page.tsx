@@ -2,11 +2,12 @@
 
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { useLoginMutation } from '@/hooks/mutations/useUserMutation';
 import useDebounce from '@/hooks/useDebounde';
 import { basicAPI } from '@/lib/axios/basicApi';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface ILoginFormData {
@@ -59,24 +60,20 @@ export default function Login() {
     return accessTokenCookie ? accessTokenCookie.split('=')[1] : null;
   };
 
+  const { mutate } = useLoginMutation({
+    onSuccessCallback: () => router.push('/'),
+  });
+
   // 로그인 이미 됐다면 메인페이지로 이동
-  // useEffect(() => {
-  //   const accessToken = getAccessTokenFromCookie();
-  //   if (accessToken) {
-  //     router.push('/');
-  //   }
-  // }, []);
+  useEffect(() => {
+    const accessToken = getAccessTokenFromCookie();
+    if (accessToken) {
+      router.push('/');
+    }
+  }, []);
 
   const onSubmit = async (data: ILoginFormData) => {
-    console.log('로그인 데이터: ', data);
-    const res = await basicAPI.post(`/api/v1/auths/login`, data);
-    console.log('res: ', res);
-
-    const accessToken = res.headers.token;
-    if (accessToken) {
-      document.cookie = `accessToken=${accessToken}`;
-    }
-    router.push('/');
+    mutate(data);
   };
 
   return (

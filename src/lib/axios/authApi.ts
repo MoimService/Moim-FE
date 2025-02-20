@@ -1,25 +1,23 @@
 import axios from 'axios';
 
+import { getAccessToken, removeAccessToken } from '../serverActions';
 import { defaultConfig } from './defaultConfig';
 
 export const authAPI = axios.create(defaultConfig);
 
 authAPI.interceptors.request.use(
-  (config) => {
-    /** TODO
-     * - accessToken변수에 토큰 저장
-     */
-
-    const accessToken = 'accessToken';
+  async (config) => {
+    const accessToken = await getAccessToken();
     if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+      config.headers.token = `${accessToken}`;
     }
     return config;
   },
-  (error) => {
-    // TODO:
-    // - 401 에러로 실패하면, 로그인 페이지로 리다이렉트하는 로직 추가
-    // - 리다이렉트 전에 사용자에게 경고 메시지
+  async (error) => {
+    /**
+     * TODO
+     * 에러 발생했다는 팝업, 모달 추가
+     */
     return Promise.reject(error);
   },
 );
@@ -28,9 +26,15 @@ authAPI.interceptors.response.use(
   (response) => response,
   async (error) => {
     /**
-     * TODO:
+     * TODO:(refresh 토큰 발급 이후)
      * - 토근 재발급 로직
-     * - 에러코드 분류 후, 인증상태에 따른 리다이렉트트
      */
+
+    /**
+     * - 401 에러로 실패하면, 로그인 페이지로 리다이렉트하는 로직
+     * - 리다이렉트 전에 사용자에게 경고 메시지
+     */
+    await removeAccessToken();
+    window.location.href = '/login';
   },
 );

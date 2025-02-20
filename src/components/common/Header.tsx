@@ -147,7 +147,7 @@ const Header = ({ isLogIn = false }) => {
             <Logo />
           </Link>
           <NavLinks />
-          {isLogIn ? <BeforeLogin /> : <AfterLogin />}
+          {!isLogIn ? <BeforeLogin /> : <AfterLogin />}
           <Menu
             className="text-white lg:hidden"
             onClick={() => setIsOpen((prev) => !prev)}
@@ -161,7 +161,7 @@ const Header = ({ isLogIn = false }) => {
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } lg:hidden`}
       >
-        {isLogIn ? <MobileBeforeLogin /> : <MobileAfterLogin />}
+        {!isLogIn ? <MobileBeforeLogin /> : <MobileAfterLogin />}
         <NavLinks isMobile />
       </div>
     </div>
