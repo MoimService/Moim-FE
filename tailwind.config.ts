@@ -10,8 +10,12 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        md: '376px',
+        lg: '745px',
+      },
       colors: {
-        main: '#525FEE',
+        main: '#3853EA', 
         default: '#C2C9FF',
         solid: '#E5e7fa',
         disable: '#30333e',
@@ -28,8 +32,8 @@ export default {
         green: '#D0F6EC',
         Cgray700: '#B4BBCE',
         Cgray800: '#D8DEE8',
-        BG: '#121212',
-        BG_2: '1B1B1D',
+        BG: '#0F0F0F',
+        BG_2: '#1B1B1D',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -76,6 +80,9 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+    },
+    fontFamily: {
+      sans: ['var(--font-pretendard)', 'sans-serif'],
     },
   },
   plugins: [
