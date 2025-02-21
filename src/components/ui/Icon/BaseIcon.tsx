@@ -6,6 +6,8 @@ export interface BaseIconProps {
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'full';
   className?: string;
   path: string;
+  ariaLabel?: string;
+  title?: string;
 }
 
 export function BaseIcon({
@@ -14,6 +16,8 @@ export function BaseIcon({
   radius = 'none',
   className,
   path,
+  ariaLabel,
+  title,
 }: BaseIconProps) {
   const radiusMap = {
     none: 'rounded-none',
@@ -32,8 +36,10 @@ export function BaseIcon({
       xmlns="http://www.w3.org/2000/svg"
       fill={color}
       className={cn(radiusMap[radius], className)}
+      aria-label={ariaLabel}
       preserveAspectRatio="xMidYMid meet"
     >
+      {title && <title>{title}</title>}
       <path d={path} />
     </svg>
   );

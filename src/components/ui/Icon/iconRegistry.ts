@@ -11,6 +11,8 @@ function createIconComponent(config: IconConfig) {
       ...props,
       color: props.color ?? config.color,
       path: config.path,
+      title: `${config.name} Icon`,
+      ariaLabel: config.name,
     });
   };
 }
