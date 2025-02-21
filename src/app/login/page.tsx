@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useLoginMutation } from '@/hooks/mutations/useUserMutation';
 import useDebounce from '@/hooks/useDebounde';
-import { basicAPI } from '@/lib/axios/basicApi';
+import { getAccessToken } from '@/lib/serverActions';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -52,24 +52,26 @@ export default function Login() {
     },
   });
 
-  const getAccessTokenFromCookie = () => {
-    const cookies = document.cookie.split('; ');
-    const accessTokenCookie = cookies.find((row) =>
-      row.startsWith('accessToken='),
-    );
-    return accessTokenCookie ? accessTokenCookie.split('=')[1] : null;
-  };
-
   const { mutate } = useLoginMutation({
     onSuccessCallback: () => router.push('/'),
   });
 
   // 로그인 이미 됐다면 메인페이지로 이동
   useEffect(() => {
-    const accessToken = getAccessTokenFromCookie();
-    if (accessToken) {
-      router.push('/');
-    }
+    const checkLoginStatus = async () => {
+      const accessToken = await getAccessToken();
+      if (accessToken !== null) {
+        router.push('/');
+      } else {
+        /**
+         * TODO
+         * 쿠키 불러오는 로딩 상태 관리
+         */
+      }
+      return accessToken;
+    };
+
+    checkLoginStatus();
   }, []);
 
   const onSubmit = async (data: ILoginFormData) => {
