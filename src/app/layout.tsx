@@ -23,9 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={pretendard.variable}>
-      <body>
+      <body className="bg-BG">
         <Header />
-        {children}
+        <div className="m-auto max-w-[1340px]">{children}</div>
       </body>
     </html>
   );
