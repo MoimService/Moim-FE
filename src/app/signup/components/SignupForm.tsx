@@ -3,6 +3,13 @@
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import useSignUpForm from '@/hooks/useSignupForm';
+import {
+  emailValidation,
+  nameValidation,
+  passwordCheckValidation,
+  passwordValidation,
+  positionValidation,
+} from '@/util/validation';
 import Link from 'next/link';
 
 import { ChipContainer } from './ChipContainer';
@@ -41,21 +48,7 @@ const SignupForm = () => {
                 id="name"
                 className="h-full"
                 placeholder="닉네임을 입력해주세요."
-                {...register('name', {
-                  required: '닉네임을 입력해주세요.',
-                  minLength: {
-                    value: 2,
-                    message: '최소 2자 이상 입력해 주세요.',
-                  },
-                  maxLength: {
-                    value: 10,
-                    message: '최대 10자 이하로 입력해 주세요.',
-                  },
-                  pattern: {
-                    value: /^[가-힣a-zA-Z0-9]+$/,
-                    message: '한글(완성형), 영어, 숫자만 입력할 수 있습니다.',
-                  },
-                })}
+                {...register('name', nameValidation)}
                 errorMessage={errors.name?.message}
                 state={isNameCheck ? 'success' : 'default'}
                 onFocus={() => setFocusedField('name')}
@@ -82,13 +75,7 @@ const SignupForm = () => {
                 id="email"
                 className=" h-full"
                 placeholder="이메일을 입력해주세요."
-                {...register('email', {
-                  required: '이메일을 입력해주세요.',
-                  pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    message: '올바른 이메일 형식이 아닙니다.',
-                  },
-                })}
+                {...register('email', emailValidation)}
                 state={isEmailCheck ? 'success' : 'default'}
                 errorMessage={errors.email?.message}
                 onFocus={() => setFocusedField('email')}
@@ -121,9 +108,7 @@ const SignupForm = () => {
             )}
             <input
               type="hidden"
-              {...register('position', {
-                required: '포지션을 선택해 주세요.',
-              })}
+              {...register('position', positionValidation)}
             />
           </div>
 
@@ -135,17 +120,7 @@ const SignupForm = () => {
               id="password"
               type="password"
               placeholder="비밀번호를 입력해주세요."
-              {...register('password', {
-                required: '비밀번호를 입력해주세요.',
-                minLength: {
-                  value: 6,
-                  message: '비밀번호는 최소 6자 이상이어야 합니다.',
-                },
-                pattern: {
-                  value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-                  message: '비밀번호는 영어와 숫자 포함 6자 이상이어야 합니다.',
-                },
-              })}
+              {...register('password', passwordValidation)}
               state={dirtyFields.password ? 'success' : 'default'}
               errorMessage={errors.password?.message}
               onFocus={() => setFocusedField('password')}
@@ -160,12 +135,10 @@ const SignupForm = () => {
               id="passwordCheck"
               type="password"
               placeholder="비밀번호를 입력해주세요."
-              {...register('passwordCheck', {
-                required: '비밀번호를 입력해주세요.',
-                validate: (value: string) =>
-                  value === watch('password') ||
-                  '비밀번호가 일치하지 않습니다.',
-              })}
+              {...register(
+                'passwordCheck',
+                passwordCheckValidation(watch('password')),
+              )}
               state={dirtyFields.passwordCheck ? 'success' : 'default'}
               errorMessage={errors.passwordCheck?.message}
               onFocus={() => setFocusedField('passwordCheck')}

@@ -3,6 +3,10 @@
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import useLoginForm from '@/hooks/useLoginForm';
+import {
+  loginEmailValidation,
+  loginPasswordValidation,
+} from '@/util/validation';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -26,13 +30,7 @@ const LoginForm = () => {
             id="email"
             className="mb-[20px] mt-[8px]"
             placeholder="이메일을 입력해주세요."
-            {...register('email', {
-              required: '이메일을 입력해주세요.',
-              pattern: {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                message: '올바른 이메일 형식이 아닙니다.',
-              },
-            })}
+            {...register('email', loginEmailValidation)}
             errorMessage={errors.email?.message}
             onFocus={() => setFocusedField('email')}
           />
@@ -44,17 +42,7 @@ const LoginForm = () => {
             type="password"
             className="mb-[20px] mt-[8px]"
             placeholder="비밀번호를 입력해주세요."
-            {...register('password', {
-              required: '비밀번호를 입력해주세요.',
-              minLength: {
-                value: 6,
-                message: '비밀번호는 최소 6자 이상이어야 합니다.',
-              },
-              pattern: {
-                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-                message: '비밀번호는 영문과 숫자를 포함해야 합니다.',
-              },
-            })}
+            {...register('password', loginPasswordValidation)}
             errorMessage={errors.password?.message}
             onFocus={() => setFocusedField('password')}
           />
