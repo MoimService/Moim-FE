@@ -1,6 +1,8 @@
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
 
+import { Progress } from './Progress';
+
 interface VerticalCardProps {
   children?: React.ReactElement;
   className?: string;
@@ -60,6 +62,7 @@ const VerticalCard = ({
           />
         </div>
         <div className="mt-3 text-Cgray500">{location}</div>
+        <Progress className="mt-4 overflow-hidden" value={33} total={100} />
       </div>
       {children}
     </div>

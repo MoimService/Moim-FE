@@ -3,7 +3,7 @@
 import HorizonCard from '@/components/ui/HorizonCard';
 import VerticalCard from '@/components/ui/VerticalCard';
 
-export const popularMeetings = [
+const popularMeetings = [
   {
     id: 1,
     title: '코드잇 스프린트',
