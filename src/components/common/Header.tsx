@@ -25,14 +25,34 @@ const BeforeLogin = () => {
 const AfterLogin = () => {
   const router = useRouter();
   const menu = [
-    { label: '내 모임', onSelect: () => router.push('/my-meeting') },
-    { label: '마이페이지', onSelect: () => router.push('/my-page') },
-    { label: '로그아웃', onSelect: () => console.log('로그아웃') },
+    {
+      value: 'mymeeting',
+      label: '내 모임',
+      onSelect: () => router.push('/my-meeting'),
+    },
+    {
+      value: 'mypage',
+      label: '마이페이지',
+      onSelect: () => router.push('/my-page'),
+    },
+    {
+      value: 'logout',
+      label: '로그아웃',
+      onSelect: () => console.log('로그아웃'),
+    },
   ];
   return (
     <nav className="ml-auto hidden lg:flex">
       <div className="flex items-center">
-        <Dropdown items={menu} trigger={<Profile />} />
+        <Dropdown
+          options={menu}
+          variant="image"
+          className="h-10 w-10 rounded-full"
+          contentClassName="mr-[85px]"
+          imageProps={{
+            component: <Profile className="h-10 w-10" />,
+          }}
+        />
         <span className="typo-head3 m-auto w-[77px] text-center text-white">
           김밤식
         </span>
