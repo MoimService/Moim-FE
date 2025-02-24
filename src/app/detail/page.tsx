@@ -1,18 +1,19 @@
+import { ArrowLeft } from 'lucide-react';
+
+import CardWarpper from './components/CardWrapper';
 import MeetingInfo from './components/MeetingInfo';
 import Review from './components/Review';
-import ReviewInput from './components/ReviewInput';
 import UserInfo from './components/UserInfo';
 
 export default function Detail() {
   return (
-    <div>
-      <div>모임 헤더 - 한나님</div>
-      {/* <div>유저 정보</div> */}
+    <div className="flex flex-col gap-[48px]">
+      <div className="mt-[40px]">
+        <ArrowLeft className="h-[24px] w-[24px] text-Cgray700" />
+      </div>
+      <CardWarpper />
       <UserInfo />
-      {/* <div>모임 상세 정보</div> */}
       <MeetingInfo />
-      <div>리뷰 평점 - 윤재님</div>
-      {/* <div>리뷰 작성 폼</div> */}
       <Review />
       <div>리뷰 리스트</div>
     </div>
