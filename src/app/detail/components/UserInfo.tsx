@@ -22,7 +22,7 @@ const UserInfo = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-[8px]">
+      <div className="flex flex-col gap-[8px] px-[8px]">
         <div className="flex gap-[8px]">
           <p className="typo-head4 w-[56px] text-main">Email</p>
           <p className="typo-body1 text-Cgray700">codeit@codeit.com</p>
