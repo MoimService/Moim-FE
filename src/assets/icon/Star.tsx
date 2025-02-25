@@ -4,12 +4,14 @@ interface StarIconProps {
   className?: string;
   size?: number;
   variant?: 'outline' | 'filled' | 'half';
+  onClick?: () => void;
 }
 
 export function StarIcon({
   className,
   size = 24,
   variant = 'outline',
+  onClick,
 }: StarIconProps) {
   const gradientId = React.useId();
 
@@ -25,6 +27,7 @@ export function StarIcon({
       strokeLinecap="round"
       strokeLinejoin="round"
       className={`text-main ${className || ''}`}
+      onClick={onClick}
     >
       {variant === 'half' && (
         <defs>

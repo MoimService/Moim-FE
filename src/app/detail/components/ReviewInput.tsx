@@ -1,14 +1,19 @@
-import RatingStars from '@/components/common/review/RatingStars';
+import RatingStarsEdit from '@/components/common/review/RatingStarsEdit';
 import { Button } from '@/components/ui/Button';
+import { useState } from 'react';
 
 const ReviewInput = () => {
+  const [selectedRating, setSelectedRating] = useState<number>(0);
+
   return (
     <div className="rounded-[24px] border border-Cgray300 px-[24px] py-[32px]">
       <h3 className="typo-head3 text-Cgray800">리뷰 작성</h3>
-      <RatingStars
+      <RatingStarsEdit
         rating={Number(0)}
         size={24}
         className="mb-[16px] mt-[24px]"
+        selectedRating={selectedRating}
+        setSelectedRating={setSelectedRating}
       />
       <div className="flex h-[100px] gap-[16px]">
         <textarea
