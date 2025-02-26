@@ -5,11 +5,13 @@ import VerticalCard from '@/components/ui/VerticalCard';
 import { useTopMeetings } from '@/hooks/queries/useMeetingQueries';
 import { IMeeting } from 'types/meeting';
 
+import RecommendMeetingSkeleton from './skeleton/RecommentMeetingSkeleton';
+
 const RecommendMeeting = () => {
   const { data: meetings, isLoading, error } = useTopMeetings('모각코');
 
   if (isLoading) {
-    return <div className="typo-head1 text-white">로딩중...</div>;
+    return <RecommendMeetingSkeleton />;
   }
 
   if (error) {
