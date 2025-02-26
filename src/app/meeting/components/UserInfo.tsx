@@ -15,7 +15,7 @@ const UserInfo = ({ meetingId }: { meetingId: number }) => {
 
   console.log('userinfo: ', data);
   return (
-    <div className="flex flex-col gap-[16px] p-[16px] px-[32px]">
+    <div className="flex flex-col gap-[16px] p-[16px] sm:px-[32px]">
       <div className="flex items-center gap-[16px]">
         <div className="relative h-[80px] w-[80px] shrink-0">
           <Image

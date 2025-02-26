@@ -31,7 +31,7 @@ export default function page({ params }: { params: { id: string } }) {
         <UserInfo meetingId={meetingId} />
         <MeetingInfo meetingId={meetingId} />
       </div>
-      <div className="flex flex-col gap-[48px] px-[48px] py-[16px]">
+      <div className="flex flex-col gap-[48px] p-[16px] sm:px-[48px]">
         <div className="mb-[-24px] flex items-center gap-[8px]">
           <div className="h-[14px] w-[2px] bg-Cgray700" />
           <h3 className="typo-head3 text-Cgray700">리뷰</h3>

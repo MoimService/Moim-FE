@@ -8,7 +8,7 @@ import thumbnail from '../../../assets/thumbnail.png';
 const ReviewItem = ({ comment }: { comment: Comment }) => {
   console.log('comment: ', comment);
   return (
-    <div className="flex flex-col gap-[16px] p-[24px]">
+    <div className="flex flex-col gap-[16px] py-[16px] sm:p-[24px]">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-[8px]">
           <Image

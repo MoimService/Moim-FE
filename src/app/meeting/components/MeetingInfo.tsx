@@ -4,7 +4,6 @@ import { useDetailQueries } from '@/hooks/queries/useMeetingQueries';
 import { formatDate } from '@/util/date';
 
 import SkeletonMeetingInfo from './skeletons/SkeletonMeetingInfo';
-import SkeletonUserInfo from './skeletons/SkeletonUserInfo';
 
 const MeetingInfo = ({ meetingId }: { meetingId: number }) => {
   const { data: meeting, isLoading, error } = useDetailQueries(meetingId);
@@ -14,8 +13,8 @@ const MeetingInfo = ({ meetingId }: { meetingId: number }) => {
   }
 
   return (
-    <div className="px-[32px] py-[16px]">
-      <div className="flex flex-col gap-[24px] px-[16px]">
+    <div className="p-[16px] sm:px-[32px]">
+      <div className="flex flex-col gap-[24px] sm:px-[16px]">
         <div className="flex items-center gap-[8px]">
           <div className="h-[14px] w-[2px] bg-Cgray700" />
           <h3 className="typo-head3 text-Cgray700">모임 설명</h3>

@@ -33,14 +33,17 @@ const ReviewInput = ({ meetingId }: { meetingId: number }) => {
         selectedRating={selectedRating}
         setSelectedRating={setSelectedRating}
       />
-      <div className="flex h-[100px] gap-[16px]">
+      <div className="flex h-fit flex-col gap-[16px] sm:h-[100px] sm:flex-row">
         <textarea
           value={review}
           onChange={(e) => setReview(e.target.value)}
-          className="typo-button1 h-full flex-1 resize-none rounded-[12px] bg-Cgray200 px-[16px] py-[14px] text-Cgray500 placeholder:text-Cgray400"
+          className="typo-button1 h-[138px] resize-none rounded-[12px] bg-Cgray200 px-[16px] py-[14px] text-Cgray500 placeholder:text-Cgray400 sm:h-full sm:flex-1"
           placeholder="남겨주신 리뷰는 프로그램 운영 및 다른 회원 분들께 큰 도움이 됩니다."
         />
-        <Button className="h-full w-[88px]" onClick={handleSubmit}>
+        <Button
+          className="h-[40px] w-full rounded-[12px] sm:h-full sm:w-[88px]"
+          onClick={handleSubmit}
+        >
           등록하기
         </Button>
       </div>

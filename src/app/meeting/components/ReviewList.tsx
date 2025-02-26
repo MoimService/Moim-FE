@@ -22,7 +22,7 @@ const ReviewList = ({ meetingId }: { meetingId: number }) => {
       {comments?.map((comment) => (
         <div key={comment.commentId}>
           <ReviewItem comment={comment} />
-          <div className="mx-[24px] h-[1px] bg-Cgray300" />
+          <div className="h-[1px] bg-Cgray300 sm:mx-[24px]" />
         </div>
       ))}
     </div>
