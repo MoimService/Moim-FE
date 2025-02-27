@@ -1,5 +1,6 @@
 import Header from '@/components/common/Header';
 import ReactQueryProviders from '@/hooks/useReactQuery';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
@@ -28,6 +29,7 @@ export default function RootLayout({
         <ReactQueryProviders>
           <Header />
           <div className="m-auto max-w-[1340px]">{children}</div>
+          <ReactQueryDevtools initialIsOpen={false} />
         </ReactQueryProviders>
       </body>
     </html>
