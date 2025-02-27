@@ -8,39 +8,50 @@ import { SearchInput } from '@/components/ui/SearchInput';
 import VerticalCard from '@/components/ui/VerticalCard';
 import useInfiniteScroll from '@/hooks/common/useInfiniteScroll';
 import useMediaQuery from '@/hooks/common/useMediaQuery';
-import { useInfiniteSearchMeetings } from '@/hooks/queries/useMeetingQueries';
+import {
+  MEETING_QUERY_KEYS,
+  useInfiniteSearchMeetings,
+} from '@/hooks/queries/useMeetingQueries';
+import useDebounce from '@/hooks/useDebounde';
 import { getDDay } from '@/util/date';
-import { useState } from 'react';
-import { IMeeting } from 'types/meeting';
+import { QueryClient } from '@tanstack/react-query';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { IMeeting, IMeetingSearchCondition } from 'types/meeting';
 
 import MeetingListSkeleton from './skeleton/MeetingListSkeleton';
 
-const filterOptions = [
-  {
-    value: 'latest',
-    label: '최신순',
-    onSelect: () => {
-      console.log('최신순 정렬');
-    },
-  },
-  {
-    value: 'oldest',
-    label: '오래된순',
-    onSelect: () => {
-      console.log('오래된순 정렬');
-    },
-  },
-  {
-    value: 'like',
-    label: '좋아요순',
-    onSelect: () => {
-      console.log('좋아요순 정렬');
-    },
-  },
-];
-
 const MeetingList = () => {
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const filterOptions = [
+    {
+      value: 'NEW',
+      label: '최신순',
+      onSelect: () => {
+        handleSearchOption({ sortField: 'NEW' });
+      },
+    },
+    {
+      value: 'OLD',
+      label: '오래된순',
+      onSelect: () => {
+        handleSearchOption({ sortField: 'OLD' });
+      },
+    },
+    {
+      value: 'LIKES',
+      label: '좋아요순',
+      onSelect: () => {
+        handleSearchOption({ sortField: 'LIKES' });
+      },
+    },
+  ];
+  const [searchQuery, setSearchQuery] = useState<IMeetingSearchCondition>({
+    keyword: '',
+    skillArray: [],
+    sortField: 'NEW',
+    lastMeetingId: 0,
+    size: 4,
+  });
+
   const {
     data,
     isLoading,
@@ -48,13 +59,8 @@ const MeetingList = () => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useInfiniteSearchMeetings('모각코', {
-    keyword: '',
-    skillArray: [],
-    sortField: 'NEW',
-    lastMeetingId: 0,
-    size: 4,
-  });
+    refetch,
+  } = useInfiniteSearchMeetings('모각코', searchQuery);
 
   const lastMeetingRef = useInfiniteScroll({
     fetchNextPage,
@@ -63,6 +69,34 @@ const MeetingList = () => {
   });
 
   const breakpoint = useMediaQuery();
+
+  const handleSearchOption = (searchData: Partial<IMeetingSearchCondition>) => {
+    setSearchQuery((prev) => ({
+      ...prev,
+      ...searchData,
+    }));
+  };
+
+  const queryClient = new QueryClient();
+
+  useEffect(() => {
+    console.log('검색 필터에 따른 재검색');
+    queryClient.removeQueries({ queryKey: [MEETING_QUERY_KEYS.meetings] });
+    refetch();
+  }, [searchQuery]);
+
+  const [inputValue, setInputValue] = useState('');
+
+  useDebounce({
+    value: inputValue,
+    callBack: () => {
+      handleSearchOption({ keyword: inputValue });
+    },
+  });
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
 
   if (isLoading) {
     return <MeetingListSkeleton />;
@@ -75,14 +109,14 @@ const MeetingList = () => {
   return (
     <div className="mt-[126px]">
       {/* 기술스택 검색바 */}
-      <SearchInput />
+      <SearchInput onChange={handleChange} />
 
       {/* 드롭다운 */}
       <div className="my-4 flex w-full justify-end px-4">
         <Dropdown
           className="w-full md:w-[122px] lg:w-[122px]"
           options={filterOptions}
-          onChange={setSelectedFilter}
+          onChange={(value) => handleSearchOption({ sortField: value })}
           trigger="최신순"
           variant="doubleArrow"
           sideOffset={8}
