@@ -34,6 +34,12 @@ const MeetingInfo = ({ meetingId }: { meetingId: number }) => {
             <p className="typo-head4 w-[56px] text-main">모집정원</p>
             <p className="typo-body1 text-Cgray700">{meeting.maxMember}명</p>
           </div>
+          <div className="flex gap-[8px]">
+            <p className="typo-head4 w-[56px] text-main">가입방식</p>
+            <p className="typo-body1 text-Cgray700">
+              {!meeting.requireApproval ? '바로 가입' : '승인 필요'}
+            </p>
+          </div>
         </div>
         <p className="typo-body1 h-[200px] text-Cgray800">{meeting.content}</p>
       </div>
