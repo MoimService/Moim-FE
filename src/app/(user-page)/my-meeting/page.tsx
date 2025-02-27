@@ -9,6 +9,9 @@ import Modal from '@/components/ui/modal/Modal';
 import Image from 'next/image';
 import { useState } from 'react';
 
+import ModalProfile from '../components/ModalProfile';
+import ModalUserList from '../components/ModalUserList';
+
 interface Member {
   userId: number;
   profilePic: string;
@@ -19,25 +22,39 @@ interface Member {
 const CardRightSection = ({
   memberList,
   isPublic,
+  className,
 }: {
   memberList: Member[];
   isPublic: boolean;
+  className?: string;
 }) => {
   const [selectedFilter, setSelectedFilter] = useState(
     isPublic ? '공개' : '비공개',
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUserListModalOpen, setIsUserListModalOpen] = useState(false);
   const handleConfirm = () => {
-    setIsModalOpen(false);
+    setIsUserListModalOpen(false);
   };
   console.log('memberList: ', memberList);
   const filterAreaOptions = [
     { value: 'true', label: '공개' },
     { value: 'false', label: '비공개' },
   ];
+
+  const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
+
+  const handleSecondModalConfirm = () => {
+    // 가입 확인 api 연동
+    setIsUserProfileModalOpen(false);
+  };
+
+  const handleSecondModalCancel = () => {
+    // 가입 거절 api 연동
+    setIsUserProfileModalOpen(false);
+  };
   return (
-    <div className="flex w-[518px] gap-[24px]">
-      <div className="flex flex-col justify-center gap-[16px]">
+    <div className={`flex w-full gap-[24px] px-4 lg:w-[518px] ${className}`}>
+      <div className="hidden flex-col justify-center gap-[16px] lg:flex">
         <h3 className="typo-head3  text-main">참가 중인 멤버</h3>
         <div className="h-[172px] overflow-y-auto">
           {memberList.map((member: Member) => (
@@ -57,7 +74,7 @@ const CardRightSection = ({
                 <Button
                   variant={'outline'}
                   className="h-[40px] w-[93px]"
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => setIsUserProfileModalOpen(true)}
                 >
                   프로필보기
                 </Button>
@@ -66,24 +83,44 @@ const CardRightSection = ({
           ))}
         </div>
       </div>
-      <div className="flex items-center ">
+      <Button
+        variant="outline"
+        className="flex h-[40px] flex-1 md:h-[46px] lg:hidden"
+        onClick={() => setIsUserListModalOpen(true)}
+      >
+        맴버 명단 보기
+      </Button>
+      <div className="flex w-[120px] items-center">
         <Dropdown
           options={filterAreaOptions}
           trigger={selectedFilter}
           onChange={setSelectedFilter}
-          className="w-[120px]"
+          className="h-[40px] md:h-[46px]"
           contentClassName=""
           variant="icon"
         />
       </div>
       <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isUserProfileModalOpen}
+        onClose={handleSecondModalCancel}
+        onConfirm={handleSecondModalConfirm}
+        confirmText="가입승인"
+        cancelText="가입거절"
+        modalClassName="w-[450px] overflow-hidden bg-BG_2"
+      >
+        <ModalProfile />
+      </Modal>
+      <Modal
+        isOpen={isUserListModalOpen}
+        onClose={() => setIsUserListModalOpen(false)}
         onConfirm={handleConfirm}
         showOnly
         modalClassName="h-[590px] w-[520px] overflow-y-auto"
       >
-        <Some />
+        <ModalUserList
+          setIsUserProfileModalOpen={setIsUserProfileModalOpen}
+          setIsUserListModalOpen={setIsUserListModalOpen}
+        />
       </Modal>
     </div>
   );
@@ -158,20 +195,66 @@ export default function Page() {
         {meetings.map((meeting) => {
           console.log('[map] meeting:', meeting);
           return (
-            <HorizonCard
-              key={meeting.meetingId}
-              title={meeting.title}
-              thumbnailUrl={meeting.thumbnail}
-              location={meeting.location}
-              total={meeting.maxMember}
-              value={meeting.memberCount}
-              className="flex-col lg:flex-row"
-            >
-              <CardRightSection
-                memberList={meeting.memberList}
-                isPublic={meeting.isPublic}
-              />
-            </HorizonCard>
+            <>
+              {/* 데스크탑 */}
+              <div className="hidden lg:flex">
+                <HorizonCard
+                  key={meeting.meetingId}
+                  title={meeting.title}
+                  thumbnailUrl={meeting.thumbnail}
+                  location={meeting.location}
+                  total={meeting.maxMember}
+                  value={meeting.memberCount}
+                  className="flex-row"
+                >
+                  <CardRightSection
+                    memberList={meeting.memberList}
+                    isPublic={meeting.isPublic}
+                    className="hidden lg:flex"
+                  />
+                </HorizonCard>
+              </div>
+
+              {/* 태블릿 */}
+              <div className="hidden flex-col md:flex lg:hidden">
+                <HorizonCard
+                  key={meeting.meetingId}
+                  title={meeting.title}
+                  thumbnailUrl={meeting.thumbnail}
+                  location={meeting.location}
+                  total={meeting.maxMember}
+                  value={meeting.memberCount}
+                  thumbnailHeight={160}
+                  thumbnailWidth={160}
+                  className=""
+                />
+                <CardRightSection
+                  memberList={meeting.memberList}
+                  isPublic={meeting.isPublic}
+                  className="flex lg:hidden"
+                />
+              </div>
+
+              {/* 모바일 */}
+              <div className="flex flex-col md:hidden">
+                <HorizonCard
+                  key={meeting.meetingId}
+                  title={meeting.title}
+                  thumbnailUrl={meeting.thumbnail}
+                  location={meeting.location}
+                  total={meeting.maxMember}
+                  value={meeting.memberCount}
+                  thumbnailHeight={80}
+                  thumbnailWidth={80}
+                  className=""
+                />
+                <CardRightSection
+                  memberList={meeting.memberList}
+                  isPublic={meeting.isPublic}
+                  className="flex lg:hidden"
+                />
+              </div>
+            </>
           );
         })}
       </div>
