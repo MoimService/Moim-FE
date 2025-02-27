@@ -17,7 +17,7 @@ const useDebounce = <T>({
   callBack?: () => void;
 }) => {
   useEffect(() => {
-    if (!value) return;
+    if (value === undefined || value === null) return;
     const timer = setTimeout(() => {
       if (callBack) {
         callBack();
