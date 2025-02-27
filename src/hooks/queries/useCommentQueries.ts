@@ -1,11 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { getCommentsCount, getCommentsMeeting } from 'service/api/comment';
 
-const commentKeys = {
+export const commentKeys = {
   all: ['comments'] as const,
+  commentInfo: (meetingId: number) => [...commentKeys.all, meetingId] as const,
   count: (meetingId: number) =>
     [...commentKeys.all, meetingId, 'count'] as const,
-  comments: (meetingId: number) => [...commentKeys.all, meetingId] as const,
+  comments: (meetingId: number) =>
+    [...commentKeys.all, meetingId, 'comments'] as const,
 };
 
 export const useCommentsCountQueries = (meetingId: number) => {

@@ -1,23 +1,32 @@
-import { useMutation } from '@tanstack/react-query';
+import { useToast } from '@/components/common/ToastContext';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { postComment } from 'service/api/comment';
 
-const useCommentMutation = () => {
+import { commentKeys } from '../queries/useCommentQueries';
+
+const useCommentMutation = (meetingId: number) => {
+  const { showToast } = useToast();
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: ({
-      meetingId,
-      req,
-    }: {
-      meetingId: number;
-      req: { score: number; content: string };
-    }) => postComment(meetingId, req),
+    mutationFn: ({ req }: { req: { score: number; content: string } }) =>
+      postComment(meetingId, req),
     onSuccess: async (res) => {
-      // 메인페이지로 리다이렉트
       // onSuccessCallback?.();
+      showToast('댓글 작성이 완료되었어요.');
+      queryClient.invalidateQueries({
+        queryKey: commentKeys.commentInfo(meetingId),
+      });
     },
-    onError: () => {
-      console.log('로그인 에러');
+    onError: (error: AxiosError) => {
+      if (error.status) {
+        showToast('모임 참여자만 댓글 작성이 가능합니다.', 'error');
+        console.log('모임 참여자만 댓글 작성이 가능합니다.');
+      }
     },
   });
 };
 
 export { useCommentMutation };
+// 생각해 봤는데 우리 너무 가끔 만나는 것 같아서 서운할 때도 있어요 앞으로 좀 더 자주만나요
