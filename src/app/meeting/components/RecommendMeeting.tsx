@@ -15,19 +15,21 @@ const RecommendMeeting = () => {
   }
 
   if (error) {
-    console.log('err:', error);
     return <div className="typo-head1 text-white">에러 발생</div>;
   }
 
   return (
     <>
-      <div className="typo-head1 mb-6 px-4 text-Cgray800">
-        {/* TODO: 닉네임으로 변경 */}
-        어쩌구의 추천 모임
-      </div>
+      <div className="typo-head1 mb-6 px-4 text-Cgray800">Deving 추천 모임</div>
 
       {/* 웹뷰, 테블릿 */}
-      <div className="hidden overflow-hidden overflow-x-auto pb-4 md:flex lg:flex">
+      <div
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: '#a0aec0 transparent',
+        }}
+        className="hidden overflow-hidden overflow-x-auto pb-4 md:flex lg:flex"
+      >
         {meetings?.map((meeting: ITopMeeting) => (
           <VerticalCard
             key={meeting.meetingId}

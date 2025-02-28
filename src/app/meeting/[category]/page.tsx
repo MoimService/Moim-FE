@@ -1,9 +1,9 @@
 import FloatingButtonGroup from '@/components/common/FloatingButtonGroup';
 
-import MeetingList from './components/MeetingList';
-import RecommendMeeting from './components/RecommendMeeting';
+import MeetingList from '../components/MeetingList';
+import RecommendMeeting from '../components/RecommendMeeting';
 
-function MogakcoPage() {
+function MeetingListPage() {
   return (
     <div className="mb-[130px] mt-[88px]">
       <FloatingButtonGroup />
@@ -13,4 +13,4 @@ function MogakcoPage() {
   );
 }
 
-export default MogakcoPage;
+export default MeetingListPage;

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import HorizonCard from '@/components/ui/HorizonCard';
 import { SearchInput } from '@/components/ui/SearchInput';
 import VerticalCard from '@/components/ui/VerticalCard';
+import TechSelector from '@/components/ui/tech-stack/TechSelector';
 import useInfiniteScroll from '@/hooks/common/useInfiniteScroll';
 import useMediaQuery from '@/hooks/common/useMediaQuery';
 import {
@@ -15,35 +16,50 @@ import {
 import useDebounce from '@/hooks/useDebounde';
 import { getDDay } from '@/util/date';
 import { QueryClient } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import { IMeeting, IMeetingSearchCondition } from 'types/meeting';
+import {
+  CategoryTitle,
+  IMeeting,
+  IMeetingSearchCondition,
+} from 'types/meeting';
 
 import MeetingListSkeleton from './skeleton/MeetingListSkeleton';
 
+const filterOptions = [
+  {
+    value: 'NEW',
+    label: '최신순',
+  },
+  {
+    value: 'OLD',
+    label: '오래된순',
+  },
+  {
+    value: 'LIKES',
+    label: '좋아요순',
+  },
+];
+
+const translateCategoryNameToKor = (category: string): CategoryTitle => {
+  switch (category) {
+    case 'mogakco':
+      return '모각코';
+    case 'hobby':
+      return '취미';
+    case 'study':
+      return '스터디';
+    case 'side-project':
+      return '사이드 프로젝트';
+    default:
+      return '모각코';
+  }
+};
+
 const MeetingList = () => {
-  const filterOptions = [
-    {
-      value: 'NEW',
-      label: '최신순',
-      onSelect: () => {
-        handleSearchOption({ sortField: 'NEW' });
-      },
-    },
-    {
-      value: 'OLD',
-      label: '오래된순',
-      onSelect: () => {
-        handleSearchOption({ sortField: 'OLD' });
-      },
-    },
-    {
-      value: 'LIKES',
-      label: '좋아요순',
-      onSelect: () => {
-        handleSearchOption({ sortField: 'LIKES' });
-      },
-    },
-  ];
+  const { category } = useParams();
+  const categoryStr = Array.isArray(category) ? category[0] : category;
+
   const [searchQuery, setSearchQuery] = useState<IMeetingSearchCondition>({
     keyword: '',
     skillArray: [],
@@ -60,7 +76,10 @@ const MeetingList = () => {
     isFetchingNextPage,
     fetchNextPage,
     refetch,
-  } = useInfiniteSearchMeetings('모각코', searchQuery);
+  } = useInfiniteSearchMeetings(
+    translateCategoryNameToKor(categoryStr),
+    searchQuery,
+  );
 
   const lastMeetingRef = useInfiniteScroll({
     fetchNextPage,
@@ -86,7 +105,6 @@ const MeetingList = () => {
   const queryClient = useMemo(() => new QueryClient(), []);
 
   useEffect(() => {
-    console.log('검색 필터에 따른 재검색');
     queryClient.removeQueries({ queryKey: [MEETING_QUERY_KEYS.meetings] });
     refetch();
   }, [queryClient, searchQuery, refetch]);
@@ -104,6 +122,14 @@ const MeetingList = () => {
     setInputValue(e.target.value);
   };
 
+  const [selectedTechs, setSelectedTechs] = useState<string[]>([]);
+
+  // 기술 선택 변경 핸들러
+  const handleSelectionChange = (selection: string[]) => {
+    setSelectedTechs(selection);
+    handleSearchOption({ skillArray: selection });
+  };
+
   if (isLoading) {
     return <MeetingListSkeleton />;
   }
@@ -112,12 +138,15 @@ const MeetingList = () => {
     return <div className="typo text-white">에러 발생</div>;
   }
 
-  console.log(data?.pages);
-
   return (
     <div className="mt-[126px]">
       {/* 기술스택 검색바 */}
       <SearchInput onChange={handleChange} />
+      <TechSelector
+        className="mt-2 p-2"
+        maxSelections={5}
+        onSelectionChange={handleSelectionChange}
+      />
 
       {/* 드롭다운 */}
       <div className="my-4 flex w-full justify-end px-4">

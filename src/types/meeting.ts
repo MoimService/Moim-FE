@@ -1,4 +1,4 @@
-type CategoryTitle = '모각코' | '스터디' | '사이드프로젝트' | '취미';
+type CategoryTitle = '모각코' | '스터디' | '사이드 프로젝트' | '취미';
 
 interface ITopMeeting {
   meetingId: number;
