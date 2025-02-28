@@ -16,12 +16,9 @@ const useDebounce = <T>({
   delay?: number;
   callBack?: () => void;
 }) => {
-  const [debounceValue, setDebounceValue] = useState(value);
-
   useEffect(() => {
-    if (value === null) return;
+    if (!value) return;
     const timer = setTimeout(() => {
-      setDebounceValue(value);
       if (callBack) {
         callBack();
       }
@@ -31,7 +28,5 @@ const useDebounce = <T>({
       clearTimeout(timer);
     };
   }, [value, delay, callBack]);
-
-  return debounceValue;
 };
 export default useDebounce;

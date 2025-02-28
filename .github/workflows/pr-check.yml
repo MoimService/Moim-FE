@@ -25,6 +25,11 @@ jobs:
         id: install
         run: npm ci
 
+      - name: Create .env file
+        run: |
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
+          echo "NEXT_TOKEN_MAX_AGE=${{ secrets.NEXT_TOKEN_MAX_AGE }}" >> .env
+
       - name: Lint check
         id: lint
         continue-on-error: true

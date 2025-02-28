@@ -1,0 +1,43 @@
+import { isLightColor } from '@/util/getIconDetail';
+import React from 'react';
+import { IconComponent } from 'types/techStack';
+
+interface TechButtonProps {
+  icon: IconComponent;
+  name: string;
+  color: string;
+  isClicked: boolean;
+  isMaxReached: boolean;
+  onClick: (name: string) => void;
+}
+
+const TechButton = ({
+  icon: Icon,
+  name,
+  color,
+  isClicked,
+  isMaxReached,
+  onClick,
+}: TechButtonProps): JSX.Element => {
+  // 색상이 흰색이면 클릭 시 검정색으로 변경
+  const iconColor = isClicked && isLightColor(color) ? '#000000' : color;
+
+  return (
+    <button
+      className={`flex items-center gap-1 rounded-full border px-2 py-1
+  text-xs transition-all hover:shadow-md lg:gap-2 lg:px-3 lg:py-1.5 lg:text-sm
+  ${isClicked ? 'bg-white' : ''}
+  ${isMaxReached ? 'cursor-not-allowed opacity-50' : ''}`}
+      onClick={() => onClick(name)}
+      disabled={isMaxReached}
+      title={isMaxReached ? '최대 5개까지만 선택할 수 있습니다' : ''}
+    >
+      <Icon size={16} color={iconColor} />
+      <p style={{ color: iconColor }} className="font-medium">
+        {name}
+      </p>
+    </button>
+  );
+};
+
+export default TechButton;

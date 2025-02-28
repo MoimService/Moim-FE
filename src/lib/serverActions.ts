@@ -14,10 +14,13 @@ export async function removeAccessToken() {
 
 export async function setAccessToken(token: string) {
   const cookieStore = cookies();
+  const isProd = process.env.NODE_ENV === 'production';
   cookieStore.set('accessToken', token, {
     httpOnly: true,
     sameSite: 'strict',
     path: '/',
-    maxAge: 60 * 60 * 24,
+    secure: isProd,
+    domain: isProd ? process.env.COOKIE_DOMAIN : undefined,
+    maxAge: parseInt(process.env.NEXT_TOKEN_MAX_AGE as string) || 60 * 60,
   });
 }

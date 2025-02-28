@@ -34,7 +34,10 @@ authAPI.interceptors.response.use(
      * - 401 에러로 실패하면, 로그인 페이지로 리다이렉트하는 로직
      * - 리다이렉트 전에 사용자에게 경고 메시지
      */
-    await removeAccessToken();
-    window.location.href = '/login';
+    if (error.response?.status === 401) {
+      await removeAccessToken();
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
   },
 );
