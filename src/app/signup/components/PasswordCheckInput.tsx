@@ -1,15 +1,12 @@
+'use client';
+
 import { Input } from '@/components/ui/Input';
 import useDebounce from '@/hooks/useDebounde';
 import { passwordCheckValidation } from '@/util/validation';
 import { useCallback } from 'react';
-import { Control, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 
-import { ISignupFormData } from '../page';
 import { IPasswordInputProps } from './PasswordInput';
-
-interface IPWCheckInputProps extends IPasswordInputProps {
-  control: Control<ISignupFormData>; // ✅ control 타입 지정
-}
 
 const PasswordCheckInput = ({
   register,
@@ -17,7 +14,7 @@ const PasswordCheckInput = ({
   errors,
   control,
   trigger,
-}: IPWCheckInputProps) => {
+}: IPasswordInputProps) => {
   const password = useWatch({ control, name: 'password' });
   const passwordCheck = useWatch({ control, name: 'passwordCheck' });
 

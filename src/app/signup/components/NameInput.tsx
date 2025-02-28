@@ -1,32 +1,14 @@
+'use client';
+
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import useDebounce from '@/hooks/useDebounde';
 import { nameValidation } from '@/util/validation';
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
-import {
-  Control,
-  FieldErrors,
-  UseFormRegister,
-  UseFormTrigger,
-  useWatch,
-} from 'react-hook-form';
+import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
+import { useWatch } from 'react-hook-form';
+import { IInputProps, ISignupFormData } from 'types/auth';
 
-import { ISignupFormData } from '../page';
-
-export interface ISignupInputProps {
-  control: Control<ISignupFormData>; // ✅ control 타입 지정
-  register: UseFormRegister<ISignupFormData>; // ✅ register 타입 지정
-  errors: FieldErrors<ISignupFormData>; // ✅ errors 타입 지정
-  trigger?: UseFormTrigger<ISignupFormData>; // ✅ trigger 타입 지정
-}
-
-export interface INameInputProps extends ISignupInputProps {
+export interface INameInputProps extends IInputProps<ISignupFormData> {
   isNameCheck: boolean;
   handleNameCheck: () => void;
   setIsNameCheck: Dispatch<SetStateAction<boolean>>;
@@ -43,10 +25,10 @@ const NameInput = ({
 }: INameInputProps) => {
   const name = useWatch({ control, name: 'name' });
 
+  // 중복확인 로직 수행
   useEffect(() => {
     setIsNameCheck(false);
   }, [name]);
-  // 중복확인 로직 수행
 
   useDebounce({
     value: name,
@@ -68,7 +50,6 @@ const NameInput = ({
           {...register('name', nameValidation)}
           errorMessage={errors.name?.message}
           state={isNameCheck ? 'success' : 'default'}
-          //   onFocus={() => setFocusedField('name')}
         />
         <Button
           disabled={isNameCheck}

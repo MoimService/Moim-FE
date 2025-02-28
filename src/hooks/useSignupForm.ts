@@ -1,4 +1,3 @@
-import { ISignupFormData } from '@/app/signup/page';
 import {
   useEmailCheckMutation,
   useNameCheckMutation,
@@ -7,6 +6,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { ISignupFormData } from 'types/auth';
 
 const useSignUpForm = () => {
   const {

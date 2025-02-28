@@ -1,14 +1,13 @@
+'use client';
+
 import { Input } from '@/components/ui/Input';
 import useDebounce from '@/hooks/useDebounde';
 import { passwordValidation } from '@/util/validation';
 import { useCallback } from 'react';
-import { FieldErrors, UseFormRegister, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
+import { IInputProps, ISignupFormData } from 'types/auth';
 
-import { ISignupFormData } from '../page';
-import { ISignupInputProps } from './NameInput';
-
-export interface IPasswordInputProps extends ISignupInputProps {
-  register: UseFormRegister<ISignupFormData>; // ✅ register 타입 지정
+export interface IPasswordInputProps extends IInputProps<ISignupFormData> {
   dirtyFields: Partial<
     Readonly<{
       name?: boolean | undefined;
@@ -18,7 +17,6 @@ export interface IPasswordInputProps extends ISignupInputProps {
       passwordCheck?: boolean | undefined;
     }>
   >;
-  errors: FieldErrors<ISignupFormData>; // ✅ errors 타입 지정
 }
 
 const PasswordInput = ({

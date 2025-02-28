@@ -1,12 +1,8 @@
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { ILoginFormData } from 'types/auth';
 
 import { useLoginMutation } from './mutations/useUserMutation';
-
-export interface ILoginFormData {
-  email: string;
-  password: string;
-}
 
 const useLoginForm = () => {
   const {

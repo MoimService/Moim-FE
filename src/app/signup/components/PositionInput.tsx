@@ -1,10 +1,9 @@
 import { PositionSelect } from '@/components/common/PositionSelect';
 import { positionValidation } from '@/util/validation';
 import { useWatch } from 'react-hook-form';
+import { IInputProps, ISignupFormData } from 'types/auth';
 
-import { ISignupInputProps } from './NameInput';
-
-interface IPositionInputProps extends ISignupInputProps {
+interface IPositionInputProps extends IInputProps<ISignupFormData> {
   handleClickPosition: (value: string) => void;
 }
 

@@ -27,6 +27,7 @@ const SignupForm = () => {
     setIsEmailCheck,
     trigger,
   } = useSignUpForm();
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

@@ -5,17 +5,20 @@ import useDebounce from '@/hooks/useDebounde';
 import { loginPasswordValidation } from '@/util/validation';
 import { useCallback } from 'react';
 import { useWatch } from 'react-hook-form';
+import { IInputProps, ILoginFormData } from 'types/auth';
 
-import { IInputProps } from './EmailInput';
-
-const PasswordInput = ({ control, register, errors, trigger }: IInputProps) => {
-  // `useWatch`를 개별 컴포넌트에서 호출하여 최적화
+const PasswordInput = ({
+  control,
+  register,
+  errors,
+  trigger,
+}: IInputProps<ILoginFormData>) => {
   const password = useWatch({ control, name: 'password' });
 
   useDebounce({
     value: password,
     callBack: useCallback(() => {
-      trigger('password');
+      trigger?.('password');
     }, [password]),
   });
 

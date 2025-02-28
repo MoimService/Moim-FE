@@ -1,13 +1,14 @@
+'use client';
+
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import useDebounce from '@/hooks/useDebounde';
 import { emailValidation } from '@/util/validation';
 import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
+import { IInputProps, ISignupFormData } from 'types/auth';
 
-import { ISignupInputProps } from './NameInput';
-
-export interface IEmailInputProps extends ISignupInputProps {
+export interface IEmailInputProps extends IInputProps<ISignupFormData> {
   isEmailCheck: boolean;
   handleEmailCheck: () => void;
   setIsEmailCheck: Dispatch<SetStateAction<boolean>>;
