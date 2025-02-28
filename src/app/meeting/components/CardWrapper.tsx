@@ -14,23 +14,6 @@ const CardWarpper = ({ meetingId }: { meetingId: number }) => {
     return <SkeletonMeetingTotalInfo />;
   }
 
-  // const meeting = {
-  //   meetingId: 2,
-  //   title: 'meeting hobby test',
-  //   thumbnail:
-  //     'https://deving-bucket.s3.ap-northeast-2.amazonaws.com/meetingImg.png',
-  //   location: '서울시 동작구',
-  //   memberCount: 0,
-  //   maxMember: 20,
-  //   content:
-  //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-  //   startdate: '2025-04-02',
-  //   requireApproval: false,
-  //   isLike: false,
-  //   isMember: false,
-  //   meetingSkillResponse: [],
-  // };
-
   return (
     <>
       {/* 모바일 */}

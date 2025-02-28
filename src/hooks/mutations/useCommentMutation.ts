@@ -22,7 +22,6 @@ const useCommentMutation = (meetingId: number) => {
     onError: (error: AxiosError) => {
       if (error.status) {
         showToast('모임 참여자만 댓글 작성이 가능합니다.', 'error');
-        console.log('모임 참여자만 댓글 작성이 가능합니다.');
       }
     },
   });

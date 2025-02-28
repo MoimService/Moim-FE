@@ -43,12 +43,6 @@ const postMeetingRegister = async ({
   message: string;
 }) => {
   const res = await authAPI.post(`/api/v1/members/${meetingId}`, { message });
-  console.log(
-    '[postMeetingRegister] meetingId:',
-    meetingId,
-    'message: ',
-    message,
-  );
   return res.data.data;
 };
 

@@ -67,7 +67,6 @@ const useCard = (meeting: MeetingDetail) => {
         });
         break;
       case 'registerInput':
-        console.log('registerInput');
         setModalValue({
           state,
           confirmText: '보내기',

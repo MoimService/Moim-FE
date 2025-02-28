@@ -13,16 +13,6 @@ const UserInfo = ({ meetingId }: { meetingId: number }) => {
     return <SkeletonUserInfo />;
   }
 
-  // const data = {
-  //   name: 'coding1234',
-  //   profilePic:
-  //     'https://deving-bucket.s3.ap-northeast-2.amazonaws.com/profile_img.png',
-  //   email: 'qwe@qwe.qwe',
-  //   intro: 'Nice to meet you',
-  //   phone: null,
-  //   skillArray: [],
-  // };
-
   return (
     <div className="flex flex-col gap-[16px]">
       <div className="flex items-center gap-[16px]">

@@ -32,7 +32,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const userInfo = await getUserInfo(); // 서버에서 데이터 패칭
+  const userInfo = await getUserInfo();
   console.log('banner Info', userInfo);
 
   return (

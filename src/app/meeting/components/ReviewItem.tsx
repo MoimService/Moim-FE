@@ -1,12 +1,9 @@
 import RatingStars from '@/components/common/review/RatingStars';
-import { formatDate, getRelativeTime } from '@/util/date';
+import { getRelativeTime } from '@/util/date';
 import Image from 'next/image';
 import { Comment } from 'service/api/comment';
 
-import thumbnail from '../../../assets/thumbnail.png';
-
 const ReviewItem = ({ comment }: { comment: Comment }) => {
-  console.log('comment: ', comment);
   return (
     <div className="flex flex-col gap-[16px] py-[16px] sm:p-[24px]">
       <div className="flex items-center justify-between">
