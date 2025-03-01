@@ -12,6 +12,7 @@ import {
   useInfiniteSearchMeetings,
 } from '@/hooks/queries/useMeetingQueries';
 import useDebounce from '@/hooks/useDebounde';
+import { filterOptions, translateCategoryNameToKor } from '@/util/searchFilter';
 import { QueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
@@ -24,36 +25,6 @@ import type {
 import MeetingExtraInfo from './MeetingExtraInfo';
 import NoResultsMeeting from './NoResultsMeeting';
 import MeetingListSkeleton from './skeleton/MeetingListSkeleton';
-
-const filterOptions = [
-  {
-    value: 'NEW',
-    label: '최신순',
-  },
-  {
-    value: 'OLD',
-    label: '오래된순',
-  },
-  {
-    value: 'LIKES',
-    label: '좋아요순',
-  },
-];
-
-export const translateCategoryNameToKor = (category: string): CategoryTitle => {
-  switch (category) {
-    case 'mogakco':
-      return '모각코';
-    case 'hobby':
-      return '취미';
-    case 'study':
-      return '스터디';
-    case 'side-project':
-      return '사이드 프로젝트';
-    default:
-      return '모각코';
-  }
-};
 
 const MeetingList = () => {
   const { category } = useParams();
