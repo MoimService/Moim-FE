@@ -5,13 +5,14 @@ import {
 import { MEETING_QUERY_KEYS } from '@/hooks/queries/useMeetingQueries';
 import { getAccessToken } from '@/lib/serverActions';
 import { getIconComponent } from '@/util/getIconDetail';
-import { QueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Skill } from 'types/meeting';
+import { MeetingSkill } from 'types/meeting';
 
+import { useToast } from '../common/ToastContext';
 import { Button } from './Button';
 import { Progress } from './Progress';
 import Modal from './modal/Modal';
@@ -20,6 +21,7 @@ import TechButton from './tech-stack/tech-stack-components/TechButton';
 interface VerticalCardProps {
   children?: React.ReactElement;
   className?: string;
+  category: string;
   thumbnailUrl?: string;
   thumbnailWidth?: number;
   thumbnailHeight?: number;
@@ -30,12 +32,13 @@ interface VerticalCardProps {
   isLike?: boolean;
   value: number;
   total: number;
-  skills?: Skill[];
+  skills?: MeetingSkill[];
 }
 
 const VerticalCard = ({
   children,
   className = '',
+  category,
   thumbnailUrl = '/thumbnail.jpg',
   thumbnailHeight = 252,
   thumbnailWidth = 303,
@@ -48,10 +51,14 @@ const VerticalCard = ({
   total = 100,
   skills,
 }: VerticalCardProps) => {
-  const queryClient = new QueryClient();
+  const { showToast } = useToast();
+  const queryClient = useQueryClient();
   const { mutate: likeMutation } = useLikeMeeting(meetingId, {
     onSuccess: () => {
       invalidateMeetingQuery();
+    },
+    onError: () => {
+      showToast('잠시 후 다시 시도해주세요', 'error', { duration: 3000 });
     },
   });
 
@@ -59,7 +66,19 @@ const VerticalCard = ({
     onSuccess: () => {
       invalidateMeetingQuery();
     },
+    onError: () => {
+      showToast('잠시 후 다시 시도해주세요', 'error', { duration: 3000 });
+    },
   });
+
+  const invalidateMeetingQuery = () => {
+    queryClient.invalidateQueries({
+      queryKey: MEETING_QUERY_KEYS.meetings(category),
+    });
+    queryClient.invalidateQueries({
+      queryKey: MEETING_QUERY_KEYS.topMeetings(category),
+    });
+  };
 
   const handleLikeButton = async () => {
     const token = await getAccessToken();
@@ -76,15 +95,6 @@ const VerticalCard = ({
     if (isLike) {
       cancellikeMutation();
     }
-  };
-
-  const invalidateMeetingQuery = () => {
-    queryClient.invalidateQueries({
-      queryKey: [MEETING_QUERY_KEYS.meetingId(String(meetingId))],
-    });
-    queryClient.invalidateQueries({
-      queryKey: [MEETING_QUERY_KEYS.topMeetings],
-    });
   };
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);

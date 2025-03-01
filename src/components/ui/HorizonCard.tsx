@@ -5,13 +5,14 @@ import {
 import { MEETING_QUERY_KEYS } from '@/hooks/queries/useMeetingQueries';
 import { getAccessToken } from '@/lib/serverActions';
 import { getIconComponent } from '@/util/getIconDetail';
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Skill } from 'types/meeting';
+import { MeetingSkill } from 'types/meeting';
 
+import { useToast } from '../common/ToastContext';
 import { Button } from './Button';
 import { Progress } from './Progress';
 import Modal from './modal/Modal';
@@ -19,6 +20,7 @@ import TechButton from './tech-stack/tech-stack-components/TechButton';
 
 interface HorizonCardProps {
   meetingId: number;
+  category: string;
   title: string;
   location: string;
   value: number;
@@ -30,11 +32,12 @@ interface HorizonCardProps {
   thumbnailHeight?: number;
   onClickLike?: () => void;
   isLike?: boolean;
-  skills?: Skill[];
+  skills?: MeetingSkill[];
 }
 
 const HorizonCard = ({
   meetingId,
+  category,
   children,
   className = '',
   thumbnailUrl = '/thumbnail.jpg',
@@ -48,10 +51,14 @@ const HorizonCard = ({
   total = 100,
   skills,
 }: HorizonCardProps) => {
-  const queryClient = new QueryClient();
+  const { showToast } = useToast();
+  const queryClient = useQueryClient();
   const { mutate: likeMutation } = useLikeMeeting(meetingId, {
     onSuccess: () => {
       invalidateMeetingQuery();
+    },
+    onError: () => {
+      showToast('잠시 후 다시 시도해주세요', 'error', { duration: 3000 });
     },
   });
 
@@ -59,14 +66,17 @@ const HorizonCard = ({
     onSuccess: () => {
       invalidateMeetingQuery();
     },
+    onError: () => {
+      showToast('잠시 후 다시 시도해주세요', 'error', { duration: 3000 });
+    },
   });
 
   const invalidateMeetingQuery = () => {
     queryClient.invalidateQueries({
-      queryKey: [MEETING_QUERY_KEYS.meetingId(String(meetingId))],
+      queryKey: MEETING_QUERY_KEYS.meetings(category),
     });
     queryClient.invalidateQueries({
-      queryKey: [MEETING_QUERY_KEYS.topMeetings],
+      queryKey: MEETING_QUERY_KEYS.topMeetings(category),
     });
   };
 

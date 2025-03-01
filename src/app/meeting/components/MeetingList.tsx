@@ -180,6 +180,7 @@ const MeetingList = () => {
                   <HorizonCard
                     key={meeting.meetingId}
                     meetingId={meeting.meetingId}
+                    category={translateCategoryNameToKor(categoryStr)}
                     title={meeting.meetingTitle}
                     thumbnailUrl={meeting.thumbnail}
                     location={meeting.location}
@@ -241,6 +242,7 @@ const MeetingList = () => {
                     className="items-center"
                     key={meeting.meetingId}
                     meetingId={meeting.meetingId}
+                    category={translateCategoryNameToKor(categoryStr)}
                     title={meeting.meetingTitle}
                     thumbnailUrl={meeting.thumbnail}
                     thumbnailHeight={160}
@@ -303,6 +305,7 @@ const MeetingList = () => {
                     className="h-[380px]"
                     thumbnailHeight={160}
                     thumbnailWidth={311}
+                    category={translateCategoryNameToKor(categoryStr)}
                     key={meeting.meetingId}
                     meetingId={meeting.meetingId}
                     title={meeting.meetingTitle}

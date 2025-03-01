@@ -40,6 +40,7 @@ const RecommendMeeting = () => {
       >
         {meetings?.map((meeting: TopMeeting) => (
           <VerticalCard
+            category={translateCategoryNameToKor(categoryStr)}
             key={meeting.meetingId}
             meetingId={meeting.meetingId}
             title={meeting.title}
@@ -56,6 +57,7 @@ const RecommendMeeting = () => {
       <div className="flex flex-col md:hidden lg:hidden">
         {meetings?.map((meeting: TopMeeting) => (
           <HorizonCard
+            category={translateCategoryNameToKor(categoryStr)}
             className="h-[130px]"
             key={meeting.meetingId}
             meetingId={meeting.meetingId}
