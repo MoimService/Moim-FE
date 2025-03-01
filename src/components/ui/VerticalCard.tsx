@@ -103,6 +103,8 @@ const VerticalCard = ({
     router.push('/login');
   };
 
+  const [thumbnail, setThumbnail] = useState(thumbnailUrl);
+
   return (
     <div className={`h-auto w-[335px] bg-BG p-4 ${className}`}>
       <Modal
@@ -121,9 +123,10 @@ const VerticalCard = ({
       >
         <Image
           className="rounded-[20px] object-cover"
+          src={thumbnail ? thumbnail : '/thumbnail.jpg'}
           alt="card_thumbnail"
           fill
-          src={thumbnailUrl === '' ? '/thumbnail.jpg' : thumbnailUrl}
+          onError={() => setThumbnail('/thumbnail.jpg')}
         />
       </div>
       <div className="mt-4">

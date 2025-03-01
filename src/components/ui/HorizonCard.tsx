@@ -5,7 +5,7 @@ import {
 import { MEETING_QUERY_KEYS } from '@/hooks/queries/useMeetingQueries';
 import { getAccessToken } from '@/lib/serverActions';
 import { getIconComponent } from '@/util/getIconDetail';
-import { QueryClient, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -104,6 +104,8 @@ const HorizonCard = ({
     router.push('/login');
   };
 
+  const [thumbnail, setThumbnail] = useState(thumbnailUrl);
+
   return (
     <div
       className={`relative flex h-auto w-full flex-shrink-0 bg-BG p-4 ${className}`}
@@ -137,9 +139,10 @@ const HorizonCard = ({
       >
         <Image
           className="rounded-[20px] object-cover"
+          src={thumbnail ? thumbnail : '/thumbnail.jpg'}
           alt="card_thumbnail"
           fill
-          src={thumbnailUrl === '' ? '/thumbnail.jpg' : thumbnailUrl}
+          onError={() => setThumbnail('/thumbnail.jpg')}
         />
       </div>
       <div className="flex min-w-0 flex-1 flex-col px-[10px] md:px-[30px] lg:px-[40px]">
