@@ -151,7 +151,7 @@ const MeetingList = () => {
   return (
     <div className="mt-[126px]">
       {/* 기술스택 검색바 */}
-      <SearchInput onChange={handleChange} />
+      <SearchInput className="mx-5" onChange={handleChange} />
       <TechSelector
         className="mt-2 p-2"
         maxSelections={5}
