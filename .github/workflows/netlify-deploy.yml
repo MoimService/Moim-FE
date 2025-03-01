@@ -24,37 +24,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # 필요한 플러그인 설치
-      - name: Install Netlify plugins
-        run: |
-          npm install -D @netlify/plugin-lighthouse
-          npm install -D @netlify/plugin-nextjs
-
       - name: Create .env file
         run: |
           echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
           echo "NEXT_TOKEN_MAX_AGE=${{ secrets.NEXT_TOKEN_MAX_AGE }}" >> .env
-
-      - name: Create netlify.toml for plugins
-        run: |
-          cat > netlify.toml << 'EOL'
-          [build]
-            command = "npm run build"
-            publish = ".next"
-
-          # 라이트하우스 성능 분석 플러그인 (최신 매개변수 적용)
-          [[plugins]]
-            package = "@netlify/plugin-lighthouse"
-            
-            [plugins.inputs]
-              output_path = "reports/lighthouse.html"
-              # 올바른 설정으로 수정
-              settings = { "preset": "desktop" }
-              
-          # Next.js 최적화
-          [[plugins]]
-            package = "@netlify/plugin-nextjs"
-          EOL
 
       - name: Build project
         run: npm run build
