@@ -33,10 +33,6 @@ interface Pageable {
   unpaged: boolean;
 }
 
-interface MeetingSkill {
-  skillTitle: string;
-}
-
 interface SearchMeeting {
   meetingId: number;
   meetingTitle: string;
@@ -45,7 +41,7 @@ interface SearchMeeting {
   memberCount: number;
   maxMember: number;
   startDate: string;
-  meetingSkillResponse: MeetingSkill[];
+  meetingSkillArray: string[];
   name: string;
   profilePic: string;
   isLike: boolean;
@@ -69,7 +65,6 @@ export type {
   TopMeeting,
   Sort,
   Pageable,
-  MeetingSkill,
   SearchMeeting,
   IMeetingSearchCondition,
   PaginatedSearchMeeting,

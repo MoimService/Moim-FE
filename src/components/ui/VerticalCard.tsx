@@ -10,7 +10,6 @@ import { Heart } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { MeetingSkill } from 'types/meeting';
 
 import { useToast } from '../common/ToastContext';
 import { Button } from './Button';
@@ -32,7 +31,7 @@ interface VerticalCardProps {
   isLike?: boolean;
   value: number;
   total: number;
-  skills?: MeetingSkill[];
+  skills?: string[];
 }
 
 const VerticalCard = ({
@@ -156,9 +155,9 @@ const VerticalCard = ({
             skills.map((skill) => (
               <TechButton
                 className="h-6"
-                key={skill.skillTitle}
-                name={skill.skillTitle}
-                icon={getIconComponent(skill.skillTitle)}
+                key={skill}
+                name={skill}
+                icon={getIconComponent(skill)}
                 color={'#333'}
                 isClicked={true}
                 isMaxReached={false}

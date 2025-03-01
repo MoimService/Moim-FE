@@ -187,7 +187,7 @@ const MeetingList = () => {
                     isLike={meeting.isLike}
                     total={meeting.maxMember}
                     value={meeting.memberCount}
-                    skills={meeting.meetingSkillResponse}
+                    skills={meeting.meetingSkillArray}
                   >
                     <div
                       ref={
@@ -251,7 +251,7 @@ const MeetingList = () => {
                     isLike={meeting.isLike}
                     total={meeting.maxMember}
                     value={meeting.memberCount}
-                    skills={meeting.meetingSkillResponse}
+                    skills={meeting.meetingSkillArray}
                   >
                     <div
                       ref={
@@ -314,7 +314,7 @@ const MeetingList = () => {
                     isLike={meeting.isLike}
                     total={meeting.maxMember}
                     value={meeting.memberCount}
-                    skills={meeting.meetingSkillResponse}
+                    skills={meeting.meetingSkillArray}
                   >
                     <div
                       ref={
