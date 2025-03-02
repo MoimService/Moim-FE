@@ -16,11 +16,7 @@ import { filterOptions, translateCategoryNameToKor } from '@/util/searchFilter';
 import { QueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import type {
-  CategoryTitle,
-  IMeetingSearchCondition,
-  SearchMeeting,
-} from 'types/meeting';
+import type { IMeetingSearchCondition, SearchMeeting } from 'types/meeting';
 
 import MeetingExtraInfo from './MeetingExtraInfo';
 import NoResultsMeeting from './NoResultsMeeting';
@@ -160,6 +156,7 @@ const MeetingList = () => {
                     isLike={meeting.isLike}
                     total={meeting.maxMember}
                     value={meeting.memberCount}
+                    likesCount={meeting.likesCount}
                     skills={meeting.meetingSkillArray}
                   >
                     <MeetingExtraInfo
@@ -200,6 +197,7 @@ const MeetingList = () => {
                     thumbnailWidth={160}
                     location={meeting.location}
                     isLike={meeting.isLike}
+                    likesCount={meeting.likesCount}
                     total={meeting.maxMember}
                     value={meeting.memberCount}
                     skills={meeting.meetingSkillArray}
@@ -242,6 +240,7 @@ const MeetingList = () => {
                     thumbnailUrl={meeting.thumbnail}
                     location={meeting.location}
                     isLike={meeting.isLike}
+                    likesCount={meeting.likesCount}
                     total={meeting.maxMember}
                     value={meeting.memberCount}
                     skills={meeting.meetingSkillArray}

@@ -3,6 +3,7 @@ type CategoryTitle = '모각코' | '스터디' | '사이드 프로젝트' | '취
 interface TopMeeting {
   meetingId: number;
   isLike: boolean;
+  likesCount: number;
   location: string;
   maxMember: number;
   memberCount: number;
@@ -45,6 +46,7 @@ interface SearchMeeting {
   name: string;
   profilePic: string;
   isLike: boolean;
+  likesCount: number;
 }
 
 interface PaginatedSearchMeeting {

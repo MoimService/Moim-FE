@@ -31,6 +31,7 @@ interface VerticalCardProps {
   isLike?: boolean;
   value: number;
   total: number;
+  likesCount?: number;
   skills?: string[];
 }
 
@@ -46,6 +47,7 @@ const VerticalCard = ({
   location,
   onClick,
   isLike = false,
+  likesCount,
   value,
   total = 100,
   skills,
@@ -146,7 +148,7 @@ const VerticalCard = ({
             {title}
           </span>
           <Button
-            className=" h-auto w-auto"
+            className="relative h-auto w-auto"
             variant="text"
             size="sm"
             onClick={(e) => handleLikeButton(e)}

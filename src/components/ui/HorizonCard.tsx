@@ -31,6 +31,7 @@ interface HorizonCardProps {
   thumbnailHeight?: number;
   onClick?: (id: number) => void;
   isLike?: boolean;
+  likesCount?: number;
   skills?: string[];
 }
 
@@ -48,6 +49,7 @@ const HorizonCard = ({
   isLike = false,
   value,
   total = 100,
+  likesCount,
   skills,
 }: HorizonCardProps) => {
   const { showToast } = useToast();
@@ -139,7 +141,11 @@ const HorizonCard = ({
             className={`${isLike ? 'fill-main' : 'stroke-Cgray500'} h-4 w-4 md:h-6 md:w-6`}
           />
         }
-      ></Button>
+      >
+        <span className="typo-caption2 absolute top-7 text-Cgray500">
+          {likesCount}
+        </span>
+      </Button>
 
       <div
         className="relative flex-shrink-0"

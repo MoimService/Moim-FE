@@ -54,6 +54,7 @@ const RecommendMeeting = () => {
             thumbnailUrl={meeting.thumbnail}
             location={meeting.location}
             isLike={meeting.isLike}
+            likesCount={meeting.likesCount}
             total={meeting.maxMember}
             value={meeting.memberCount}
           />
@@ -75,6 +76,7 @@ const RecommendMeeting = () => {
             thumbnailUrl={meeting.thumbnail}
             location={meeting.location}
             isLike={meeting.isLike}
+            likesCount={meeting.likesCount}
             total={meeting.maxMember}
             value={meeting.memberCount}
           />
