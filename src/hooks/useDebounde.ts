@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 /**
  * 특정 값이 변경된 후 지정된 시간이 지나면 콜백 함수를 실행하는 Debounce 훅
@@ -17,7 +17,7 @@ const useDebounce = <T>({
   callBack?: () => void;
 }) => {
   useEffect(() => {
-    if (value === undefined || value === null) return;
+    if (value === null || value === undefined) return;
     const timer = setTimeout(() => {
       if (callBack) {
         callBack();

@@ -1,4 +1,5 @@
 import { ISignupFormData } from '@/app/signup/page';
+import { useToast } from '@/components/common/ToastContext';
 import { setAccessToken } from '@/lib/serverActions';
 import { useMutation } from '@tanstack/react-query';
 import {
@@ -13,6 +14,7 @@ const useLoginMutation = ({
 }: {
   onSuccessCallback: () => void;
 }) => {
+  const { showToast } = useToast();
   return useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       postLogin({ email, password }),
@@ -23,11 +25,12 @@ const useLoginMutation = ({
         await setAccessToken(accessToken);
       }
 
+      showToast('로그인 성공', 'success');
       // 메인페이지로 리다이렉트
       onSuccessCallback();
     },
     onError: () => {
-      console.log('로그인 에러');
+      showToast('이메일 또는 비밀번호가 틀렸습니다.', 'error');
     },
   });
 };

@@ -10,6 +10,14 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import Dropdown from './Dropdown';
+import { useToast } from './ToastContext';
+
+const navigation = [
+  { href: '/meeting/mogakco', label: '모각코' },
+  { href: '/meeting/study', label: '스터디' },
+  { href: '/meeting/side-project', label: '사이드 프로젝트' },
+  { href: '/meeting/hobby', label: '취미' },
+];
 
 interface IUserInfo {
   userId: number;
@@ -34,6 +42,7 @@ const BeforeLogin = () => {
 
 const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
   const router = useRouter();
+  const { showToast } = useToast();
   const menu = [
     {
       value: 'mymeeting',
@@ -51,6 +60,7 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
       onSelect: async () => {
         await removeAccessToken();
         // 로그아웃 관련 토스트바 노출
+        showToast('로그아웃 되었습니다.', 'success');
       },
     },
   ];
@@ -144,38 +154,16 @@ const NavLinks = ({ isMobile }: { isMobile?: boolean }) => {
     <ul
       className={`${!isMobile ? 'hidden items-center text-Cgray700 lg:flex' : 'text-Cgray400'}`}
     >
-      <li className="typo-head4 p-[16px]">
-        <Link
-          href="/Mogakco"
-          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
-        >
-          모각코
-        </Link>
-      </li>
-      <li className="typo-head4 p-[16px]">
-        <Link
-          href="/study"
-          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
-        >
-          스터디
-        </Link>
-      </li>
-      <li className="typo-head4 p-[16px]">
-        <Link
-          href="/side-project"
-          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
-        >
-          사이드 프로젝트
-        </Link>
-      </li>
-      <li className="typo-head4 p-[16px]">
-        <Link
-          href="/hobby"
-          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
-        >
-          취미
-        </Link>
-      </li>
+      {navigation.map((item) => (
+        <li className="typo-head4 p-[16px]" key={item.label}>
+          <Link
+            href={item.href}
+            className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
+          >
+            {item.label}
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 };
