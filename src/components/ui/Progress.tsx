@@ -49,7 +49,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
         {showCounter && total && (
           <div className="relative mt-2 flex items-center justify-end">
             <Person />
-            <span className="typo-button1 ml-1 text-Cgray500">
+            <span className="typo-body2 ml-1 text-Cgray500 md:typo-button1 lg:typo-button1">
               {value}/{total}
             </span>
           </div>

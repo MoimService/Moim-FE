@@ -11,6 +11,13 @@ import {
   IconWithComponent,
 } from 'types/techStack';
 
+// 컴포넌트 이름 카멜케이스로 변경
+export function convertComponentName(name: string) {
+  return name
+    .replace(/[\s.-]+(.)/g, (_, c) => c.toUpperCase())
+    .replace(/[\s.-]/g, '');
+}
+
 // 선택된 아이콘의 색상 가져오기
 export const getIconColor = (iconName: string): string => {
   const icon = ICON_LIST.find((icon) => icon.name === iconName);

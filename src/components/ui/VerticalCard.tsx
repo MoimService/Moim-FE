@@ -1,51 +1,145 @@
+import {
+  useCancelLikeMeeting,
+  useLikeMeeting,
+} from '@/hooks/mutations/useMeetingMutation';
+import { MEETING_QUERY_KEYS } from '@/hooks/queries/useMeetingQueries';
+import { getAccessToken } from '@/lib/serverActions';
+import { getIconComponent } from '@/util/getIconDetail';
+import { useQueryClient } from '@tanstack/react-query';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
+import { useToast } from '../common/ToastContext';
 import { Button } from './Button';
 import { Progress } from './Progress';
+import Modal from './modal/Modal';
+import TechButton from './tech-stack/tech-stack-components/TechButton';
 
 interface VerticalCardProps {
   children?: React.ReactElement;
   className?: string;
+  category: string;
   thumbnailUrl?: string;
   thumbnailWidth?: number;
   thumbnailHeight?: number;
+  meetingId: number;
   title: string;
   location: string;
-  onClickLike?: () => void;
+  onClick?: (id: number) => void;
   isLike?: boolean;
   value: number;
   total: number;
+  likesCount?: number;
+  skills?: string[];
 }
 
 const VerticalCard = ({
   children,
   className = '',
+  category,
   thumbnailUrl = '/thumbnail.jpg',
   thumbnailHeight = 252,
   thumbnailWidth = 303,
+  meetingId,
   title,
   location,
-  onClickLike,
+  onClick,
   isLike = false,
+  likesCount,
   value,
   total = 100,
+  skills,
 }: VerticalCardProps) => {
-  const handleLikeButton = () => {
-    if (onClickLike) onClickLike();
+  const { showToast } = useToast();
+  const queryClient = useQueryClient();
+  const { mutate: likeMutation } = useLikeMeeting(meetingId, {
+    onSuccess: () => {
+      invalidateMeetingQuery();
+    },
+    onError: () => {
+      showToast('잠시 후 다시 시도해주세요', 'error', { duration: 3000 });
+    },
+  });
+
+  const { mutate: cancellikeMutation } = useCancelLikeMeeting(meetingId, {
+    onSuccess: () => {
+      invalidateMeetingQuery();
+    },
+    onError: () => {
+      showToast('잠시 후 다시 시도해주세요', 'error', { duration: 3000 });
+    },
+  });
+
+  const invalidateMeetingQuery = () => {
+    queryClient.invalidateQueries({
+      queryKey: MEETING_QUERY_KEYS.meetings(category),
+    });
+    queryClient.invalidateQueries({
+      queryKey: MEETING_QUERY_KEYS.topMeetings(category),
+    });
   };
 
+  const handleClickCard = () => {
+    if (isLoginModalOpen) return;
+    if (onClick) onClick(meetingId);
+  };
+
+  const handleLikeButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    const token = await getAccessToken();
+
+    // 토큰 없으면 로그인 안내 팝업 노출
+    if (!token) {
+      setIsLoginModalOpen(true);
+      return;
+    }
+
+    if (!isLike) {
+      likeMutation();
+    }
+
+    if (isLike) {
+      cancellikeMutation();
+    }
+  };
+
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const router = useRouter();
+
+  const handleLogin = () => {
+    router.push('/login');
+  };
+
+  const [thumbnail, setThumbnail] = useState(thumbnailUrl);
+
   return (
-    <div className={`h-[410px] w-[335px] bg-BG p-4 ${className}`}>
+    <div
+      className={`h-auto w-[335px] cursor-pointer bg-BG p-4 ${className}`}
+      role="presentation"
+      onClick={handleClickCard}
+    >
+      <Modal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onConfirm={handleLogin}
+        confirmText="로그인"
+        cancelText="취소"
+        modalClassName="w-96"
+      >
+        <p className="text-center text-white">로그인이 필요한 서비스 입니다.</p>
+      </Modal>
       <div
         className={'relative'}
         style={{ height: `${thumbnailHeight}px`, width: `${thumbnailWidth}px` }}
       >
         <Image
           className="rounded-[20px] object-cover"
+          src={thumbnail ? thumbnail : '/thumbnail.jpg'}
           alt="card_thumbnail"
           fill
-          src={thumbnailUrl === '' ? '/thumbnail.jpg' : thumbnailUrl}
+          onError={() => setThumbnail('/thumbnail.jpg')}
         />
       </div>
       <div className="mt-4">
@@ -54,10 +148,10 @@ const VerticalCard = ({
             {title}
           </span>
           <Button
-            className=" h-auto w-auto"
+            className="relative h-auto w-auto"
             variant="text"
             size="sm"
-            onClick={handleLikeButton}
+            onClick={(e) => handleLikeButton(e)}
             icon={
               <Heart
                 style={{ width: '24px', height: '24px' }}
@@ -71,10 +165,27 @@ const VerticalCard = ({
             {location}
           </span>
         </div>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {skills &&
+            skills?.length > 0 &&
+            skills.map((skill) => (
+              <TechButton
+                className="h-6"
+                key={skill}
+                name={skill}
+                icon={getIconComponent(skill)}
+                color={'#333'}
+                isClicked={true}
+                isMaxReached={false}
+                onClick={() => {}}
+              />
+            ))}
+        </div>
         <Progress
           className="mt-4 overflow-hidden"
           value={value}
           total={total}
+          showCounter={true}
         />
       </div>
       {children}

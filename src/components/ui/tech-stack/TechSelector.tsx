@@ -38,7 +38,7 @@ const TechSelector = ({
   const activeIcons = getIconsByCategory(activeCategory);
 
   return (
-    <div className={`bg-gray-50 h-auto p-10 ${className || ''}`}>
+    <div className={`bg-gray-50 h-auto p-10 ${className}`}>
       <div className="mx-auto">
         {/* 선택된 기술 목록 */}
         <SelectedTechList

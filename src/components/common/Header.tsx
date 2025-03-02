@@ -4,7 +4,7 @@ import Logo from '@/assets/icon/logo.svg';
 import Profile from '@/assets/icon/profile.svg';
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import Dropdown from './Dropdown';
@@ -114,38 +114,41 @@ const MobileAfterLogin = () => {
 };
 
 const NavLinks = ({ isMobile }: { isMobile?: boolean }) => {
+  const { category } = useParams();
+  const categoryStr = Array.isArray(category) ? category[0] : category;
+
   return (
     <ul
       className={`${!isMobile ? 'hidden items-center text-Cgray700 lg:flex' : 'text-Cgray400'}`}
     >
       <li className="typo-head4 p-[16px]">
         <Link
-          href="/Mogakco"
-          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
+          href="/meeting/mogakco"
+          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'} ${categoryStr === 'mogakco' && 'font-bold text-white'}`}
         >
           모각코
         </Link>
       </li>
       <li className="typo-head4 p-[16px]">
         <Link
-          href="/study"
-          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
+          href="/meeting/study"
+          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'} ${categoryStr === 'study' && 'font-bold text-white'}`}
         >
           스터디
         </Link>
       </li>
       <li className="typo-head4 p-[16px]">
         <Link
-          href="/side-project"
-          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
+          href="/meeting/side-project"
+          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'} ${categoryStr === 'side-project' && 'font-bold text-white'}`}
         >
           사이드 프로젝트
         </Link>
       </li>
       <li className="typo-head4 p-[16px]">
         <Link
-          href="/hobby"
-          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
+          href="/meeting/hobby"
+          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'} ${categoryStr === 'hobby' && 'font-bold text-white'}`}
         >
           취미
         </Link>
