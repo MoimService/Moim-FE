@@ -46,6 +46,7 @@ const CategoryTabs = ({
           onClick={onReset}
           className="hover:bg-gray-700/30 flex items-center gap-1 rounded-full px-2 py-1 text-white sm:px-3"
           title="초기화"
+          type="button"
         >
           <RotateCcw size={16} />
           <span className="hidden sm:inline">초기화</span>

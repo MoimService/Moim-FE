@@ -4,12 +4,14 @@ interface StarIconProps {
   className?: string;
   size?: number;
   variant?: 'outline' | 'filled' | 'half';
+  onClick?: () => void;
 }
 
 export function StarIcon({
   className,
   size = 24,
   variant = 'outline',
+  onClick,
 }: StarIconProps) {
   const gradientId = React.useId();
 
@@ -19,20 +21,21 @@ export function StarIcon({
       width={size}
       height={size}
       viewBox="0 0 24 24"
-      fill={variant === 'filled' ? 'currentColor' : 'var(--Cgray100)'}
-      stroke="currentColor"
+      fill={variant === 'filled' ? 'currentColor' : '#30333E'}
+      stroke="none"
       strokeWidth="1"
       strokeLinecap="round"
       strokeLinejoin="round"
       className={`text-main ${className || ''}`}
+      onClick={onClick}
     >
       {variant === 'half' && (
         <defs>
           <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="currentColor" />
             <stop offset="50%" stopColor="currentColor" />
-            <stop offset="50%" stopColor="var(--Cgray100)" />
-            <stop offset="100%" stopColor="var(--Cgray100)" />
+            <stop offset="50%" stopColor="#30333E" />
+            <stop offset="100%" stopColor="#30333E" />
           </linearGradient>
         </defs>
       )}

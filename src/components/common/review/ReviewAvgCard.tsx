@@ -1,43 +1,46 @@
+'use client';
+
 import { Progress } from '@/components/ui/Progress';
+import { useCommentsCountQueries } from '@/hooks/queries/useCommentQueries';
 import React from 'react';
 
 import RatingStars from './RatingStars';
 
-interface ReviewAvgCardProps {
-  count: {
-    fives: number;
-    fours: number;
-    threes: number;
-    twos: number;
-    ones: number;
-  };
-}
+const ReviewAvgCard = ({ meetingId }: { meetingId: number }) => {
+  const { data: count, isLoading, error } = useCommentsCountQueries(meetingId);
 
-const ReviewAvgCard = ({ count }: ReviewAvgCardProps) => {
-  const total = Object.values(count).reduce((acc, curr) => acc + curr, 0);
+  const safeCount = count || {
+    fives: 0,
+    fours: 0,
+    threes: 0,
+    twos: 0,
+    ones: 0,
+  };
+
+  const total = Object.values(safeCount).reduce((acc, curr) => acc + curr, 0);
 
   const average =
     total > 0
       ? (
-          (count.fives * 5 +
-            count.fours * 4 +
-            count.threes * 3 +
-            count.twos * 2 +
-            count.ones * 1) /
+          (safeCount.fives * 5 +
+            safeCount.fours * 4 +
+            safeCount.threes * 3 +
+            safeCount.twos * 2 +
+            safeCount.ones * 1) /
           total
         ).toFixed(1)
       : '0.0';
 
   const ratingBars = [
-    { score: 5, value: count.fives },
-    { score: 4, value: count.fours },
-    { score: 3, value: count.threes },
-    { score: 2, value: count.twos },
-    { score: 1, value: count.ones },
+    { score: 5, value: safeCount.fives },
+    { score: 4, value: safeCount.fours },
+    { score: 3, value: safeCount.threes },
+    { score: 2, value: safeCount.twos },
+    { score: 1, value: safeCount.ones },
   ];
 
   return (
-    <div className="w-full rounded-[24px] bg-Cgray200 p-8">
+    <div className="mt-[-24px] w-full rounded-[24px] bg-Cgray200 p-8">
       <div className="flex h-full w-full flex-col gap-8 lg:flex-row">
         <div className="flex flex-col items-center justify-center gap-4 lg:w-1/2">
           <div className="typo-head1 flex items-center justify-center gap-1">

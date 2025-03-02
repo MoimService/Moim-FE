@@ -33,6 +33,7 @@ const SelectedTechButton = ({
         onClick={() => onRemove(name)}
         className="hover:bg-gray-200 ml-1 cursor-pointer rounded-full p-1"
         aria-label={`${name} 선택 해제`}
+        type="button"
       >
         <X size={12} className="text-white" />
       </button>

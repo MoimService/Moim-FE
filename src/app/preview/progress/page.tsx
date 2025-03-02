@@ -19,7 +19,7 @@ export default function ProgressExamples() {
     <div className="mt-3 flex h-screen flex-col bg-BG p-8">
       <Progress className="w-40" total={50} value={33} showCounter={true} />
       <Progress total={100} value={70} showCounter={true} />
-      <ReviewAvgCard count={reviewData.count} />
+      {/* <ReviewAvgCard count={reviewData.count} /> */}
     </div>
   );
 }

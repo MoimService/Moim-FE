@@ -32,6 +32,7 @@ const TechButton = ({
   ${isMaxReached ? 'cursor-not-allowed opacity-50' : ''} ${className}`}
       onClick={() => onClick(name)}
       disabled={isMaxReached}
+      type="button"
       title={isMaxReached ? '최대 5개까지만 선택할 수 있습니다' : ''}
     >
       {Icon ? <Icon size={16} color={iconColor} /> : null}

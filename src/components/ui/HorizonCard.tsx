@@ -116,9 +116,7 @@ const HorizonCard = ({
 
   return (
     <div
-      className={`relative flex h-auto w-full flex-shrink-0 cursor-pointer bg-BG p-4 ${className}`}
-      role="presentation"
-      onClick={handleClickCard}
+      className={`relative flex h-auto w-full flex-shrink-0 bg-BG p-4 ${className}`}
     >
       <Modal
         isOpen={isLoginModalOpen}
@@ -138,15 +136,10 @@ const HorizonCard = ({
         icon={
           <Heart
             style={{ width: '24px', height: '24px' }}
-            className={`${isLike ? 'fill-main' : 'stroke-Cgray500'} h-4 w-4 md:h-6 md:w-6`}
+            className={`${isLike ? 'fill-main' : ''} h-4 w-4 md:h-6 md:w-6`}
           />
         }
-      >
-        <span className="typo-caption2 absolute top-7 text-Cgray500">
-          {likesCount}
-        </span>
-      </Button>
-
+      ></Button>
       <div
         className="relative flex-shrink-0"
         style={{ height: `${thumbnailHeight}px`, width: `${thumbnailWidth}px` }}
@@ -159,7 +152,7 @@ const HorizonCard = ({
           onError={() => setThumbnail('/thumbnail.jpg')}
         />
       </div>
-      <div className="flex min-w-0 flex-1 flex-col px-[10px] md:px-[30px] lg:px-[40px]">
+      <div className="min-w-0 flex-1 px-[10px] md:px-[30px] lg:px-[40px]">
         <div className="type-button2 flex justify-between text-Cgray800 md:typo-head2 lg:typo-head2">
           <span className="mr-4 max-w-[950px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
             {title}

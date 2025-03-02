@@ -1,16 +1,10 @@
 import { useRouter } from 'next/navigation';
-import { useCallback, useState } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { ILoginFormData } from 'types/auth';
 
 import { useLoginMutation } from './mutations/useUserMutation';
-import useDebounce from './useDebounde';
 
-interface ILoginFormData {
-  email: string;
-  password: string;
-}
-
-export function useLoginForm() {
+const useLoginForm = () => {
   const {
     register,
     handleSubmit,
@@ -22,33 +16,6 @@ export function useLoginForm() {
   });
 
   const router = useRouter();
-  const [focusedField, setFocusedField] = useState<'email' | 'password' | null>(
-    null,
-  );
-
-  // `useWatch`를 사용하여 특정 필드만 감시 (렌더링 최소화)
-  const email = useWatch({ control, name: 'email' });
-  const password = useWatch({ control, name: 'password' });
-
-  // 이메일 포커스 1초 뒤 유효성 검사
-  useDebounce({
-    value: email,
-    callBack: useCallback(() => {
-      if (focusedField === 'email') {
-        trigger(focusedField);
-      }
-    }, [focusedField, trigger]),
-  });
-
-  // 비밀번호 포커스 1초 뒤 유효성 검사
-  useDebounce({
-    value: password,
-    callBack: useCallback(() => {
-      if (focusedField === 'password') {
-        trigger(focusedField);
-      }
-    }, [focusedField, trigger]),
-  });
 
   const { mutate } = useLoginMutation({
     onSuccessCallback: () => router.push('/'),
@@ -62,7 +29,10 @@ export function useLoginForm() {
     register,
     handleSubmit,
     errors,
-    setFocusedField,
     onSubmit,
+    control,
+    trigger,
   };
-}
+};
+
+export default useLoginForm;
