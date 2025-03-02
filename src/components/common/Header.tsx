@@ -6,7 +6,7 @@ import { removeAccessToken } from '@/lib/serverActions';
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import Dropdown from './Dropdown';
@@ -150,6 +150,9 @@ const MobileAfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
 };
 
 const NavLinks = ({ isMobile }: { isMobile?: boolean }) => {
+  const { category } = useParams();
+  const categoryStr = Array.isArray(category) ? category[0] : category;
+
   return (
     <ul
       className={`${!isMobile ? 'hidden items-center text-Cgray700 lg:flex' : 'text-Cgray400'}`}
@@ -192,7 +195,7 @@ const Header = ({ userInfo }: { userInfo: IUserInfo }) => {
 
       {/* mobile */}
       <div
-        className={`fixed right-0 h-screen w-screen transform overflow-x-hidden bg-BG px-[24px] transition-transform duration-300 ease-in-out ${
+        className={`fixed right-0 z-50 h-screen w-screen transform overflow-x-hidden bg-BG px-[24px] transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } lg:hidden`}
       >

@@ -1,10 +1,24 @@
 import { useToast } from '@/components/common/ToastContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { postComment } from 'service/api/comment';
+import { cancelLikeMeeting, likeMeeting } from 'service/api/meeting';
 import { deleteMeetingQuit, postMeetingRegister } from 'service/api/meeting';
 
 import { meetingKeys } from '../queries/useMeetingQueries';
+
+const useLikeMeeting = (meetingId: number, options = {}) => {
+  return useMutation({
+    mutationFn: () => likeMeeting(meetingId),
+    ...options,
+  });
+};
+
+const useCancelLikeMeeting = (meetingId: number, options = {}) => {
+  return useMutation({
+    mutationFn: () => cancelLikeMeeting(meetingId),
+    ...options,
+  });
+};
 
 const useMeetingMutation = ({
   onSuccessCallback,
@@ -60,4 +74,9 @@ const useMeetingQuitMutation = ({ meetingId }: { meetingId: number }) => {
   });
 };
 
-export { useMeetingMutation, useMeetingQuitMutation };
+export {
+  useMeetingMutation,
+  useMeetingQuitMutation,
+  useLikeMeeting,
+  useCancelLikeMeeting,
+};

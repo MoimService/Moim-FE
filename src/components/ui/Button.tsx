@@ -48,7 +48,7 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   icon?: React.ReactNode;
 }
 
@@ -73,7 +73,7 @@ export interface ButtonProps
  * @param {'default' | 'sm'} [props.size='default'] - 버튼 크기 (default: 332x46px, sm: 120x40px)
  * @param {React.ReactNode} [props.icon] - 버튼 텍스트 좌측에 위치할 아이콘 (lucide-react 권장)
  * @param {boolean} [props.disabled] - 버튼 비활성화 상태
- * @param {() => void} [props.onClick] - 클릭 이벤트 핸들러
+ * @param {(event) => void} [props.onClick] - 클릭 이벤트 핸들러
  * @param {boolean} [props.asChild=false] - true일 경우 다른 컴포넌트로 래핑 가능
  */
 

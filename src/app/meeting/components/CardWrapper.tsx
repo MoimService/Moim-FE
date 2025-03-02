@@ -3,12 +3,16 @@
 import HorizonCard from '@/components/ui/HorizonCard';
 import VerticalCard from '@/components/ui/VerticalCard';
 import { useDetailQueries } from '@/hooks/queries/useMeetingQueries';
+import { translateCategoryNameToKor } from '@/util/searchFilter';
+import { useParams } from 'next/navigation';
 
 import CardRightSection from './CardRightSection';
 import SkeletonMeetingTotalInfo from './skeletons/SkeletonMeetingTotalInfo';
 
 const CardWrapper = ({ meetingId }: { meetingId: number }) => {
   const { data: meeting, isLoading, error } = useDetailQueries(meetingId);
+  const { category } = useParams();
+  const categoryStr = Array.isArray(category) ? category[0] : category;
 
   if (isLoading || !meeting) {
     return <SkeletonMeetingTotalInfo />;
@@ -19,6 +23,8 @@ const CardWrapper = ({ meetingId }: { meetingId: number }) => {
       {/* 모바일 */}
       <div className="m-[-16px] flex flex-col md:hidden lg:hidden">
         <VerticalCard
+          meetingId={meetingId}
+          category={translateCategoryNameToKor(categoryStr)}
           className="h-fit w-full"
           thumbnailHeight={252}
           thumbnailWidth={343}
@@ -38,6 +44,8 @@ const CardWrapper = ({ meetingId }: { meetingId: number }) => {
       <div className="m-[-16px] hidden w-full flex-col md:flex lg:hidden">
         <HorizonCard
           className="items-center"
+          meetingId={meetingId}
+          category={translateCategoryNameToKor(categoryStr)}
           key={meeting.meetingId}
           title={meeting.title}
           thumbnailUrl={meeting.thumbnail}
@@ -55,6 +63,8 @@ const CardWrapper = ({ meetingId }: { meetingId: number }) => {
       <div className="m-[-16px] hidden w-full lg:flex">
         <HorizonCard
           title={meeting.title}
+          meetingId={meetingId}
+          category={translateCategoryNameToKor(categoryStr)}
           thumbnailUrl={meeting.thumbnail}
           location={meeting.location}
           isLike={meeting.isLike}

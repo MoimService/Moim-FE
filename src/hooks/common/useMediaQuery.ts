@@ -1,4 +1,3 @@
-//useMediaQuery.ts
 import { useEffect, useState } from 'react';
 
 // 브라우저의 width에 따라 'mobile', 'tablet', 'desktop'을 판별하는 훅
