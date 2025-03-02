@@ -93,6 +93,15 @@ const useTechSelection = ({
     });
   };
 
+  // 추가: 초기 선택 설정 함수
+  const setInitialSelection = (skills: string[]): void => {
+    const initialState: ClickedButtonsState = {};
+    skills.forEach((skill) => {
+      initialState[skill] = true;
+    });
+    setClickedButtons(initialState);
+  };
+
   return {
     clickedButtons,
     selectedCount,
@@ -101,6 +110,7 @@ const useTechSelection = ({
     handleReset,
     handleRemoveSelection,
     setClickedButtons,
+    setInitialSelection, // 새로 추가된 함수
   };
 };
 

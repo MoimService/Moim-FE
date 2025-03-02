@@ -23,7 +23,7 @@ const SelectedTechButton = ({
       </span>
       <span
         style={{ color }}
-        className="hidden cursor-default text-xs font-medium sm:inline-block"
+        className="hidden cursor-default text-xs font-medium md:inline-block"
       >
         {name}
       </span>

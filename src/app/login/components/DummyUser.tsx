@@ -37,7 +37,7 @@ const DummyUser = () => {
       <Button
         onClick={() =>
           mutate({
-            email: 'ehdtjr510@naver.com',
+            email: 'ehdtjr119@naver.com',
             password,
           })
         }

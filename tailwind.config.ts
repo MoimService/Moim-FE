@@ -10,9 +10,17 @@ export default {
   ],
   theme: {
     extend: {
-      sm: {
-        min: '375px',
-        max: '743px',
+      screens: {
+        sm: {
+          min: '375px',
+          max: '743px',
+        },
+        md: {
+          min: '744px',
+        },
+        lg: {
+          min: '1920px',
+        },
       },
       md: {
         min: '744px',

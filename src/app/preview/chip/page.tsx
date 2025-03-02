@@ -7,7 +7,7 @@ export default function ChipPreview() {
   const [position, setPosition] = useState('');
 
   return (
-    <div className="flex flex-col gap-8 bg-gray-50 p-8 pb-32">
+    <div className="bg-gray-50 flex flex-col gap-8 p-8 pb-32">
       <Chip>All</Chip>
       <Chip isActive>All</Chip>
       <div className="w-[544px] p-[40px]">

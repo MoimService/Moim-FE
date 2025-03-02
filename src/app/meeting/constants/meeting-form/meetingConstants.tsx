@@ -7,7 +7,7 @@ export const MEETING_TYPES = [
   { id: 'study', label: '스터디', icon: <BookOpen className="h-5 w-5" /> },
   {
     id: 'sideproject',
-    label: '사이드프로젝트',
+    label: '사이드 프로젝트',
     icon: <CodeXml className="h-5 w-5" />,
   },
   { id: 'hobby', label: '취미', icon: <Palette className="h-5 w-5" /> },
