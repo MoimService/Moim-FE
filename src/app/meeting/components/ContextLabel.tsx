@@ -1,10 +1,4 @@
-const ContentLabel = ({
-  children,
-  className,
-}: {
-  children: string;
-  className?: string;
-}) => {
+const ContentLabel = ({ children }: { children: string }) => {
   return (
     <div className="flex items-center gap-[8px]">
       <div className="h-[14px] w-[2px] bg-Cgray700" />

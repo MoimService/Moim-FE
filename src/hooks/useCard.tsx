@@ -80,12 +80,14 @@ const useCard = (meeting: MeetingDetail) => {
           confirmText: '내 모임 보러가기',
           cancelText: '확인',
         });
+        break;
       case 'registerComplete':
         setModalValue({
           state,
           confirmText: '내 모임 보러가기',
           cancelText: '확인',
         });
+        break;
     }
     setIsModalOpen(true);
   };
@@ -121,9 +123,11 @@ const useCard = (meeting: MeetingDetail) => {
       case 'registerWait':
         router.push('/mypage');
         setIsModalOpen(false);
+        break;
       case 'registerComplete':
         router.push('/mypage');
         setIsModalOpen(false);
+        break;
       default:
         setIsModalOpen(false);
         break;

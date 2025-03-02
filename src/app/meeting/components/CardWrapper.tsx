@@ -7,7 +7,7 @@ import { useDetailQueries } from '@/hooks/queries/useMeetingQueries';
 import CardRightSection from './CardRightSection';
 import SkeletonMeetingTotalInfo from './skeletons/SkeletonMeetingTotalInfo';
 
-const CardWarpper = ({ meetingId }: { meetingId: number }) => {
+const CardWrapper = ({ meetingId }: { meetingId: number }) => {
   const { data: meeting, isLoading, error } = useDetailQueries(meetingId);
 
   if (isLoading || !meeting) {
@@ -68,4 +68,4 @@ const CardWarpper = ({ meetingId }: { meetingId: number }) => {
     </>
   );
 };
-export default CardWarpper;
+export default CardWrapper;

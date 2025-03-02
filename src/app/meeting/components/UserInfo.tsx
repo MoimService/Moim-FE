@@ -18,7 +18,7 @@ const UserInfo = ({ meetingId }: { meetingId: number }) => {
       <div className="flex items-center gap-[16px]">
         <div className="relative h-[80px] w-[80px] shrink-0">
           <Image
-            src={thumbnail}
+            src={data.profilePic}
             fill
             className="object-cover"
             alt="유저 프로필"

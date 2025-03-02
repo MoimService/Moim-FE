@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { MeetingDetail } from 'service/api/meeting';
 
 const ModalBeforeLogin = ({ meeting }: { meeting: MeetingDetail }) => {
@@ -9,7 +10,9 @@ const ModalBeforeLogin = ({ meeting }: { meeting: MeetingDetail }) => {
       <h3 className="typo-head3 mt-[4px] text-Cgray800">
         모임에 신청하시겠어요?
       </h3>
-      <img
+      <Image
+        width={160}
+        height={160}
         className="mt-[16px] h-[160px] w-[160px]"
         src={meeting.thumbnail}
         alt="모임 썸네일"

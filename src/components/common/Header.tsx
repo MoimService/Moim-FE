@@ -4,6 +4,7 @@ import Logo from '@/assets/icon/logo.svg';
 import Profile from '@/assets/icon/profile.svg';
 import { removeAccessToken } from '@/lib/serverActions';
 import { Menu } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -62,7 +63,14 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
           className="h-10 w-10 rounded-full bg-transparent"
           contentClassName="mr-[85px]"
           imageProps={{
-            component: <img src={userInfo.profilePic} alt="프로필 이미지" />,
+            component: (
+              <Image
+                src={userInfo.profilePic}
+                width={40}
+                height={40}
+                alt="프로필 이미지"
+              />
+            ),
           }}
         />
         <span className="typo-head3 m-auto w-[77px] text-center text-white">
@@ -103,7 +111,9 @@ const MobileAfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
           로그아웃
         </button>
         <div className="flex">
-          <img
+          <Image
+            width={40}
+            height={40}
             className="h-[40px] w-[40px] rounded-full"
             src={userInfo.profilePic}
             alt="프로필 이미지"
