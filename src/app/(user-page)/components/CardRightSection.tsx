@@ -4,7 +4,10 @@ import Dropdown from '@/components/common/Dropdown';
 import { Button } from '@/components/ui/Button';
 import { Tag } from '@/components/ui/Tag';
 import Modal from '@/components/ui/modal/Modal';
-import { useMemberStatusMutation } from '@/hooks/mutations/useMyMeetingMutation';
+import {
+  useExpelMutation,
+  useMemberStatusMutation,
+} from '@/hooks/mutations/useMyMeetingMutation';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -38,23 +41,36 @@ const CardRightSection = ({
   const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
 
   // 가입 승인
-  const { mutate } = useMemberStatusMutation(meetingId);
+  const { mutate: statusMutate } = useMemberStatusMutation(meetingId);
+
+  // 내보내기
+  const { mutate: expelMutate } = useExpelMutation(meetingId);
 
   const handleSecondModalConfirm = () => {
     // 가입 확인 api 연동
-    if (selectedUser) {
-      mutate({
+    // 만약, status가 approved라면 -> 내보내기 활성화
+    // 만약, status가 pending이 아니라면 -> 닫기만 활성화
+
+    // status === PENDING
+    if (selectedUser && selectedUser.memberStatus === 'PENDING') {
+      statusMutate({
         setMemberStatus: 'APPROVED',
         userId: selectedUser?.userId,
       });
     }
+
     setIsUserProfileModalOpen(false);
   };
 
   const handleSecondModalCancel = () => {
     // 가입 거절 api 연동
-    if (selectedUser) {
-      mutate({
+    if (selectedUser && selectedUser.memberStatus === 'PENDING') {
+      statusMutate({
+        setMemberStatus: 'REJECTED',
+        userId: selectedUser?.userId,
+      });
+    } else if (selectedUser && selectedUser.memberStatus === 'APPROVED') {
+      expelMutate({
         setMemberStatus: 'REJECTED',
         userId: selectedUser?.userId,
       });
@@ -62,8 +78,6 @@ const CardRightSection = ({
 
     setIsUserProfileModalOpen(false);
   };
-
-  console.log('맴버 리스트 확인::::', memberList);
 
   // 프로필 보기 할 유저
   const [selectedUser, setSelectedUser] = useState<Member | null>(null);
@@ -120,9 +134,22 @@ const CardRightSection = ({
         isOpen={isUserProfileModalOpen}
         onClose={handleSecondModalCancel}
         onConfirm={handleSecondModalConfirm}
-        confirmText="가입승인"
-        cancelText="가입거절"
+        confirmText={
+          selectedUser?.memberStatus === 'PENDING' ? '가입승인' : '닫기'
+        }
+        cancelText={
+          selectedUser?.memberStatus === 'PENDING'
+            ? '가입거절'
+            : selectedUser?.memberStatus === 'APPROVED'
+              ? '내보내기'
+              : '닫기'
+        }
+        closeOnly={
+          selectedUser?.memberStatus === 'PENDING' ||
+          selectedUser?.memberStatus === 'APPROVED'
+        }
         modalClassName="w-[450px] overflow-hidden bg-BG_2"
+        buttonClassName="w-full"
       >
         <ModalProfile userId={selectedUser?.userId} meetingId={meetingId} />
       </Modal>

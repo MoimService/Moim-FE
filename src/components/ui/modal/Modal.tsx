@@ -108,7 +108,7 @@ const Modal: React.FC<AlertModalProps> = ({
           className={`flex justify-end gap-2 p-4 ${buttonClassName} ${showOnly && 'hidden'}`}
         >
           {closeOnly ? (
-            <Button onClick={onClose} type="button">
+            <Button onClick={onClose} type="button" className="w-full">
               {cancelText}
             </Button>
           ) : (

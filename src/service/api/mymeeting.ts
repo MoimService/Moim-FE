@@ -78,4 +78,28 @@ const putMemberStatus = async ({
 
   return res.data.data;
 };
-export { getMyMeetingManage, getMyMeetingMemberProfile, putMemberStatus };
+
+// 강퇴
+const putExpel = async ({
+  userId,
+  meetingId,
+  setMemberStatus,
+}: {
+  userId: number;
+  meetingId: number;
+  setMemberStatus: 'APPROVED' | 'REJECTED';
+}) => {
+  const res = await authAPI.put(`/api/v1/mymeetings/expel`, {
+    userId,
+    meetingId,
+    setMemberStatus,
+  });
+
+  return res.data.data;
+};
+export {
+  getMyMeetingManage,
+  getMyMeetingMemberProfile,
+  putMemberStatus,
+  putExpel,
+};
