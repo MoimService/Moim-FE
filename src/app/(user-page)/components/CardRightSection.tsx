@@ -15,10 +15,12 @@ const CardRightSection = ({
   memberList,
   isPublic,
   className,
+  meetingId,
 }: {
   memberList: Member[];
   isPublic: boolean;
   className?: string;
+  meetingId: number;
 }) => {
   const [selectedFilter, setSelectedFilter] = useState(
     isPublic ? '공개' : '비공개',
@@ -43,6 +45,11 @@ const CardRightSection = ({
     // 가입 거절 api 연동
     setIsUserProfileModalOpen(false);
   };
+
+  console.log('맴버 리스트 확인::::', memberList);
+
+  // 프로필 보기 할 유저
+  const [selectedUser, setSelectedUser] = useState<Member | null>(null);
 
   return (
     <div className={`flex w-full gap-[24px] px-4 lg:w-[518px] ${className}`}>
@@ -100,7 +107,7 @@ const CardRightSection = ({
         cancelText="가입거절"
         modalClassName="w-[450px] overflow-hidden bg-BG_2"
       >
-        <ModalProfile />
+        <ModalProfile userId={selectedUser?.userId} meetingId={meetingId} />
       </Modal>
       <Modal
         isOpen={isUserListModalOpen}
@@ -110,6 +117,8 @@ const CardRightSection = ({
         modalClassName="h-[590px] w-[520px] overflow-y-auto"
       >
         <ModalUserList
+          memberList={memberList}
+          setSelectedUser={setSelectedUser}
           setIsUserProfileModalOpen={setIsUserProfileModalOpen}
           setIsUserListModalOpen={setIsUserListModalOpen}
         />
