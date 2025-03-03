@@ -67,7 +67,7 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
   ];
   return (
     <nav className="ml-auto hidden md:flex">
-      <div className="flex items-center">
+      <div className="flex items-center gap-[10px]">
         <Dropdown
           options={menu}
           variant="image"
@@ -79,6 +79,7 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
                 src={userInfo.profilePic}
                 width={40}
                 height={40}
+                className="h-10 w-10 rounded-full"
                 alt="프로필 이미지"
               />
             ),

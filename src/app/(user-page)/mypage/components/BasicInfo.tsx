@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/Button';
-import { useQuery } from '@tanstack/react-query';
+import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 
-import { getProfile } from '../../../../service/api/mypageProfile';
 import SkeletonBasicInfo from './skeletons/SkeletonBasicInfo';
 
 interface BasicInfoProps {
@@ -9,11 +8,8 @@ interface BasicInfoProps {
 }
 
 const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
-  // tanstack query를 사용하여 사용자 프로필 데이터 불러오기
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['profile'],
-    queryFn: getProfile,
-  });
+  // Use the custom hook instead of direct useQuery
+  const { data, isLoading, error } = useProfileQuery();
 
   // 사용자 데이터 포맷팅
   const userData = {

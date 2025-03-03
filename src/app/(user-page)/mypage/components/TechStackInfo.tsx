@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/Button';
 import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import { getIconColor, getIconComponent } from '@/util/getIconDetail';
 import React from 'react';
@@ -20,15 +21,9 @@ const TechStackInfo = ({ onEnableEdit }: TechStackInfoProps) => {
   }
 
   return (
-    <div className="rounded-lg border border-Cgray300 bg-Cgray200 p-4">
+    <div className="rounded-[16px] border border-Cgray300 bg-BG p-[32px]">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="typo-head3 text-Cgray700">기술 스택</h3>
-        <button
-          onClick={onEnableEdit}
-          className="hover:text-main-dark text-sm text-main"
-        >
-          편집
-        </button>
+        <div className="typo-head3 text-Cgray700">기술 스택</div>
       </div>
 
       {userSkills.length > 0 ? (
@@ -42,7 +37,7 @@ const TechStackInfo = ({ onEnableEdit }: TechStackInfoProps) => {
                 className="flex items-center gap-1 rounded-full border border-main bg-Cgray100 px-2 py-1 shadow-sm"
               >
                 <span className="flex-shrink-0">
-                  <Icon size={14} color={color} />
+                  <Icon size={20} color={color} />
                 </span>
                 <span
                   style={{ color }}
@@ -55,8 +50,17 @@ const TechStackInfo = ({ onEnableEdit }: TechStackInfoProps) => {
           })}
         </div>
       ) : (
-        <p className="text-sm text-Cgray500">등록된 기술 스택이 없습니다.</p>
+        <p className=" text-Cgray500">등록된 기술 스택이 없습니다.</p>
       )}
+      <div className="flex justify-center pt-[32px] md:justify-start">
+        <Button
+          variant="outline"
+          className="h-[40px] w-[295px] md:h-[46px] md:w-[280px]"
+          onClick={onEnableEdit}
+        >
+          기술스택 변경
+        </Button>
+      </div>
     </div>
   );
 };
