@@ -77,8 +77,11 @@ export default function Page({
   console.log('type: ', type);
   return (
     <div>
-      <div className="flex flex-col gap-[24px]">
-        <div className="flex gap-[24px]">
+      <div className="mt-4 flex flex-col gap-[24px]">
+        {/**
+         * TODO
+         * 추후 해당 부분 수정
+         <div className="flex gap-[24px]">
           <h3 className="typo-button1 border-b-2 border-main p-4 text-[17px] font-bold text-main">
             나의 모임
           </h3>
@@ -88,7 +91,7 @@ export default function Page({
           <h3 className="typo-button1 border-b-2 border-main p-4 text-[17px] font-bold text-main">
             나의 리뷰
           </h3>
-        </div>
+        </div> */}
         <Tab type={type} />
       </div>
       {type === 'created' ? <Created /> : <Joined meetings={meetings} />}

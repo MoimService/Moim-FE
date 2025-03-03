@@ -3,12 +3,14 @@
 import HorizonCard from '@/components/ui/HorizonCard';
 import useInfiniteScroll from '@/hooks/common/useInfiniteScroll';
 import { useInfiniteMyMeetingManageQueries } from '@/hooks/queries/useMyMeetingQueries';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import CardRightSection from './CardRightSection';
 
 const Created = () => {
   const [lastMeetingId, setLastMeetingId] = useState(0);
+  const router = useRouter();
 
   const {
     data: meetingData,
@@ -31,6 +33,14 @@ const Created = () => {
 
   console.log('meetingData::: ', meetingData);
 
+  const handleMoveDetailPage = (meetingId: number) => {
+    /**
+     * TODO
+     * 추후 category 수정
+     */
+    router.push(`/meeting/study/${meetingId}`);
+  };
+
   return (
     <div>
       {meetingData.pages.map((page, pageIdx) => (
@@ -38,8 +48,9 @@ const Created = () => {
           {page.content.map((meeting) => (
             <div key={meeting.meetingId}>
               {/* 데스크탑 */}
-              <div className="hidden lg:flex">
+              <div className="hidden border-b border-Cgray300 py-[42px] lg:flex">
                 <HorizonCard
+                  onClick={handleMoveDetailPage}
                   key={meeting.meetingId}
                   title={meeting.title}
                   thumbnailUrl={meeting.thumbnail}
@@ -60,8 +71,9 @@ const Created = () => {
               </div>
 
               {/* 태블릿 */}
-              <div className="hidden flex-col md:flex lg:hidden">
+              <div className="hidden flex-col border-b border-Cgray300 py-[42px] md:flex lg:hidden ">
                 <HorizonCard
+                  onClick={handleMoveDetailPage}
                   key={meeting.meetingId}
                   title={meeting.title}
                   thumbnailUrl={meeting.thumbnail}
@@ -83,8 +95,9 @@ const Created = () => {
               </div>
 
               {/* 모바일 */}
-              <div className="flex flex-col md:hidden">
+              <div className="flex flex-col border-b border-Cgray300 py-[42px] md:hidden">
                 <HorizonCard
+                  onClick={handleMoveDetailPage}
                   key={meeting.meetingId}
                   title={meeting.title}
                   thumbnailUrl={meeting.thumbnail}
