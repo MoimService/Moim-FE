@@ -26,19 +26,21 @@ export const emailValidation = {
 export const passwordValidation = {
   required: '비밀번호를 입력해주세요.',
   minLength: {
-    value: 6,
-    message: '비밀번호는 최소 6자 이상이어야 합니다.',
+    value: 8,
+    message: '비밀번호는 최소 8자 이상이어야 합니다.',
   },
   pattern: {
-    value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-    message: '비밀번호는 영어와 숫자 포함 6자 이상이어야 합니다.',
+    value:
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+~\-={}\[\]:;"'<>,.?/\\|]{8,}$/,
+    message: '비밀번호는 영어와 숫자 포함 8자 이상이어야 합니다.',
   },
 };
 
 export const passwordCheckValidation = (password: string) => ({
-  required: '비밀번호를 입력해주세요.',
-  validate: (value: string) =>
-    value === password || '비밀번호가 일치하지 않습니다.',
+  validate: (value: string) => {
+    if (value === '') return true;
+    return value === password || '비밀번호가 일치하지 않습니다.';
+  },
 });
 
 export const positionValidation = {

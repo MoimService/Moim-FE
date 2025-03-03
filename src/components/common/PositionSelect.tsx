@@ -1,6 +1,6 @@
 import Chip from '@/components/ui/Chip';
 
-export const ChipContainer = ({
+export const PositionSelect = ({
   position,
   setPosition,
 }: {

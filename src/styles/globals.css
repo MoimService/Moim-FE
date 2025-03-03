@@ -91,3 +91,30 @@
     transition: background-color 5000s ease-in-out 0s;
   }
 }
+
+/* 드롭다운 스크롤 ui 변경 */
+.dropdown-content-element::-webkit-scrollbar,
+[role="menu"]::-webkit-scrollbar,
+[data-state="open"] .scrollable-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown-content-element::-webkit-scrollbar-track,
+[role="menu"]::-webkit-scrollbar-track,
+[data-state="open"] .scrollable-content::-webkit-scrollbar-track {
+  background: rgba(229, 231, 235, 0.3);
+  border-radius: 8px;
+}
+
+.dropdown-content-element::-webkit-scrollbar-thumb,
+[role="menu"]::-webkit-scrollbar-thumb,
+[data-state="open"] .scrollable-content::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.5);
+  border-radius: 8px;
+}
+
+.dropdown-content-element::-webkit-scrollbar-thumb:hover,
+[role="menu"]::-webkit-scrollbar-thumb:hover,
+[data-state="open"] .scrollable-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.7);
+}

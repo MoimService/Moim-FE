@@ -2,7 +2,6 @@ import StarIcon from '@/assets/icon/Star';
 import React, { Dispatch, SetStateAction } from 'react';
 
 interface RatingStarsProps {
-  rating?: number;
   size?: number;
   className?: string;
   selectedRating: number;

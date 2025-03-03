@@ -11,9 +11,24 @@ export default {
   theme: {
     extend: {
       screens: {
-        md: '376px',
-        lg: '745px',
+        sm: {
+          min: '375px',
+          max: '743px',
+        },
+        md: {
+          min: '744px',
+        },
+        lg: {
+          min: '1920px',
+        },
       },
+      md: {
+        min: '744px',
+      },
+      lg: {
+        min: '1920px',
+      },
+
       colors: {
         main: '#3853EA',
         default: '#C2C9FF',

@@ -43,6 +43,25 @@ const Dropdown = ({
 }: IDropdownProps) => {
   const [isOpen, setIsOpen] = React.useState(false); // 드롭다운 열림/닫힘 상태
   const [selectedValue, setSelectedValue] = React.useState<string | null>(null); // 현재 선택된 값
+  const triggerRef = React.useRef<HTMLButtonElement>(null); // 트리거 요소에 대한 참조
+  const [triggerWidth, setTriggerWidth] = React.useState(0); // 트리거 너비 저장
+
+  // 트리거 너비를 측정하는 효과
+  React.useEffect(() => {
+    if (triggerRef.current) {
+      const resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          setTriggerWidth(entry.contentRect.width);
+        }
+      });
+
+      resizeObserver.observe(triggerRef.current);
+
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }
+  }, []);
 
   const selectedOption = options.find((opt) => opt.value === selectedValue); // 선택된 옵션 찾기
 
@@ -108,6 +127,7 @@ const Dropdown = ({
   return (
     <DropdownMenuPrimitive.Root onOpenChange={setIsOpen}>
       <DropdownMenuPrimitive.Trigger
+        ref={triggerRef}
         className={cn(
           'flex select-none items-center whitespace-nowrap rounded-xl font-bold outline-none focus:outline-none',
           variant === 'default' ? 'justify-center' : 'justify-between',
@@ -135,6 +155,11 @@ const Dropdown = ({
             'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
             contentClassName,
           )}
+          style={{
+            width: className?.includes('w-full')
+              ? `${triggerWidth}px`
+              : undefined,
+          }}
         >
           {options.map((option) => (
             <DropdownMenuPrimitive.Item

@@ -3,6 +3,7 @@
 import { useDetailQueries } from '@/hooks/queries/useMeetingQueries';
 import { formatDate } from '@/util/date';
 
+import ContentLabel from './ContextLabel';
 import SkeletonMeetingInfo from './skeletons/SkeletonMeetingInfo';
 
 const MeetingInfo = ({ meetingId }: { meetingId: number }) => {
@@ -13,13 +14,11 @@ const MeetingInfo = ({ meetingId }: { meetingId: number }) => {
   }
 
   return (
-    <div className="p-[16px] md:px-[32px]">
-      <div className="flex flex-col gap-[24px] md:px-[16px]">
-        <div className="flex items-center gap-[8px]">
-          <div className="h-[14px] w-[2px] bg-Cgray700" />
-          <h3 className="typo-head3 text-Cgray700">모임 설명</h3>
-        </div>
-        <div className="flex flex-col gap-[8px]">
+    <div className="">
+      <div className="flex flex-col gap-[24px] ">
+        <ContentLabel>모임 설명</ContentLabel>
+
+        <div className="flex flex-col gap-[8px] pl-[8px]">
           <div className="flex gap-[8px]">
             <p className="typo-head4 w-[56px] text-main">장소</p>
             <p className="typo-body1 text-Cgray700">{meeting.location}</p>
@@ -41,7 +40,9 @@ const MeetingInfo = ({ meetingId }: { meetingId: number }) => {
             </p>
           </div>
         </div>
-        <p className="typo-body1 h-[200px] text-Cgray800">{meeting.content}</p>
+        <p className="typo-body1 h-[200px] pl-[8px] text-Cgray800">
+          {meeting.content}
+        </p>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-//useMediaQuery.ts
 import { useEffect, useState } from 'react';
 
 // 브라우저의 width에 따라 'mobile', 'tablet', 'desktop'을 판별하는 훅
@@ -10,11 +9,11 @@ const useMediaQuery = () => {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width < 376) {
+      if (width > 376 && width <= 745) {
         setBreakpoint('mobile');
-      } else if (width < 745) {
+      } else if (width > 745 && width <= 1020) {
         setBreakpoint('tablet');
-      } else {
+      } else if (width > 1020) {
         setBreakpoint('desktop');
       }
     };

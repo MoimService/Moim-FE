@@ -3,13 +3,8 @@
 import { Progress } from '@/components/ui/Progress';
 import { useCommentsCountQueries } from '@/hooks/queries/useCommentQueries';
 import React from 'react';
-import { ICommentsCount } from 'service/api/comment';
 
 import RatingStars from './RatingStars';
-
-interface ReviewAvgCardProps {
-  count: ICommentsCount;
-}
 
 const ReviewAvgCard = ({ meetingId }: { meetingId: number }) => {
   const { data: count, isLoading, error } = useCommentsCountQueries(meetingId);
@@ -45,7 +40,7 @@ const ReviewAvgCard = ({ meetingId }: { meetingId: number }) => {
   ];
 
   return (
-    <div className="w-full rounded-[24px] bg-Cgray200 p-8">
+    <div className="mt-[-24px] w-full rounded-[24px] bg-Cgray200 p-8">
       <div className="flex h-full w-full flex-col gap-8 lg:flex-row">
         <div className="flex flex-col items-center justify-center gap-4 lg:w-1/2">
           <div className="typo-head1 flex items-center justify-center gap-1">

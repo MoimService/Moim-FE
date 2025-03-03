@@ -27,7 +27,6 @@ const ReviewInput = ({ meetingId }: { meetingId: number }) => {
     <div className="rounded-[24px] border border-Cgray300 px-[24px] py-[32px]">
       <h3 className="typo-head3 text-Cgray800">리뷰 작성</h3>
       <RatingStarsEdit
-        rating={Number(0)}
         size={24}
         className="mb-[16px] mt-[24px]"
         selectedRating={selectedRating}

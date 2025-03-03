@@ -1,3 +1,4 @@
+import { convertComponentName } from '@/util/getIconDetail';
 import { createElement } from 'react';
 
 import { BaseIcon, BaseIconProps } from './BaseIcon';
@@ -22,7 +23,7 @@ export const Icons = ICON_LIST.reduce<
   Record<string, Record<string, (props: IconProps) => JSX.Element>>
 >((acc, config) => {
   const category = config.category;
-  const componentName = `${config.name}Icon`;
+  const componentName = `${convertComponentName(config.name)}Icon`;
 
   if (!acc[category]) {
     acc[category] = {};

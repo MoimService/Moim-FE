@@ -27,7 +27,7 @@ const ReviewList = ({ meetingId }: { meetingId: number }) => {
   }
 
   return (
-    <div className="flex flex-col gap-[8px]">
+    <div className="flex flex-col  gap-[8px]">
       {commentsData.pages.map((page, pageIdx) => {
         return (
           <div key={pageIdx}>

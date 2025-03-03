@@ -1,5 +1,5 @@
-import { ISignupFormData } from '@/app/signup/page';
 import { basicAPI } from '@/lib/axios/basicApi';
+import { ISignupFormData } from 'types/auth';
 
 const postLogin = async ({
   email,

@@ -1,12 +1,14 @@
 import SkeletonBasic from '../../../../components/ui/SkeletonBasic';
+import ContentLabel from '../ContextLabel';
 
 const SkeletonMeetingInfo = () => {
   return (
-    <div className="px-[32px] py-[16px]">
-      <div className="flex flex-col gap-[24px] px-[16px]">
+    <div className="">
+      <div className="flex flex-col gap-[24px]">
         <div className="flex items-center gap-[8px]">
-          <div className="h-[14px] w-[2px] bg-Cgray700" />
-          <h3 className="typo-head3 text-Cgray700">모임 설명</h3>
+          {/* <div className="h-[14px] w-[2px] bg-Cgray700" /> */}
+          <ContentLabel>모임 설명</ContentLabel>
+          {/* <h3 className="typo-head3 text-Cgray700">모임 설명</h3> */}
         </div>
         <div className="flex flex-col gap-[8px]">
           <SkeletonBasic className="w-[150px]" />

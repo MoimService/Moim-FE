@@ -56,7 +56,6 @@ const getCommentsMeeting = async (
   meetingId: number,
   lastCommentId: number,
 ): Promise<Comments> => {
-  console.log('[getCommentsMeeting] lastCommentId: ', lastCommentId);
   const res = await basicAPI.get(
     `/api/v1/comments/${meetingId}?lastCommentId=${lastCommentId}&size=3`,
   );

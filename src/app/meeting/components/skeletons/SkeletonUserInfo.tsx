@@ -1,7 +1,7 @@
 const SkeletonUserInfo = () => {
   return (
-    <div className="flex flex-col gap-[16px] p-[16px] px-[32px]">
-      <div className="flex h-[80px] w-[400px] animate-pulse flex-col gap-[16px] rounded-[8px] bg-Cgray200" />
+    <div className="flex flex-col gap-[16px]">
+      <div className="flex h-[80px] w-[200px] animate-pulse flex-col gap-[16px] rounded-[8px] bg-Cgray200 sm:w-[400px]" />
       <div className="flex flex-col gap-[8px] px-[8px]">
         <div className="flex h-[20px] w-[200px] animate-pulse gap-[8px] rounded-[8px] bg-Cgray200" />
         <div className="flex h-[20px] w-[200px] animate-pulse gap-[8px] rounded-[8px] bg-Cgray200" />

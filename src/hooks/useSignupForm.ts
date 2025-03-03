@@ -1,14 +1,12 @@
-import { ISignupFormData } from '@/app/signup/page';
 import {
   useEmailCheckMutation,
   useNameCheckMutation,
   useSignupMutation,
 } from '@/hooks/mutations/useUserMutation';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-import useDebounce from './useDebounde';
+import { ISignupFormData } from 'types/auth';
 
 const useSignUpForm = () => {
   const {
@@ -19,23 +17,11 @@ const useSignUpForm = () => {
     setError,
     setValue,
     formState: { errors, dirtyFields },
+    control,
   } = useForm<ISignupFormData>({
     mode: 'onBlur',
     defaultValues: {
       position: '',
-    },
-  });
-
-  const [focusedField, setFocusedField] = useState<
-    'name' | 'email' | 'position' | 'password' | 'passwordCheck' | null
-  >(null);
-
-  useDebounce({
-    value: watch(focusedField!),
-    callBack: () => {
-      if (focusedField) {
-        trigger(focusedField);
-      }
     },
   });
 
@@ -44,15 +30,6 @@ const useSignUpForm = () => {
   const [isEmailCheck, setIsEmailCheck] = useState(false);
 
   const router = useRouter();
-
-  // 입력이 있다면 중복확인 버튼 활성화
-  useEffect(() => {
-    setIsNameCheck(false);
-  }, [watch('name')]);
-
-  useEffect(() => {
-    setIsEmailCheck(false);
-  }, [watch('email')]);
 
   // 중복확인 로직 수행
   const { mutate: nameCheckMutate } = useNameCheckMutation({
@@ -73,16 +50,22 @@ const useSignUpForm = () => {
       }),
   });
 
-  const handleNameCheck = () => {
+  const handleNameCheck = async () => {
     const name = watch('name');
-    nameCheckMutate(name);
-    trigger('name');
+    const isValid = await trigger('name');
+
+    if (isValid) {
+      nameCheckMutate(name);
+    }
   };
 
-  const handleEmailCheck = () => {
+  const handleEmailCheck = async () => {
     const email = watch('email');
-    emailCheckMutate(email);
-    trigger('email');
+    const isValid = await trigger('email');
+
+    if (isValid) {
+      emailCheckMutate(email);
+    }
   };
 
   // 회원가입 제출
@@ -125,10 +108,12 @@ const useSignUpForm = () => {
     handleNameCheck,
     isEmailCheck,
     handleEmailCheck,
-    watch,
     handleClickPosition,
     dirtyFields,
-    setFocusedField,
+    control,
+    setIsNameCheck,
+    setIsEmailCheck,
+    trigger,
   };
 };
 

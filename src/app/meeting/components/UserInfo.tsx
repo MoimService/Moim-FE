@@ -1,6 +1,9 @@
 'use client';
 
+import SelectedTechList from '@/components/ui/tech-stack/tech-stack-components/SelectedTechList';
+import TechButton from '@/components/ui/tech-stack/tech-stack-components/TechButton';
 import { useDetailUserQueries } from '@/hooks/queries/useMeetingQueries';
+import { getIconComponent } from '@/util/getIconDetail';
 import Image from 'next/image';
 
 import thumbnail from '../../../assets/thumbnail.png';
@@ -13,13 +16,12 @@ const UserInfo = ({ meetingId }: { meetingId: number }) => {
     return <SkeletonUserInfo />;
   }
 
-  console.log('userinfo: ', data);
   return (
-    <div className="flex flex-col gap-[16px] p-[16px] md:px-[32px]">
+    <div className="flex flex-col gap-[16px]">
       <div className="flex items-center gap-[16px]">
         <div className="relative h-[80px] w-[80px] shrink-0">
           <Image
-            src={thumbnail}
+            src={data.profilePic}
             fill
             className="object-cover"
             alt="유저 프로필"
@@ -42,17 +44,21 @@ const UserInfo = ({ meetingId }: { meetingId: number }) => {
         </div>
       </div>
       <div className="ml-[8px] flex gap-[6px] text-Cgray500">
-        <div className="typo-caption1 rounded-[8px] bg-disable px-[8px] py-[4px]">
-          자바스크립트
-        </div>
-        <div className="typo-caption1 rounded-[8px] bg-disable px-[8px] py-[4px]">
-          자바스크립트
-        </div>
-        <div className="typo-caption1 rounded-[8px] bg-disable px-[8px] py-[4px]">
-          자바스크립트
-        </div>
-        <div className="typo-caption1 rounded-[8px] bg-disable px-[8px] py-[4px]">
-          자바스크립트
+        <div className="flex flex-wrap gap-2">
+          {data.skillArray &&
+            data.skillArray?.length > 0 &&
+            data.skillArray.map((skill) => (
+              <TechButton
+                className="h-6"
+                key={skill}
+                name={skill}
+                icon={getIconComponent(skill)}
+                color={'#333'}
+                isClicked={true}
+                isMaxReached={false}
+                onClick={() => {}}
+              />
+            ))}
         </div>
       </div>
     </div>

@@ -3,12 +3,22 @@
 import Logo from '@/assets/icon/logo.svg';
 import Profile from '@/assets/icon/profile.svg';
 import { removeAccessToken } from '@/lib/serverActions';
+import { translateCategoryNameToKor } from '@/util/searchFilter';
 import { Menu } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import Dropdown from './Dropdown';
+import { useToast } from './ToastContext';
+
+const navigation = [
+  { href: '/meeting/mogakco', label: '모각코' },
+  { href: '/meeting/study', label: '스터디' },
+  { href: '/meeting/side-project', label: '사이드 프로젝트' },
+  { href: '/meeting/hobby', label: '취미' },
+];
 
 interface IUserInfo {
   userId: number;
@@ -23,7 +33,7 @@ const BeforeLogin = () => {
     <nav className="ml-auto flex">
       <Link
         href="/login"
-        className="text-head3 hidden h-[54px] items-center justify-center text-white lg:flex"
+        className="text-head3 hidden h-[54px] items-center justify-center text-white md:flex"
       >
         로그인
       </Link>
@@ -33,6 +43,7 @@ const BeforeLogin = () => {
 
 const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
   const router = useRouter();
+  const { showToast } = useToast();
   const menu = [
     {
       value: 'mymeeting',
@@ -42,7 +53,7 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
     {
       value: 'mypage',
       label: '마이페이지',
-      onSelect: () => router.push('/my-page'),
+      onSelect: () => router.push('/mypage'),
     },
     {
       value: 'logout',
@@ -50,11 +61,12 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
       onSelect: async () => {
         await removeAccessToken();
         // 로그아웃 관련 토스트바 노출
+        showToast('로그아웃 되었습니다.', 'success');
       },
     },
   ];
   return (
-    <nav className="ml-auto hidden lg:flex">
+    <nav className="ml-auto hidden md:flex">
       <div className="flex items-center">
         <Dropdown
           options={menu}
@@ -62,10 +74,20 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
           className="h-10 w-10 rounded-full bg-transparent"
           contentClassName="mr-[85px]"
           imageProps={{
-            component: <img src={userInfo.profilePic} alt="프로필 이미지" />,
+            component: (
+              <Image
+                src={userInfo.profilePic}
+                width={40}
+                height={40}
+                alt="프로필 이미지"
+              />
+            ),
           }}
         />
-        <span className="typo-head3 m-auto w-[77px] text-center text-white">
+        <span
+          title={userInfo.name}
+          className="typo-head3 m-auto w-[77px] truncate text-center text-white"
+        >
           {userInfo.name}
         </span>
       </div>
@@ -103,19 +125,24 @@ const MobileAfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
           로그아웃
         </button>
         <div className="flex">
-          <img
+          <Image
+            width={40}
+            height={40}
             className="h-[40px] w-[40px] rounded-full"
             src={userInfo.profilePic}
             alt="프로필 이미지"
           />
-          <span className="typo-head3 m-auto w-[77px] text-center text-white">
+          <span
+            title={userInfo.name}
+            className="typo-head3 m-auto w-[77px] truncate text-center text-white"
+          >
             {userInfo.name}
           </span>
         </div>
       </div>
       <Link
         className="typo-head4 p-[16px] text-Cgray400 hover:text-Cgray500"
-        href="/my-page"
+        href="/mypage"
       >
         마이페이지
       </Link>
@@ -130,42 +157,26 @@ const MobileAfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
 };
 
 const NavLinks = ({ isMobile }: { isMobile?: boolean }) => {
+  const { category } = useParams();
+  const categoryStr = Array.isArray(category) ? category[0] : category;
+
   return (
     <ul
-      className={`${!isMobile ? 'hidden items-center text-Cgray700 lg:flex' : 'text-Cgray400'}`}
+      className={`${!isMobile ? 'hidden items-center text-Cgray700 md:flex' : 'text-Cgray400'}`}
     >
-      <li className="typo-head4 p-[16px]">
-        <Link
-          href="/Mogakco"
-          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
+      {navigation.map((item) => (
+        <li
+          className={`typo-head4 p-[16px] ${category && translateCategoryNameToKor(categoryStr) === item.label && 'text-white'}`}
+          key={item.label}
         >
-          모각코
-        </Link>
-      </li>
-      <li className="typo-head4 p-[16px]">
-        <Link
-          href="/study"
-          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
-        >
-          스터디
-        </Link>
-      </li>
-      <li className="typo-head4 p-[16px]">
-        <Link
-          href="/side-project"
-          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
-        >
-          사이드 프로젝트
-        </Link>
-      </li>
-      <li className="typo-head4 p-[16px]">
-        <Link
-          href="/hobby"
-          className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
-        >
-          취미
-        </Link>
-      </li>
+          <Link
+            href={item.href}
+            className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
+          >
+            {item.label}
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 };
@@ -177,7 +188,7 @@ const Header = ({ userInfo }: { userInfo: IUserInfo }) => {
     <div>
       {/* desktop */}
       <header
-        className={`flex h-20 items-center bg-BG px-[24px] lg:bg-main ${!isOpen && 'bg-main'}`}
+        className={`flex h-20 items-center bg-BG px-[24px] md:bg-main ${!isOpen && 'bg-main'}`}
       >
         <div className="item-center mx-auto flex w-full max-w-[1340px] items-center justify-between">
           <Link href="/" className="mr-[40px] flex-shrink-0">
@@ -186,7 +197,7 @@ const Header = ({ userInfo }: { userInfo: IUserInfo }) => {
           <NavLinks />
           {!isLogIn ? <BeforeLogin /> : <AfterLogin userInfo={userInfo} />}
           <Menu
-            className="text-white lg:hidden"
+            className="text-white md:hidden"
             onClick={() => setIsOpen((prev) => !prev)}
           />
         </div>
@@ -194,9 +205,17 @@ const Header = ({ userInfo }: { userInfo: IUserInfo }) => {
 
       {/* mobile */}
       <div
-        className={`fixed right-0 h-screen w-screen transform overflow-x-hidden bg-BG px-[24px] transition-transform duration-300 ease-in-out ${
+        className={`fixed right-0 z-50 h-screen w-screen transform overflow-x-hidden bg-BG px-[24px] transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
-        } lg:hidden`}
+        } md:hidden`}
+        role="button"
+        tabIndex={0}
+        onClick={() => setIsOpen(false)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            setIsOpen(false);
+          }
+        }}
       >
         {!isLogIn ? (
           <MobileBeforeLogin />

@@ -54,6 +54,8 @@ function CardExamples() {
         {meetingDummyData.map((meeting) => (
           <VerticalCard
             key={meeting.meetingId}
+            meetingId={meeting.meetingId}
+            category="모각코"
             title={meeting.title}
             thumbnailUrl={meeting.thumbnail}
             location={meeting.location}
@@ -68,6 +70,8 @@ function CardExamples() {
           <HorizonCard
             key={meeting.meetingId}
             title={meeting.title}
+            meetingId={meeting.meetingId}
+            category="모각코"
             thumbnailUrl={meeting.thumbnail}
             location={meeting.location}
             isLike={meeting.isLike}
