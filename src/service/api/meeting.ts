@@ -4,7 +4,8 @@ import { getAccessToken } from '@/lib/serverActions';
 import type {
   CategoryTitle,
   IMeetingSearchCondition,
-  PaginatedSearchMeeting,
+  Paginated,
+  SearchMeeting,
   TopMeeting,
 } from 'types/meeting';
 
@@ -24,7 +25,7 @@ const getMeetings = async (
   pageParams: number,
   category: CategoryTitle,
   searchQueryObj: IMeetingSearchCondition,
-): Promise<PaginatedSearchMeeting> => {
+): Promise<Paginated<SearchMeeting>> => {
   const newSearchQueryObj = { ...searchQueryObj, lastMeetingId: pageParams };
   const token = await getAccessToken();
 

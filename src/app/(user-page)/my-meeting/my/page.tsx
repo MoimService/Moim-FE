@@ -1,5 +1,3 @@
-import { Button } from '@/components/ui/Button';
-
 import Created from '../../components/Created';
 import Joined from '../../components/Joined';
 import Tab from '../../components/Tab';
@@ -93,11 +91,7 @@ export default function Page({
         </div>
         <Tab type={type} />
       </div>
-      {type === 'created' ? (
-        <Created meetings={meetings} />
-      ) : (
-        <Joined meetings={meetings} />
-      )}
+      {type === 'created' ? <Created /> : <Joined meetings={meetings} />}
     </div>
   );
 }

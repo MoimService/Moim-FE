@@ -48,12 +48,11 @@ interface SearchMeeting {
   isLike: boolean;
   likesCount: number;
 }
-
-interface PaginatedSearchMeeting {
+interface Paginated<T> {
   pageable: Pageable;
   nextCursor: number;
   size: number;
-  content: SearchMeeting[];
+  content: T[];
   number: number;
   sort: Sort;
   numberOfElements: number;
@@ -69,5 +68,5 @@ export type {
   Pageable,
   SearchMeeting,
   IMeetingSearchCondition,
-  PaginatedSearchMeeting,
+  Paginated,
 };
