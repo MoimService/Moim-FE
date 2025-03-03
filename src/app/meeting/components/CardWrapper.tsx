@@ -35,6 +35,7 @@ const CardWrapper = ({ meetingId }: { meetingId: number }) => {
           isLike={meeting.isLike}
           total={meeting.maxMember}
           value={meeting.memberCount}
+          skills={meeting.meetingSkillArray}
         >
           <CardRightSection meeting={meeting} />
         </VerticalCard>
@@ -55,6 +56,7 @@ const CardWrapper = ({ meetingId }: { meetingId: number }) => {
           isLike={meeting.isLike}
           total={meeting.maxMember}
           value={meeting.memberCount}
+          skills={meeting.meetingSkillArray}
         />
         <CardRightSection meeting={meeting} />
       </div>
@@ -70,6 +72,7 @@ const CardWrapper = ({ meetingId }: { meetingId: number }) => {
           isLike={meeting.isLike}
           total={meeting.maxMember}
           value={meeting.memberCount}
+          skills={meeting.meetingSkillArray}
           className="flex-row"
         >
           <CardRightSection meeting={meeting} />

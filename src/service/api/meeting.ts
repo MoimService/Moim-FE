@@ -60,6 +60,7 @@ export interface MeetingDetail {
   requireApproval: boolean;
   isLike: boolean;
   isMember: boolean;
+  meetingSkillArray: string[];
 }
 
 export interface MeetingManager {
