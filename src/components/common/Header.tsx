@@ -79,6 +79,7 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
                 src={userInfo.profilePic}
                 width={40}
                 height={40}
+                className="h-10 w-10 rounded-full"
                 alt="프로필 이미지"
               />
             ),

@@ -9,6 +9,7 @@ interface TechButtonListProps {
   selectedCount: number;
   maxSelections: number;
   onButtonClick: (name: string) => void;
+  className?: string;
 }
 
 const TechButtonList = ({
@@ -17,9 +18,10 @@ const TechButtonList = ({
   selectedCount,
   maxSelections,
   onButtonClick,
+  className = '',
 }: TechButtonListProps): JSX.Element => {
   return (
-    <div className="mt-4 rounded-md bg-Cgray200 p-4">
+    <div className={`mt-4 rounded-md bg-Cgray200 p-4 ${className}`}>
       <div
         className="h-[140px] overflow-y-auto pr-2"
         style={{

@@ -81,7 +81,7 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mb-6 w-full rounded-[16px] border border-Cgray300 p-[32px]"
+      className="w-full rounded-[16px] border border-Cgray300 p-[32px]"
     >
       <div className="flex flex-col gap-[32px]">
         <div className="flex flex-col gap-[8px]">

@@ -1,5 +1,7 @@
 'use client';
 
+import { Button } from '@/components/ui/Button';
+// Button 컴포넌트 import 추가
 import {
   useProfileQuery,
   useUpdateSkillsMutation,
@@ -16,9 +18,13 @@ import TechButtonList from '../../../../components/ui/tech-stack/tech-stack-comp
 
 interface TechStackEditProps {
   onEditComplete: () => void;
+  maxSelections?: number;
 }
 
-const TechStackEdit = ({ onEditComplete }: TechStackEditProps) => {
+const TechStackEdit = ({
+  onEditComplete,
+  maxSelections = 999,
+}: TechStackEditProps) => {
   const queryClient = useQueryClient(); // 추가: 직접 queryClient 참조
   const [activeCategory, setActiveCategory] = useState<CategoryType>('all');
 
@@ -42,7 +48,7 @@ const TechStackEdit = ({ onEditComplete }: TechStackEditProps) => {
     handleRemoveSelection,
     setInitialSelection,
   } = useTechSelection({
-    maxSelections: 5,
+    maxSelections: maxSelections,
   });
 
   // 초기 스킬 설정 - 단 한 번만 실행되도록 개선
@@ -73,12 +79,9 @@ const TechStackEdit = ({ onEditComplete }: TechStackEditProps) => {
   }
 
   return (
-    <div className="rounded-lg border border-Cgray300 bg-Cgray200 p-4">
+    <div className="rounded-lg border border-Cgray300 bg-BG p-[32px]">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="typo-head3 text-Cgray700">기술 스택 편집</h3>
-        <span className="text-xs text-Cgray500">
-          최대 5개 선택 가능 ({selectedCount}/5)
-        </span>
+        <div className="typo-head3 text-main">기술 스택 편집</div>
       </div>
 
       {/* 선택된 기술 목록 */}
@@ -102,26 +105,28 @@ const TechStackEdit = ({ onEditComplete }: TechStackEditProps) => {
         icons={getIconsByCategory(activeCategory)}
         clickedButtons={clickedButtons}
         selectedCount={selectedCount}
-        maxSelections={5}
+        maxSelections={maxSelections}
         onButtonClick={handleButtonClick}
+        className="bg-transparent"
       />
 
-      <div className="mt-4 flex justify-end gap-3">
-        <button
+      <div className="mt-4 flex justify-between">
+        <Button
           type="button"
+          variant="outline"
+          className="h-[40px] w-[140px] md:h-[46px]"
           onClick={onEditComplete}
-          className="rounded-md border border-Cgray300 px-4 py-2 text-Cgray700"
         >
           취소
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
-          onClick={handleSave}
-          className="rounded-md bg-main px-4 py-2 text-white"
+          className="h-[40px] w-[140px] select-none md:h-[46px]"
           disabled={isUpdating}
+          onClick={handleSave}
         >
-          {isUpdating ? '저장 중...' : '저장'}
-        </button>
+          {isUpdating ? '저장 중...' : '변경사항 저장'}
+        </Button>
       </div>
     </div>
   );
