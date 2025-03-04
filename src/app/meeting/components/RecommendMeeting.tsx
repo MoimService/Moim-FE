@@ -34,7 +34,9 @@ const RecommendMeeting = () => {
 
   return (
     <>
-      <div className="typo-head1 mb-6 px-4 text-Cgray800">Deving 추천 모임</div>
+      <div className="typo-head1 mb-6 px-4 text-Cgray800">
+        Deving의 {translateCategoryNameToKor(categoryStr)} 추천 모임
+      </div>
 
       {/* 웹뷰, 테블릿 */}
       <div

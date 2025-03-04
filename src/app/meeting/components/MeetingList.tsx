@@ -105,6 +105,9 @@ const MeetingList = () => {
 
   return (
     <div className="mt-[126px]">
+      <div className="typo-head1 mb-10 px-4 text-Cgray800">
+        {translateCategoryNameToKor(categoryStr)} 모임 목록
+      </div>
       <SearchInput
         className="mx-5"
         value={inputValue}
