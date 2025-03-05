@@ -1,6 +1,5 @@
 'use client';
 
-import Dropdown from '@/components/common/Dropdown';
 import { Button } from '@/components/ui/Button';
 import { Tag } from '@/components/ui/Tag';
 import Modal from '@/components/ui/modal/Modal';
@@ -15,6 +14,7 @@ import type { Member } from 'types/myMeeting';
 
 import ModalProfile from './ModalProfile';
 import ModalUserList from './ModalUserList';
+import PublicSelect from './PublicDropdown';
 
 const CardRightSection = ({
   memberList,
@@ -27,17 +27,10 @@ const CardRightSection = ({
   className?: string;
   meetingId: number;
 }) => {
-  const [selectedFilter, setSelectedFilter] = useState(
-    isPublic ? '공개' : '비공개',
-  );
   const [isUserListModalOpen, setIsUserListModalOpen] = useState(false);
   const handleConfirm = () => {
     setIsUserListModalOpen(false);
   };
-  const filterAreaOptions = [
-    { value: 'true', label: '공개' },
-    { value: 'false', label: '비공개' },
-  ];
 
   const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
 
@@ -149,16 +142,7 @@ const CardRightSection = ({
       >
         맴버 명단 보기
       </Button>
-      <div className="flex w-[120px] items-center">
-        <Dropdown
-          options={filterAreaOptions}
-          trigger={selectedFilter}
-          onChange={setSelectedFilter}
-          className="h-[40px] md:h-[46px]"
-          contentClassName=""
-          variant="icon"
-        />
-      </div>
+      <PublicSelect isPublic={isPublic} meetingId={meetingId} />
       <Modal
         isOpen={isUserProfileModalOpen}
         onClose={handleSecondModalCancel}

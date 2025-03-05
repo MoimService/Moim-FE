@@ -65,9 +65,17 @@ const putExpel = async ({
 
   return res.data.data;
 };
+
+// 공개 / 비공개 설정
+const putIsPublic = async (meetingId: number) => {
+  const res = await authAPI.put(`/api/v1/mymeetings/isPublic/${meetingId}`);
+  return res.data.data;
+};
+
 export {
   getMyMeetingManage,
   getMyMeetingMemberProfile,
   putMemberStatus,
   putExpel,
+  putIsPublic,
 };
