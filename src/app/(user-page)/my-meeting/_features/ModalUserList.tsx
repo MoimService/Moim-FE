@@ -5,7 +5,7 @@ import React from 'react';
 import { Dispatch, SetStateAction, useState } from 'react';
 import type { Member } from 'types/myMeeting';
 
-import { Button } from '../../../components/ui/Button';
+import { Button } from '../../../../components/ui/Button';
 
 const ModalUserList = ({
   memberList,

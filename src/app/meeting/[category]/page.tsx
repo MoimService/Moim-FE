@@ -1,8 +1,8 @@
 import FloatingButtonGroup from '@/components/common/FloatingButtonGroup';
 import { notFound } from 'next/navigation';
 
-import MeetingList from '../components/MeetingList';
-import RecommendMeeting from '../components/RecommendMeeting';
+import MeetingList from '../_features/MeetingList';
+import RecommendMeeting from '../_features/RecommendMeeting';
 
 const ALLOWED_CATEGORIES = ['mogakco', 'study', 'side-project', 'hobby']; // 허용된 카테고리 리스트
 

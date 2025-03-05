@@ -1,5 +1,5 @@
 import MyPageClient from './MyPageClient';
-import ProfileImage from './components/ProfileImage';
+import ProfileImage from './_features/ProfileImage';
 
 export default function MyPage() {
   return (

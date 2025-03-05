@@ -1,12 +1,10 @@
 'use client';
 
-import SelectedTechList from '@/components/ui/tech-stack/tech-stack-components/SelectedTechList';
 import TechButton from '@/components/ui/tech-stack/tech-stack-components/TechButton';
 import { useDetailUserQueries } from '@/hooks/queries/useMeetingQueries';
 import { getIconComponent } from '@/util/getIconDetail';
 import Image from 'next/image';
 
-import thumbnail from '../../../assets/thumbnail.png';
 import SkeletonUserInfo from './skeletons/SkeletonUserInfo';
 
 const UserInfo = ({ meetingId }: { meetingId: number }) => {

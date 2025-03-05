@@ -1,13 +1,13 @@
 import FloatingButtonGroup from '@/components/common/FloatingButtonGroup';
 import ReviewAvgCard from '@/components/common/review/ReviewAvgCard';
 
-import BackButton from '../../components/BackButton';
-import CardWrapper from '../../components/CardWrapper';
-import ContentLabel from '../../components/ContextLabel';
-import MeetingInfo from '../../components/MeetingInfo';
-import ReviewInput from '../../components/ReviewInput';
-import ReviewList from '../../components/ReviewList';
-import UserInfo from '../../components/UserInfo';
+import BackButton from '../../_features/BackButton';
+import CardWrapper from '../../_features/CardWrapper';
+import ContentLabel from '../../_features/ContextLabel';
+import MeetingInfo from '../../_features/MeetingInfo';
+import ReviewInput from '../../_features/ReviewInput';
+import ReviewList from '../../_features/ReviewList';
+import UserInfo from '../../_features/UserInfo';
 
 export default function page({ params }: { params: { id: string } }) {
   const meetingId = parseInt(params.id);
