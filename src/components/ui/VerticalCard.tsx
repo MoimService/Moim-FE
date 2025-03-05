@@ -125,6 +125,7 @@ const VerticalCard = ({
   };
 
   const [thumbnail, setThumbnail] = useState(thumbnailUrl);
+  const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
 
   return (
     <div
@@ -146,12 +147,16 @@ const VerticalCard = ({
         className={'relative'}
         style={{ height: `${thumbnailHeight}px`, width: `${thumbnailWidth}px` }}
       >
+        {!thumbnailLoaded && (
+          <div className="h-full w-full animate-pulse rounded-[20px] bg-Cgray200"></div>
+        )}
         <Image
           className="rounded-[20px] object-cover"
           src={thumbnail ? thumbnail : '/thumbnail.jpg'}
           alt="card_thumbnail"
           fill
           onError={() => setThumbnail('/thumbnail.jpg')}
+          onLoad={() => setThumbnailLoaded(true)}
         />
       </div>
       <div className="mt-4">

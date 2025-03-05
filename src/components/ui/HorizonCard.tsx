@@ -127,6 +127,7 @@ const HorizonCard = ({
   };
 
   const [thumbnail, setThumbnail] = useState(thumbnailUrl);
+  const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
 
   return (
     <div
@@ -165,6 +166,9 @@ const HorizonCard = ({
         className="relative flex-shrink-0"
         style={{ height: `${thumbnailHeight}px`, width: `${thumbnailWidth}px` }}
       >
+        {!thumbnailLoaded && (
+          <div className="h-full w-full animate-pulse rounded-[20px] bg-Cgray200"></div>
+        )}
         <Image
           className="rounded-[20px] object-cover"
           src={thumbnail ? thumbnail : '/thumbnail.jpg'}
