@@ -1,9 +1,9 @@
-import ModalBeforeLogin from '@/app/meeting/components/modal-content/ModalBeforeLogin';
-import ModalCancel from '@/app/meeting/components/modal-content/ModalCancel';
-import ModalRegisterCheck from '@/app/meeting/components/modal-content/ModalRegisterCheck';
-import ModalRegisterComplete from '@/app/meeting/components/modal-content/ModalRegisterComplete';
-import ModalRegisterInput from '@/app/meeting/components/modal-content/ModalRegisterInput';
-import ModalRegisterWait from '@/app/meeting/components/modal-content/ModalRegisterWait';
+import ModalBeforeLogin from '@/app/meeting/_features/modal-content/ModalBeforeLogin';
+import ModalCancel from '@/app/meeting/_features/modal-content/ModalCancel';
+import ModalRegisterCheck from '@/app/meeting/_features/modal-content/ModalRegisterCheck';
+import ModalRegisterComplete from '@/app/meeting/_features/modal-content/ModalRegisterComplete';
+import ModalRegisterInput from '@/app/meeting/_features/modal-content/ModalRegisterInput';
+import ModalRegisterWait from '@/app/meeting/_features/modal-content/ModalRegisterWait';
 import { getAccessToken } from '@/lib/serverActions';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';

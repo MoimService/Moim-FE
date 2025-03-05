@@ -13,7 +13,7 @@ import {
   SubmitButton,
   TechStackField,
   TitleField,
-} from '@/app/meeting/components/form/form-filed';
+} from '@/app/meeting/_features/form/form-filed';
 import useMeetingFormMutation from '@/hooks/mutations/useMeetingFormMutation';
 import { convertImageToBase64 } from '@/util/base64';
 import { useRouter } from 'next/navigation';
@@ -21,7 +21,7 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { CreateMeetingPayload } from 'types/meetingForm';
 
-import { MEETING_TYPES } from '../../constants/meeting-form/meetingConstants';
+import { MEETING_TYPES } from '../../../../constants/meeting-form/meetingConstants';
 
 interface MeetingFormProps {
   mode: 'create' | 'edit';

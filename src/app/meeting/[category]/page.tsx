@@ -6,14 +6,13 @@ import {
   QueryClient,
   dehydrate,
 } from '@tanstack/react-query';
+import { MEETING_TYPES } from 'constants/meeting-form/meetingConstants';
 import { notFound } from 'next/navigation';
 import { getMeetings, getTopMeetings } from 'service/api/meeting';
 import { Paginated, SearchMeeting } from 'types/meeting';
-import { Meeting } from 'types/myMeeting';
 
-import MeetingList from '../components/MeetingList';
-import RecommendMeeting from '../components/RecommendMeeting';
-import { MEETING_TYPES } from '../constants/meeting-form/meetingConstants';
+import MeetingList from '../_features/MeetingList';
+import RecommendMeeting from '../_features/RecommendMeeting';
 
 // 정적 경로 사전 생성
 export async function generateStaticParams() {

@@ -1,4 +1,4 @@
-import MeetingTypeTab from '../components/MeetingTypeTab';
+import MeetingTypeTab from './_features/MeetingTypeTab';
 
 export default function layout({
   children,

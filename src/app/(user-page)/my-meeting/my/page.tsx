@@ -1,8 +1,8 @@
 import NotYet from '@/components/common/NotYet';
 
-import Created from '../../components/Created';
+import Created from '../_features/Created';
 // import Joined from '../../components/Joined';
-import Tab from '../../components/Tab';
+import Tab from '../_features/Tab';
 
 export default function Page({
   searchParams,

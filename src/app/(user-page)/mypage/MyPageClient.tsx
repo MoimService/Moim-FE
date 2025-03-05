@@ -3,14 +3,14 @@
 import { useState } from 'react';
 
 // 컴포넌트 임포트
-import BasicEdit from './components/BasicEdit';
-import BasicInfo from './components/BasicInfo';
-import ContactEdit from './components/ContactEdit';
-import ContactInfo from './components/ContactInfo';
-import PasswordEdit from './components/PasswordEdit';
-import PasswordInfo from './components/PasswordInfo';
-import TechStackEdit from './components/TechStackEdit';
-import TechStackInfo from './components/TechStackInfo';
+import BasicEdit from './_features/BasicEdit';
+import BasicInfo from './_features/BasicInfo';
+import ContactEdit from './_features/ContactEdit';
+import ContactInfo from './_features/ContactInfo';
+import PasswordEdit from './_features/PasswordEdit';
+import PasswordInfo from './_features/PasswordInfo';
+import TechStackEdit from './_features/TechStackEdit';
+import TechStackInfo from './_features/TechStackInfo';
 
 // 기본 내보내기 (모든 섹션을 관리하는 상위 컴포넌트)
 const MyPageClient = () => {

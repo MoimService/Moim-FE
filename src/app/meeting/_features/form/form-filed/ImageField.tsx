@@ -1,6 +1,6 @@
-import { IMAGE_CONFIG } from '@/app/meeting/constants/meeting-form/meetingConstants';
 import { Button } from '@/components/ui/Button';
 import { validateImageSize, validateImageType } from '@/util/base64';
+import { IMAGE_CONFIG } from 'constants/meeting-form/meetingConstants';
 import { Image as ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';

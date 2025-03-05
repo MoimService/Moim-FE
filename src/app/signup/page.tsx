@@ -1,6 +1,6 @@
 import { baseURL } from '@/lib/axios/defaultConfig';
 
-import SignupForm from './components/SignupForm';
+import SignupForm from './_features/SignupForm';
 
 export const metadata = {
   metadataBase: new URL(`${baseURL}/signup`),

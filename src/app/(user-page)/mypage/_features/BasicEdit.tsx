@@ -21,10 +21,13 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
   const [ageLabel, setAgeLabel] = useState('선택 안함');
   const [locationLabel, setLocationLabel] = useState('선택 안함');
 
+  // 소개글 글자 수 상태 관리
+  const [introLength, setIntroLength] = useState(0);
+
   // 커스텀 훅을 사용하여 프로필 데이터 가져오기
   const { data: profileData, isLoading } = useProfileQuery();
 
-  // 프로필 업데이트 뮤테이션 훅 사용 - 이 부분이 누락되어 있었습니다
+  // 프로필 업데이트 뮤테이션 훅 사용
   const { mutate: updateProfile, isPending: isUpdating } =
     useUpdateProfileMutation();
 
@@ -35,6 +38,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
     control,
     setValue,
     reset,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<IFormData>({
     defaultValues: {
@@ -52,6 +56,12 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
     control,
     name: 'gender',
   });
+
+  // 소개글 감시하여 글자 수 업데이트
+  const introValue = watch('intro');
+  useEffect(() => {
+    setIntroLength(introValue?.length || 0);
+  }, [introValue]);
 
   // 옵션 데이터 - useMemo로 메모이제이션
   const positionOptions = useMemo(
@@ -115,6 +125,9 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
         location: profile.location || '',
       });
 
+      // 소개글 글자 수 초기화
+      setIntroLength(profile.intro?.length || 0);
+
       // 드롭다운 라벨 초기 설정
       const positionOption = positionOptions.find(
         (opt) => opt.value === profile.position,
@@ -133,6 +146,11 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
 
   // 폼 제출 처리
   const onSubmit = (data: IFormData) => {
+    // 글자 수 검사 추가
+    if (data.intro && data.intro.length > 250) {
+      return;
+    }
+
     updateProfile(data, {
       onSuccess: () => {
         onEditComplete();
@@ -193,28 +211,43 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
             id="name-input"
             type="text"
             {...register('name', { required: true })}
-            className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-Cgray200 py-2 pl-[16px] text-Cgray700 focus:outline-none"
+            className="rounded-2 typo-button1 h-[50px] border-b border-Cgray300 bg-Cgray200 px-4 py-2 text-Cgray700 focus:outline-none"
           />
           {errors.name && (
-            <span className="text-red-500 text-sm">이름을 입력해주세요</span>
+            <span className="text-sm text-warning">이름을 입력해주세요</span>
           )}
         </div>
 
         {/* 자기소개 텍스트 영역 */}
-        <div className="flex flex-col gap-[8px]">
-          <label htmlFor="intro-input" className="typo-head3 text-main">
-            자기소개
-          </label>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <label htmlFor="intro-input" className="typo-head3 text-main">
+              자기소개
+            </label>
+          </div>
           <textarea
             id="intro-input"
-            {...register('intro')}
+            {...register('intro', {
+              maxLength: {
+                value: 250,
+                message: '최대 250자까지 작성 가능합니다',
+              },
+            })}
             rows={3}
-            className="h-[140px] resize-none rounded-[8px] border-b border-Cgray300 bg-Cgray200 py-2 pl-[16px] text-Cgray700 focus:outline-none"
+            className="rounded-2 h-[140px] resize-none border-b border-Cgray300 bg-Cgray200 px-4 py-2 text-Cgray700 focus:outline-none"
           />
+          {errors.intro && (
+            <span className="text-sm text-warning">{errors.intro.message}</span>
+          )}
+          {introLength > 250 && !errors.intro && (
+            <span className="text-sm text-warning">
+              최대 250자까지 작성 가능합니다
+            </span>
+          )}
         </div>
 
         {/* 포지션 드롭다운 */}
-        <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[32px]">
+        <div className="flex flex-col gap-4 border-b border-Cgray300 pb-8">
           <div className="typo-head3 text-main">포지션</div>
           <Controller
             name="position"
@@ -241,7 +274,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
               <button
                 key={option}
                 type="button"
-                className={`flex-1 rounded-md px-4 py-2 transition-colors duration-200 ${
+                className={`flex-1 rounded-md px-1 py-2 transition-colors duration-200 ${
                   currentGender === option
                     ? 'bg-main font-medium text-white'
                     : 'bg-white'
@@ -307,7 +340,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
           <Button
             type="submit"
             className="h-[40px] w-[140px] select-none md:h-[46px]"
-            disabled={isSubmitting || isUpdating}
+            disabled={isSubmitting || isUpdating || introLength > 250}
           >
             {isUpdating ? '저장 중...' : '변경사항 저장'}
           </Button>

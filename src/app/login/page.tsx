@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/Button';
 import { baseURL } from '@/lib/axios/defaultConfig';
 
-import DummyUser from './components/DummyUser';
-import LoginForm from './components/LoginForm';
+import DummyUser from './_features/DummyUser';
+import LoginForm from './_features/LoginForm';
 
 export const metadata = {
   metadataBase: new URL(`${baseURL}/login`),
