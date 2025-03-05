@@ -16,7 +16,7 @@ const TabButton = ({
   return (
     <button
       type="button"
-      className={`px-2 py-2 font-medium sm:px-4 ${
+      className={`px-2 py-2 font-medium md:px-4 ${
         active
           ? 'border-b-2 border-[#C586C0] text-[#C586C0]'
           : 'hover:text-Cgray500'

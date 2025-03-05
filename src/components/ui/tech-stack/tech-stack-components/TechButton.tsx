@@ -27,7 +27,7 @@ const TechButton = ({
   return (
     <button
       className={`flex items-center gap-1 rounded-full border px-2 py-1
-  text-xs transition-all hover:shadow-md lg:gap-2 lg:px-3 lg:py-1.5 lg:text-sm
+  text-xs transition-all hover:shadow-md md:gap-2 md:px-3 md:py-1.5 md:text-sm
   ${isClicked ? 'bg-white' : ''}
   ${isMaxReached ? 'cursor-not-allowed opacity-50' : ''} ${className}`}
       onClick={() => onClick(name)}

@@ -8,6 +8,13 @@ export interface IFormData {
   location: string;
 }
 
+// 사용자 정의 아이콘 Props 타입 정의
+export interface IIconProps {
+  size?: number;
+  className?: string;
+  color?: string;
+}
+
 // 프로필 업데이트를 위한 타입 정의
 export interface IProfileUpdateRequest {
   name: string;

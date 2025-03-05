@@ -98,6 +98,8 @@ const TechStackEdit = ({
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
         onReset={handleReset}
+        containerClassName="border border-none"
+        resetButtonClassName=""
       />
 
       {/* 기술 버튼 목록 */}

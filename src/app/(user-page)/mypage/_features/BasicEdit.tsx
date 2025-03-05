@@ -6,10 +6,11 @@ import {
   useProfileQuery,
   useUpdateProfileMutation,
 } from '@/hooks/queries/useMyPageQueries';
+import { Code, Compass, Mars, Paintbrush, Venus, X } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 
-import { IFormData } from '../../../../types/mypageTypes';
+import { IFormData, IIconProps } from '../../../../types/mypageTypes';
 
 interface BasicEditProps {
   onEditComplete: () => void;
@@ -17,7 +18,6 @@ interface BasicEditProps {
 
 const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
   // 드롭다운 디스플레이를 위한 상태 관리
-  const [positionLabel, setPositionLabel] = useState('선택 안함');
   const [ageLabel, setAgeLabel] = useState('선택 안함');
   const [locationLabel, setLocationLabel] = useState('선택 안함');
 
@@ -38,7 +38,6 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
     control,
     setValue,
     reset,
-    watch,
     formState: { errors, isSubmitting },
   } = useForm<IFormData>({
     defaultValues: {
@@ -57,22 +56,20 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
     name: 'gender',
   });
 
+  // 추가: position 값 관찰
+  const currentPosition = useWatch({
+    control,
+    name: 'position',
+  });
+
   // 소개글 감시하여 글자 수 업데이트
-  const introValue = watch('intro');
+  const introValue = useWatch({
+    control,
+    name: 'intro',
+  });
   useEffect(() => {
     setIntroLength(introValue?.length || 0);
   }, [introValue]);
-
-  // 옵션 데이터 - useMemo로 메모이제이션
-  const positionOptions = useMemo(
-    () => [
-      { value: '프론트엔드', label: '프론트엔드' },
-      { value: '백엔드', label: '백엔드' },
-      { value: '디자이너', label: '디자이너' },
-      { value: '선택 안함', label: '선택 안함' },
-    ],
-    [],
-  );
 
   const ageOptions = useMemo(
     () => [
@@ -129,11 +126,6 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
       setIntroLength(profile.intro?.length || 0);
 
       // 드롭다운 라벨 초기 설정
-      const positionOption = positionOptions.find(
-        (opt) => opt.value === profile.position,
-      );
-      if (positionOption) setPositionLabel(positionOption.label);
-
       const ageOption = ageOptions.find((opt) => opt.value === profile.age);
       if (ageOption) setAgeLabel(ageOption.label);
 
@@ -142,7 +134,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
       );
       if (locationOption) setLocationLabel(locationOption.label);
     }
-  }, [profileData, reset, positionOptions, ageOptions, locationOptions]);
+  }, [profileData, reset, ageOptions, locationOptions]);
 
   // 폼 제출 처리
   const onSubmit = (data: IFormData) => {
@@ -157,16 +149,6 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
       },
     });
   };
-
-  // 드롭다운 값 변경 핸들러 - useCallback으로 메모이제이션
-  const handlePositionChange = useCallback(
-    (value: string) => {
-      setValue('position', value);
-      const selectedOption = positionOptions.find((opt) => opt.value === value);
-      if (selectedOption) setPositionLabel(selectedOption.label);
-    },
-    [setValue, positionOptions],
-  );
 
   const handleAgeChange = useCallback(
     (value: string) => {
@@ -201,7 +183,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
       onSubmit={handleSubmit(onSubmit)}
       className="w-full rounded-[16px] border border-Cgray300 p-[32px]"
     >
-      <div className="flex flex-col gap-[32px]">
+      <div className="flex flex-col gap-[16px] md:gap-[32px]">
         {/* 이름 입력 필드 */}
         <div className="flex flex-col gap-[8px]">
           <label htmlFor="name-input" className="typo-head3 text-main">
@@ -211,7 +193,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
             id="name-input"
             type="text"
             {...register('name', { required: true })}
-            className="rounded-2 typo-button1 h-[50px] border-b border-Cgray300 bg-Cgray200 px-4 py-2 text-Cgray700 focus:outline-none"
+            className="typo-button1 h-[40px] rounded-[16px] border-b border-Cgray300 bg-Cgray200 px-4 py-2 text-Cgray700 focus:outline-none md:h-[50px]"
           />
           {errors.name && (
             <span className="text-sm text-warning">이름을 입력해주세요</span>
@@ -234,7 +216,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
               },
             })}
             rows={3}
-            className="rounded-2 h-[140px] resize-none border-b border-Cgray300 bg-Cgray200 px-4 py-2 text-Cgray700 focus:outline-none"
+            className="h-[140px] resize-none rounded-[16px] border-b border-Cgray300 bg-Cgray200 px-4 py-2 text-Cgray700 focus:outline-none"
           />
           {errors.intro && (
             <span className="text-sm text-warning">{errors.intro.message}</span>
@@ -246,49 +228,92 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
           )}
         </div>
 
-        {/* 포지션 드롭다운 */}
-        <div className="flex flex-col gap-4 border-b border-Cgray300 pb-8">
+        {/* 포지션 버튼 */}
+        <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[16px] md:pb-[32px]">
           <div className="typo-head3 text-main">포지션</div>
-          <Controller
-            name="position"
-            control={control}
-            render={() => (
-              <Dropdown
-                aria-label="포지션"
-                options={positionOptions}
-                onChange={handlePositionChange}
-                trigger={positionLabel}
-                variant="icon"
-                className="w-full"
-                sideOffset={6}
-              />
-            )}
-          />
+          <div className="flex w-full flex-wrap gap-2">
+            <div className="rounded-4 typo-head3 flex w-full gap-[12px]">
+              {[
+                {
+                  value: '프론트엔드',
+                  label: '프론트엔드',
+                  icon: (props: IIconProps) => <Code {...props} />,
+                },
+                {
+                  value: '백엔드',
+                  label: '백엔드',
+                  icon: (props: IIconProps) => <Compass {...props} />,
+                },
+                {
+                  value: '디자이너',
+                  label: '디자이너',
+                  icon: (props: IIconProps) => <Paintbrush {...props} />,
+                },
+                {
+                  value: '선택 안함',
+                  label: '선택 안함',
+                  icon: (props: IIconProps) => <X {...props} />,
+                },
+              ].map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  className={`flex flex-1 flex-col items-center justify-center gap-1 rounded-md py-1 transition-colors duration-300 md:py-2 ${
+                    currentPosition === option.value
+                      ? 'bg-default text-main'
+                      : 'bg-disable text-Cgray500'
+                  }`}
+                  onClick={() => setValue('position', option.value)}
+                  aria-label={option.value}
+                >
+                  {option.icon({ size: 18, className: 'md:hidden' })}
+                  {option.icon({ size: 25, className: 'hidden md:block' })}
+                  <span className="text-sm md:text-[17px]">{option.value}</span>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* 성별 토글 버튼 */}
-        <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[32px]">
+        <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[16px] md:pb-[32px]">
           <div className="typo-head3 text-main">성별</div>
-          <div className="typo-head3 flex w-64 rounded-md border bg-white">
-            {['남자', '여자', '비공개'].map((option) => (
+          <div className="typo-head3 flex w-full gap-[16px] rounded-md">
+            {[
+              {
+                value: '남자',
+                icon: (props: IIconProps) => <Mars {...props} />,
+              },
+              {
+                value: '여자',
+                icon: (props: IIconProps) => <Venus {...props} />,
+              },
+              {
+                value: '비공개',
+                icon: (props: IIconProps) => <X {...props} />,
+              },
+            ].map((option) => (
               <button
-                key={option}
+                key={option.value}
                 type="button"
-                className={`flex-1 rounded-md px-1 py-2 transition-colors duration-200 ${
-                  currentGender === option
-                    ? 'bg-main font-medium text-white'
-                    : 'bg-white'
+                className={`flex flex-1 flex-col items-center justify-center gap-1 rounded-md py-1 transition-colors duration-300 md:py-2 ${
+                  currentGender === option.value
+                    ? 'bg-default text-main'
+                    : 'bg-disable text-Cgray500'
                 }`}
-                onClick={() => setValue('gender', option)}
+                onClick={() => setValue('gender', option.value)}
+                aria-label={option.value}
               >
-                {option}
+                {option.icon({ size: 18, className: 'md:hidden' })}
+                {option.icon({ size: 25, className: 'hidden md:block' })}
+                <span className="text-sm md:text-[17px]">{option.value}</span>
               </button>
             ))}
           </div>
         </div>
 
         {/* 연령대 드롭다운 */}
-        <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[32px]">
+        <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[16px] md:pb-[32px]">
           <div className="typo-head3 text-main">연령대</div>
           <Controller
             name="age"
@@ -300,7 +325,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
                 onChange={handleAgeChange}
                 trigger={ageLabel}
                 variant="icon"
-                className="max-h-[200px] w-full"
+                className="w-full md:h-[50px]"
                 sideOffset={6}
               />
             )}
@@ -308,7 +333,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
         </div>
 
         {/* 지역 드롭다운 */}
-        <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[32px]">
+        <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[16px] md:pb-[32px]">
           <div className="typo-head3 text-main">지역</div>
           <Controller
             name="location"
@@ -320,7 +345,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
                 onChange={handleLocationChange}
                 trigger={locationLabel}
                 variant="icon"
-                className="w-full"
+                className="w-full md:h-[50px]"
                 sideOffset={6}
                 contentClassName="max-h-[200px] overflow-y-auto"
               />

@@ -44,7 +44,7 @@ const TechButtonList = ({
             background-color: #718096;
           }
         `}</style>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2 md:gap-3">
           {icons.map((icon) => (
             <TechButton
               key={icon.name}

@@ -75,9 +75,6 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
     return <div className="p-4 text-center">데이터를 불러오는 중...</div>;
   }
 
-  // URL 유효성 검사를 위한 정규식
-  const urlPattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/;
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -91,6 +88,7 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
           <Input
             id="phone"
             type="text"
+            placeholder="010-1234-5678"
             errorMessage={errors.phone?.message}
             {...register('phone', {
               pattern: {
@@ -109,6 +107,7 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
           <Input
             id="kakao"
             type="text"
+            placeholder="kakaotalk 아이디"
             errorMessage={errors.kakao?.message}
             {...register('kakao', {
               minLength: {
@@ -126,17 +125,28 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
           <Input
             id="github"
             type="text"
+            placeholder="github.com/사용자아이디"
             errorMessage={errors.github?.message}
             {...register('github', {
               pattern: {
-                value: urlPattern,
-                message: '올바른 URL 형식을 입력해주세요',
+                value: /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_-]+\/?$/,
+                message: 'github.com/사용자아이디 형식으로 입력해주세요',
               },
               validate: {
-                isGithub: (value) =>
-                  !value ||
-                  value.includes('github.com') ||
-                  'GitHub URL을 입력해주세요',
+                hasUsername: (value) => {
+                  if (!value) return true; // 필수 필드가 아닌 경우
+
+                  // 사용자 이름 추출
+                  const usernameMatch = value.match(
+                    /github\.com\/([a-zA-Z0-9_-]+)/,
+                  );
+                  const username = usernameMatch ? usernameMatch[1] : '';
+
+                  return (
+                    username.length > 0 ||
+                    'github.com/사용자아이디 형식으로 입력해주세요'
+                  );
+                },
               },
             })}
           />
@@ -149,11 +159,39 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
           <Input
             id="blog"
             type="text"
+            placeholder="blog.naver.com/아이디 또는 velog.io/@아이디"
             errorMessage={errors.blog?.message}
             {...register('blog', {
               pattern: {
-                value: urlPattern,
-                message: '올바른 URL 형식을 입력해주세요',
+                // 다양한 블로그 URL 형식 지원 (네이버, 벨로그, 기타 유효한 URL)
+                value:
+                  /^(https?:\/\/)?(www\.)?([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\/.+)?$/,
+                message: '올바른 블로그 URL을 입력해주세요',
+              },
+              validate: {
+                isValidBlogFormat: (value) => {
+                  if (!value) return true; // 필수 필드가 아닌 경우
+
+                  // 네이버 블로그 패턴
+                  const naverPattern =
+                    /^(https?:\/\/)?(www\.)?blog\.naver\.com\/[a-zA-Z0-9_-]+/;
+
+                  // 벨로그 패턴
+                  const velogPattern =
+                    /^(https?:\/\/)?(www\.)?velog\.io\/@[a-zA-Z0-9_-]+/;
+
+                  // 일반 URL 패턴
+                  const generalUrlPattern =
+                    /^(https?:\/\/)?(www\.)?([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\/.+)?$/;
+
+                  // 네이버, 벨로그 또는 일반 URL 패턴 중 하나라도 만족하면 통과
+                  const isValid =
+                    naverPattern.test(value) ||
+                    velogPattern.test(value) ||
+                    generalUrlPattern.test(value);
+
+                  return isValid || '유효한 블로그 URL 형식이 아닙니다';
+                },
               },
             })}
           />

@@ -1,7 +1,6 @@
 'use client';
 
 import Logo from '@/assets/icon/logo.svg';
-import Profile from '@/assets/icon/profile.svg';
 import { removeAccessToken } from '@/lib/serverActions';
 import { translateCategoryNameToKor } from '@/util/searchFilter';
 import { Menu } from 'lucide-react';

@@ -9,6 +9,7 @@ import {
   useUpdateProfileImageMutation,
 } from '@/hooks/queries/useMyPageQueries';
 import { Pencil } from 'lucide-react';
+import Image from 'next/image';
 import { useRef, useState } from 'react';
 
 import SkeletonProfileImage from './skeletons/SkeletonProfileImage';
@@ -58,18 +59,6 @@ const ProfileImage = () => {
     if (files && files.length > 0) {
       const file = files[0];
 
-      // 이미지 파일 타입 검증
-      if (!file.type.startsWith('image/')) {
-        alert('이미지 파일만 업로드 가능합니다.');
-        return;
-      }
-
-      // 파일 크기 검증 (5MB 제한)
-      if (file.size > 5 * 1024 * 1024) {
-        alert('파일 크기는 5MB 이하여야 합니다.');
-        return;
-      }
-
       setSelectedFile(file);
 
       // 미리보기 URL 생성
@@ -107,9 +96,13 @@ const ProfileImage = () => {
         setIsModalOpen(false);
       },
       onError: () => {
-        showToast('프로필 이미지 업로드에 실패했습니다.', 'error', {
-          duration: 3000,
-        });
+        showToast(
+          '프로필 이미지 파일의 용량이 너무 큽니다! 용량이 낮은 파일로 다시 시도해 주세요!',
+          'error',
+          {
+            duration: 3000,
+          },
+        );
       },
     });
   };
@@ -135,10 +128,14 @@ const ProfileImage = () => {
       <div className="flex justify-center gap-[24px] py-[24px]">
         <div className="relative flex h-[163px] w-[163px] items-center justify-center rounded-[20px] border border-Cgray300 bg-Cgray200 md:h-[255px] md:w-[255px]">
           {profileImageUrl ? (
-            <img
+            <Image
               src={profileImageUrl}
               alt="프로필 이미지"
-              className="h-full w-full rounded-[20px] object-cover"
+              priority
+              className="rounded-[20px] object-cover"
+              fill
+              unoptimized // 이미지 최적화 건너뛰기
+              sizes="(max-width: 768px) 163px, 255px"
               key={`profile-image-${imageVersion}`}
             />
           ) : (
@@ -185,16 +182,20 @@ const ProfileImage = () => {
               disabled={isUploading}
             >
               {previewUrl ? (
-                <img
+                <Image
                   src={previewUrl}
                   alt="이미지 미리보기"
-                  className="h-full w-full rounded-[20px] object-cover"
+                  className="rounded-[20px] object-cover"
+                  fill
+                  sizes="(max-width: 768px) 123px, (max-width: 1024px) 163px, 203px"
                 />
               ) : profileImageUrl ? (
-                <img
+                <Image
                   src={profileImageUrl}
                   alt="현재 프로필 이미지"
-                  className="h-full w-full rounded-[20px] object-cover"
+                  className="rounded-[20px] object-cover"
+                  fill
+                  sizes="(max-width: 768px) 123px, (max-width: 1024px) 163px, 203px"
                 />
               ) : (
                 <EditLogo className="text-Cgray700" width={86} height={86} />
