@@ -11,3 +11,11 @@ export interface CreateMeetingPayload {
   requireApproval: boolean;
   skillArray: string[];
 }
+
+export interface CreateMeetingResponse {
+  statusCode: number;
+  data: {
+    meetingId: number;
+  };
+  timestamp: string;
+}
