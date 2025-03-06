@@ -4,10 +4,8 @@ import EditLogo from '@/assets/icon/editLogo.svg';
 import { useToast } from '@/components/common/ToastContext';
 import { Button } from '@/components/ui/Button';
 import Modal from '@/components/ui/modal/Modal';
-import {
-  useProfileQuery,
-  useUpdateProfileImageMutation,
-} from '@/hooks/queries/useMyPageQueries';
+import { useUpdateProfileImageMutation } from '@/hooks/mutations/useMyPageMutation';
+import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import { useQueryClient } from '@tanstack/react-query';
 import { Pencil } from 'lucide-react';
 import Image from 'next/image';

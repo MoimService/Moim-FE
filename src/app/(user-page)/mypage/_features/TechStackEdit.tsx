@@ -1,11 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
+import { useUpdateSkillsMutation } from '@/hooks/mutations/useMyPageMutation';
 // Button 컴포넌트 import 추가
-import {
-  useProfileQuery,
-  useUpdateSkillsMutation,
-} from '@/hooks/queries/useMyPageQueries';
+import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import useTechSelection from '@/hooks/useTechSelection';
 import { getIconColor, getIconsByCategory } from '@/util/getIconDetail';
 import { useQueryClient } from '@tanstack/react-query';
