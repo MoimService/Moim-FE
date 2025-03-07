@@ -1,14 +1,10 @@
 'use client';
 
 import EditLogo from '@/assets/icon/editLogo.svg';
-import { useToast } from '@/components/common/ToastContext';
 import { Button } from '@/components/ui/Button';
 import Modal from '@/components/ui/modal/Modal';
-import {
-  useProfileQuery,
-  useUpdateProfileImageMutation,
-} from '@/hooks/queries/useMyPageQueries';
-import { useQueryClient } from '@tanstack/react-query';
+import { useUpdateProfileImageMutation } from '@/hooks/mutations/useMyPageMutation';
+import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import { Pencil } from 'lucide-react';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
@@ -17,13 +13,11 @@ import { MAX_FILE_SIZE } from '../../../../constants/mypage/mypageConstant';
 import SkeletonProfileImage from './skeletons/SkeletonProfileImage';
 
 const ProfileImage = () => {
-  const queryClient = useQueryClient(); // 추가: queryClient 가져오기
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [fileSizeError, setFileSizeError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { showToast } = useToast();
 
   // 프로필 데이터 조회
   const { data: profileData, isLoading: isProfileLoading } = useProfileQuery();
@@ -69,21 +63,10 @@ const ProfileImage = () => {
 
     updateImage(selectedFile, {
       onSuccess: () => {
-        // 캐시 무효화 및 데이터 다시 가져오기 (중요: 이미지 즉시 갱신)
-        queryClient.invalidateQueries({ queryKey: ['profile'] });
-
         // 상태 초기화
         resetImageState();
-
         // 모달 닫기
         setIsModalOpen(false);
-      },
-      onError: () => {
-        showToast(
-          '프로필 이미지 업로드에 실패했습니다. 다시 시도해 주세요.',
-          'error',
-          { duration: 3000 },
-        );
       },
     });
   };
@@ -129,10 +112,10 @@ const ProfileImage = () => {
           ) : (
             <EditLogo className="text-Cgray700" width={86} height={86} />
           )}
-          <div className="absolute bottom-[15px] right-[15px]">
+          <div className="absolute bottom-[8px] right-[8px] md:bottom-[15px] md:right-[15px]">
             <Button
               onClick={() => setIsModalOpen(true)}
-              className="h-[34px] w-[34px] rounded-full"
+              className="h-[28px] w-[28px] rounded-full md:h-[34px] md:w-[34px]"
               icon={<Pencil />}
             />
           </div>

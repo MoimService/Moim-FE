@@ -1,14 +1,11 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
+import { useUpdateSkillsMutation } from '@/hooks/mutations/useMyPageMutation';
 // Button 컴포넌트 import 추가
-import {
-  useProfileQuery,
-  useUpdateSkillsMutation,
-} from '@/hooks/queries/useMyPageQueries';
+import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import useTechSelection from '@/hooks/useTechSelection';
 import { getIconColor, getIconsByCategory } from '@/util/getIconDetail';
-import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { CategoryType } from 'types/techStack';
 
@@ -25,7 +22,6 @@ const TechStackEdit = ({
   onEditComplete,
   maxSelections = 999,
 }: TechStackEditProps) => {
-  const queryClient = useQueryClient(); // 추가: 직접 queryClient 참조
   const [activeCategory, setActiveCategory] = useState<CategoryType>('all');
 
   // 초기화 여부를 추적하는 플래그
@@ -66,9 +62,6 @@ const TechStackEdit = ({
   const handleSave = () => {
     updateSkills(selectedNames, {
       onSuccess: () => {
-        // 추가: 성공 후 강제로 프로필 데이터를 다시 불러오기
-        queryClient.invalidateQueries({ queryKey: ['profile'] });
-        queryClient.refetchQueries({ queryKey: ['profile'] });
         onEditComplete();
       },
     });
