@@ -104,7 +104,7 @@ const MeetingList = () => {
   }
 
   return (
-    <div className="mt-14">
+    <div className="mt-12">
       <div className="typo-head1 mb-10 px-4 text-Cgray800">
         {translateCategoryNameToKor(categoryStr)} 모임 목록
       </div>
