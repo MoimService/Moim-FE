@@ -1,6 +1,7 @@
 import { authAPI } from '@/lib/axios/authApi';
 import { Paginated } from 'types/meeting';
 import type { IMemberProfile, IMyMeetingManage } from 'types/myMeeting';
+import { IMyMeetingLikes } from 'types/myMeeting';
 
 import { myMeetingURL } from './endpoints';
 
@@ -15,12 +16,23 @@ const getMyMeetingManage = async (
   return res.data.data;
 };
 
-// 내가 참여하고있는 모임 불러오기기
+// 내가 참여하고있는 모임 불러오기
 const getMyMeetingParticipated = async (
   lastMeetingId: number,
 ): Promise<Paginated<IMyMeetingManage>> => {
   const res = await authAPI.get(
     `${myMeetingURL.all}?lastMeetingId=${lastMeetingId}&size=${6}`,
+  );
+
+  return res.data.data;
+};
+
+// 내가 찜한 모임 불러오기
+const getMyMeetingLikes = async (
+  lastMeetingId: number,
+): Promise<Paginated<IMyMeetingLikes>> => {
+  const res = await authAPI.get(
+    `${myMeetingURL.likes}?lastMeetingId=${lastMeetingId}&size=${6}`,
   );
 
   return res.data.data;
@@ -89,6 +101,7 @@ export {
   getMyMeetingManage,
   getMyMeetingMemberProfile,
   getMyMeetingParticipated,
+  getMyMeetingLikes,
   putMemberStatus,
   putExpel,
   putIsPublic,
