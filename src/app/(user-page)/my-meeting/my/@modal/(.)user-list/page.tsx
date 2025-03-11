@@ -61,6 +61,7 @@ export default function UserListModal({
         memberList={cachedMemberList}
         currentUser={currentUser}
         handlePrefetchProfile={handlePrefetchProfile}
+        showPublicSelect={type === 'created' && true}
       />
     </ModalPortal>
   );

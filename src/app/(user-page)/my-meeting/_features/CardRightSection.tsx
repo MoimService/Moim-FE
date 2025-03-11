@@ -60,7 +60,9 @@ const CardRightSection = ({
       ['mymeeting', 'memberList', meetingId],
       memberList,
     );
-    router.push(`/my-meeting/my/user-list?meetingId=${meetingId}`);
+    router.push(
+      `/my-meeting/my/user-list?meetingId=${meetingId}&type=${showPublicSelect ? 'created' : 'joined'}`,
+    );
   };
 
   const { data: currentUser, isLoading } = useBannerQueries();

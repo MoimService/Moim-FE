@@ -97,6 +97,7 @@ const Created = () => {
                   isPublic={meeting.isPublic}
                   className="flex lg:hidden"
                   meetingId={meeting.meetingId}
+                  showPublicSelect={true}
                 />
               </div>
 
@@ -125,6 +126,7 @@ const Created = () => {
                   isPublic={meeting.isPublic}
                   className="flex lg:hidden"
                   meetingId={meeting.meetingId}
+                  showPublicSelect={true}
                 />
               </div>
             </div>
