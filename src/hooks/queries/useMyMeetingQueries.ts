@@ -3,12 +3,14 @@ import {
   getMyMeetingManage,
   getMyMeetingMemberProfile,
 } from 'service/api/mymeeting';
+import { getMyMeetingParticipated } from 'service/api/mymeeting';
 import { Paginated } from 'types/meeting';
 import { IMyMeetingManage } from 'types/myMeeting';
 
 export const myMeetingKeys = {
   all: ['mymeeting'] as const,
   manage: () => [...myMeetingKeys.all, 'manage'] as const,
+  participated: () => [...myMeetingKeys.all, 'participated'] as const,
   memberProfile: (meetingId: number, userId: number) => [
     ...myMeetingKeys.all,
     'profile',
@@ -21,8 +23,18 @@ export const useInfiniteMyMeetingManageQueries = () => {
     queryKey: myMeetingKeys.manage(),
     queryFn: ({ pageParam }) => getMyMeetingManage(pageParam),
     initialPageParam: 0,
-    getNextPageParam: (lastPage: Paginated<IMyMeetingManage>, pages) => {
-      console.log('[mutation] lastPage: ', lastPage);
+    getNextPageParam: (lastPage: Paginated<IMyMeetingManage>) => {
+      return lastPage.nextCursor ?? null;
+    },
+  });
+};
+
+export const useInfiniteMyMeetingParticipatedQueries = () => {
+  return useInfiniteQuery({
+    queryKey: myMeetingKeys.participated(),
+    queryFn: ({ pageParam }) => getMyMeetingParticipated(pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage: Paginated<IMyMeetingManage>) => {
       return lastPage.nextCursor ?? null;
     },
   });
