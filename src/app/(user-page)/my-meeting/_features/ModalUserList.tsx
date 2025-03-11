@@ -1,8 +1,7 @@
 import { Tag } from '@/components/ui/Tag';
-import { useBannerQueries } from '@/hooks/queries/useMyPageQueries';
 import Image from 'next/image';
 import React from 'react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import type { IBanner, Member } from 'types/myMeeting';
 
 import { Button } from '../../../../components/ui/Button';
@@ -15,6 +14,7 @@ const ModalUserList = ({
   currentUser,
   className,
   handlePrefetchProfile,
+  showPublicSelect = false,
 }: {
   memberList: Member[];
   setSelectedUser: Dispatch<React.SetStateAction<Member | null>>;
@@ -23,6 +23,7 @@ const ModalUserList = ({
   currentUser: IBanner;
   className?: string;
   handlePrefetchProfile: (member: Member) => Promise<void>;
+  showPublicSelect?: boolean;
 }) => {
   const handleProfileClick = (user: Member) => {
     setSelectedUser(user);
@@ -51,7 +52,9 @@ const ModalUserList = ({
             </div>
             {user.userId !== currentUser?.userId && (
               <div className="flex gap-[6px]">
-                <Tag variant={user.memberStatus} className="w-[49px]" />
+                {showPublicSelect && (
+                  <Tag variant={user.memberStatus} className="w-[49px]" />
+                )}
                 <div>
                   <Button
                     onClick={() => handleProfileClick(user)}

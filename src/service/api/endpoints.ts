@@ -20,34 +20,34 @@ export const mypageURL = {
 // 미팅 관련 API 엔드포인트
 export const myMeetingURL = {
   memberStatus: `${CURRENT_API_VERSION}/mymeetings/member-status`,
-  isPublic: (meetingId: string) =>
+  isPublic: (meetingId: number) =>
     `${CURRENT_API_VERSION}/mymeetings/isPublic/${meetingId}`,
   expel: `${CURRENT_API_VERSION}/mymeetings/expel`,
   memberProfile: `${CURRENT_API_VERSION}/mymeetings/member-profile`,
   manage: `${CURRENT_API_VERSION}/mymeetings/manage`,
   likes: `${CURRENT_API_VERSION}/mymeetings/likes`,
   all: `${CURRENT_API_VERSION}/mymeetings/all`,
-  quit: (meetingId: string) =>
+  quit: (meetingId: number) =>
     `${CURRENT_API_VERSION}/mymeetings/quit/${meetingId}`,
-  cancel: (meetingId: string) =>
+  cancel: (meetingId: number) =>
     `${CURRENT_API_VERSION}/mymeetings/cancel/${meetingId}`,
 };
 
 // 댓글 관련 API 엔드포인트
 export const commentURL = {
-  get: (meetingId: string) => `${CURRENT_API_VERSION}/comments/${meetingId}`,
-  update: (meetingId: string) => `${CURRENT_API_VERSION}/comments/${meetingId}`,
-  create: (meetingId: string) => `${CURRENT_API_VERSION}/comments/${meetingId}`,
-  delete: (meetingId: string) => `${CURRENT_API_VERSION}/comments/${meetingId}`,
-  count: (meetingId: string) =>
+  get: (meetingId: number) => `${CURRENT_API_VERSION}/comments/${meetingId}`,
+  update: (meetingId: number) => `${CURRENT_API_VERSION}/comments/${meetingId}`,
+  create: (meetingId: number) => `${CURRENT_API_VERSION}/comments/${meetingId}`,
+  delete: (meetingId: number) => `${CURRENT_API_VERSION}/comments/${meetingId}`,
+  count: (meetingId: number) =>
     `${CURRENT_API_VERSION}/comments/count/${meetingId}`,
-  average: (meetingId: string) =>
+  average: (meetingId: number) =>
     `${CURRENT_API_VERSION}/comments/avg/${meetingId}`,
 };
 
 // 미팅 가입신청 메시지 엔드포인트
 export const memberURL = {
-  create: (meetingId: string) => `${CURRENT_API_VERSION}/members/${meetingId}`,
+  create: (meetingId: number) => `${CURRENT_API_VERSION}/members/${meetingId}`,
 };
 
 // 미팅 관련 API 엔드포인트
@@ -55,17 +55,17 @@ export const meetingURL = {
   create: `${CURRENT_API_VERSION}/meetings`,
   search: `${CURRENT_API_VERSION}/meetings/search`,
   top: `${CURRENT_API_VERSION}/meetings/top`,
-  detail: (meetingId: string) =>
+  detail: (meetingId: number) =>
     `${CURRENT_API_VERSION}/meetings/detail/${meetingId}`,
-  managerDetail: (meetingId: string) =>
+  managerDetail: (meetingId: number) =>
     `${CURRENT_API_VERSION}/meetings/detail/manager/${meetingId}`,
 };
 
 // 좋아요 관련 API 엔드포인트
 export const likesURL = {
-  create: (meetingId: string) =>
+  create: (meetingId: number) =>
     `${CURRENT_API_VERSION}/meetings/${meetingId}/likes`,
-  delete: (meetingId: string) =>
+  delete: (meetingId: number) =>
     `${CURRENT_API_VERSION}/meetings/${meetingId}/likes`,
 };
 

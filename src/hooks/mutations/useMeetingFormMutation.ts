@@ -2,12 +2,31 @@ import { authAPI } from '@/lib/axios/authApi';
 import { useMutation } from '@tanstack/react-query';
 import { meetingURL } from 'service/api/endpoints';
 import { CreateMeetingPayload } from 'types/meetingForm';
+import { CreateMeetingResponse } from 'types/meetingForm';
 
-const useMeetingFormMutation = () => {
+const useMeetingFormMutation = ({
+  onSuccessCallback,
+  onErrorCallback,
+}: {
+  onSuccessCallback: (
+    response: CreateMeetingResponse,
+    formData: CreateMeetingPayload,
+  ) => void;
+  onErrorCallback: (error: unknown) => void;
+}) => {
   const createMeeting = useMutation({
-    mutationFn: async (data: CreateMeetingPayload) => {
-      const response = await authAPI.post(meetingURL.create, data);
-      return response.data;
+    mutationFn: async (formData: CreateMeetingPayload) => {
+      const response = await authAPI.post<CreateMeetingResponse>(
+        meetingURL.create,
+        formData,
+      );
+      return { response: response.data, formData };
+    },
+    onSuccess: (data) => {
+      onSuccessCallback(data.response, data.formData);
+    },
+    onError: (error) => {
+      onErrorCallback(error);
     },
   });
 

@@ -14,6 +14,7 @@ import {
   TechStackField,
   TitleField,
 } from '@/app/meeting/_features/form/form-filed';
+import { useToast } from '@/components/common/ToastContext';
 import useMeetingFormMutation from '@/hooks/mutations/useMeetingFormMutation';
 import { convertImageToBase64 } from '@/util/base64';
 import { MEETING_TYPES } from 'constants/category/category';
@@ -34,7 +35,7 @@ export default function MeetingForm({
   meetingId,
 }: MeetingFormProps) {
   const router = useRouter();
-  const { createMeeting, isLoading } = useMeetingFormMutation();
+  const { showToast } = useToast();
 
   // 날짜 YYYY-MM-DD 형식으로 변환
   const today = new Date();
@@ -45,6 +46,28 @@ export default function MeetingForm({
     const category = MEETING_TYPES.find((type) => type.label === label);
     return category ? category.id : '';
   };
+
+  const { createMeeting, isLoading } = useMeetingFormMutation({
+    onSuccessCallback: (response, formData) => {
+      if (mode === 'create') {
+        showToast('모임이 성공적으로 생성되었습니다', 'success', {
+          duration: 3000,
+        });
+        const categoryId = getCategoryId(formData.categoryTitle);
+        router.push(`/meeting/${categoryId}/${response.data.meetingId}`);
+      } else if (mode === 'edit') {
+        showToast('모임이 성공적으로 수정되었습니다', 'success');
+        const categoryId = getCategoryId(formData.categoryTitle);
+        router.push(`/meeting/${categoryId}/${meetingId}`);
+      }
+    },
+    onErrorCallback: () => {
+      // 실패 시 토스트 표시
+      showToast('모임 생성에 실패했습니다', 'error', {
+        duration: 3000,
+      });
+    },
+  });
 
   const defaultValues: CreateMeetingPayload = {
     meetingTitle: '',
@@ -67,30 +90,22 @@ export default function MeetingForm({
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async (data: CreateMeetingPayload) => {
+  const onSubmit = async (formData: CreateMeetingPayload) => {
     try {
       // 이미지 처리
       const fileInput = document.getElementById('image') as HTMLInputElement;
       if (fileInput?.files && fileInput.files.length > 0) {
         const imageData = await convertImageToBase64(fileInput.files[0]);
-        data.imageName = imageData.name;
-        data.imageEncodedBase64 = imageData.base64;
+        formData.imageName = imageData.name;
+        formData.imageEncodedBase64 = imageData.base64;
       }
 
       if (mode === 'create') {
-        // 모임 생성
-        const result = await createMeeting.mutateAsync(data);
-
-        // 성공 시 상세 페이지로 이동
-        const categoryId = getCategoryId(data.categoryTitle);
-        router.push(`/meeting/${categoryId}/${result.data.meetingId}`);
+        await createMeeting.mutateAsync(formData);
       } else if (mode === 'edit' && meetingId) {
         // 모임 수정 (TODO: API 구현 시 수정)
-        // const result = await updateMeeting.mutateAsync({ id: meetingId, data });
-
-        // 수정 성공 시 상세 페이지로 이동
-        const categoryId = getCategoryId(data.categoryTitle);
-        router.push(`/meeting/${categoryId}/${meetingId}`);
+        // await updateMeeting.mutateAsync({ id: meetingId, data: formData });
+        // API가 구현되지 않았으므로 수정 성공으로 처리
       }
     } catch (error) {}
   };

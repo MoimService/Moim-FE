@@ -2,12 +2,25 @@ import { authAPI } from '@/lib/axios/authApi';
 import { Paginated } from 'types/meeting';
 import type { IMemberProfile, IMyMeetingManage } from 'types/myMeeting';
 
+import { myMeetingURL } from './endpoints';
+
 // 내가 만든 모임 불러오기
 const getMyMeetingManage = async (
   lastMeetingId: number,
 ): Promise<Paginated<IMyMeetingManage>> => {
   const res = await authAPI.get(
-    `/api/v1/mymeetings/manage?lastMeetingId=${lastMeetingId}&size=${6}`,
+    `${myMeetingURL.manage}?lastMeetingId=${lastMeetingId}&size=${6}`,
+  );
+
+  return res.data.data;
+};
+
+// 내가 참여하고있는 모임 불러오기기
+const getMyMeetingParticipated = async (
+  lastMeetingId: number,
+): Promise<Paginated<IMyMeetingManage>> => {
+  const res = await authAPI.get(
+    `${myMeetingURL.all}?lastMeetingId=${lastMeetingId}&size=${6}`,
   );
 
   return res.data.data;
@@ -22,7 +35,7 @@ const getMyMeetingMemberProfile = async ({
   meetingId: number;
 }): Promise<IMemberProfile> => {
   const res = await authAPI.get(
-    `/api/v1/mymeetings/member-profile?userId=${userId}&meetingId=${meetingId}`,
+    `${myMeetingURL.memberProfile}?userId=${userId}&meetingId=${meetingId}`,
   );
 
   return res.data.data;
@@ -38,7 +51,7 @@ const putMemberStatus = async ({
   meetingId: number;
   setMemberStatus: 'APPROVED' | 'REJECTED';
 }) => {
-  const res = await authAPI.put(`/api/v1/mymeetings/member-status`, {
+  const res = await authAPI.put(`${myMeetingURL.memberStatus}`, {
     userId,
     meetingId,
     setMemberStatus,
@@ -57,7 +70,7 @@ const putExpel = async ({
   meetingId: number;
   setMemberStatus: 'EXPEL';
 }) => {
-  const res = await authAPI.put(`/api/v1/mymeetings/expel`, {
+  const res = await authAPI.put(`${myMeetingURL.expel}`, {
     userId,
     meetingId,
     setMemberStatus,
@@ -68,13 +81,14 @@ const putExpel = async ({
 
 // 공개 / 비공개 설정
 const putIsPublic = async (meetingId: number) => {
-  const res = await authAPI.put(`/api/v1/mymeetings/isPublic/${meetingId}`);
+  const res = await authAPI.put(`${myMeetingURL.isPublic(meetingId)}`);
   return res.data.data;
 };
 
 export {
   getMyMeetingManage,
   getMyMeetingMemberProfile,
+  getMyMeetingParticipated,
   putMemberStatus,
   putExpel,
   putIsPublic,
