@@ -54,6 +54,15 @@ const CardRightSection = ({
     }
   };
 
+  // 맴버 명단 보기
+  const handleShowMemberList = () => {
+    queryClient.setQueryData(
+      ['mymeeting', 'memberList', meetingId],
+      memberList,
+    );
+    router.push(`/my-meeting/my/user-list?meetingId=${meetingId}`);
+  };
+
   const { data: currentUser, isLoading } = useBannerQueries();
   if (isLoading || !currentUser) {
     return;
@@ -109,21 +118,19 @@ const CardRightSection = ({
         </div>
       </div>
 
-      <div className="flex flex-1 gap-[16px]">
-        <Button
-          variant="outline"
-          className="flex h-[40px] flex-1 md:h-[46px] lg:hidden"
-          onClick={() =>
-            router.push(`/my-meeting/my/user-list?meetingId=${meetingId}`)
-          }
-        >
-          맴버 명단 보기
-        </Button>
-        {showPublicSelect && (
-          <PublicSelect isPublic={isPublic} meetingId={meetingId} />
-        )}
-      </div>
+      {/* <div className="flex flex-1 gap-[16px]"> */}
+      <Button
+        variant="outline"
+        className="flex h-[40px] flex-1 md:h-[46px] lg:hidden"
+        onClick={handleShowMemberList}
+      >
+        맴버 명단 보기
+      </Button>
+      {showPublicSelect && (
+        <PublicSelect isPublic={isPublic} meetingId={meetingId} />
+      )}
     </div>
+    // </div>
   );
 };
 

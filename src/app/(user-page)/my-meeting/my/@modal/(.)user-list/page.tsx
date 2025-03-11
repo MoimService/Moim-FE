@@ -14,27 +14,25 @@ import ModalUserList from '../../../_features/ModalUserList';
 export default function UserListModal({
   searchParams,
 }: {
-  searchParams: { meetingId: string };
+  searchParams: { meetingId: string; type: string };
 }) {
   const router = useRouter();
   const meetingId = Number(searchParams.meetingId);
+  const type = searchParams.type;
+
   const queryClient = useQueryClient();
 
   // 캐싱된 데이터 먼저 가져오기
-  const cachedMeetings = queryClient.getQueryData<{
-    pages: Paginated<IMyMeetingManage>[];
-  }>(myMeetingKeys.manage());
-
-  // 캐시에서 특정 meetingId의 memberList 찾기
-  const memberList =
-    cachedMeetings?.pages
-      ?.flatMap((page) => page.content)
-      ?.find((meeting) => meeting.meetingId === meetingId)?.memberList || [];
+  const cachedMemberList = queryClient.getQueryData<Member[]>([
+    'mymeeting',
+    'memberList',
+    meetingId,
+  ]);
 
   // 유저 정보 파악
   const { data: currentUser, isLoading, error } = useBannerQueries();
 
-  if (!currentUser || isLoading) return;
+  if (!currentUser || isLoading || !cachedMemberList) return;
 
   const handlePrefetchProfile = async (member: Member) => {
     const queryKey = myMeetingKeys.memberProfile(meetingId, member.userId);
@@ -60,7 +58,7 @@ export default function UserListModal({
     >
       <ModalUserList
         meetingId={meetingId}
-        memberList={memberList}
+        memberList={cachedMemberList}
         currentUser={currentUser}
         handlePrefetchProfile={handlePrefetchProfile}
       />
