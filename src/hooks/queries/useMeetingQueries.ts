@@ -7,6 +7,7 @@ import {
 } from 'service/api/meeting';
 import type { CategoryTitle, IMeetingSearchCondition } from 'types/meeting';
 
+// 검색 쿼리 객체 기술 스킬 정렬
 const getSortedSearchQuery = (
   searchQueryObj: IMeetingSearchCondition,
 ): IMeetingSearchCondition => ({
@@ -14,6 +15,7 @@ const getSortedSearchQuery = (
   skillArray: [...searchQueryObj.skillArray].sort(),
 });
 
+// 모임 쿼리키
 const MEETING_QUERY_KEYS = {
   topMeetings: (category: string) => ['topMeetings', category] as const,
   meetings: (category: string, searchQueryObj: IMeetingSearchCondition) => {
@@ -33,6 +35,8 @@ const MEETING_QUERY_KEYS = {
       id,
     ] as const,
 };
+
+// 추천 모임
 const useTopMeetings = (category: CategoryTitle, options = {}) => {
   return useQuery({
     queryKey: MEETING_QUERY_KEYS.topMeetings(category),
@@ -41,6 +45,7 @@ const useTopMeetings = (category: CategoryTitle, options = {}) => {
   });
 };
 
+// 모임 리스트
 const useInfiniteSearchMeetings = (
   category: CategoryTitle,
   searchQueryObj: IMeetingSearchCondition,

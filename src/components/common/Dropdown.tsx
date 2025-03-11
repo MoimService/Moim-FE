@@ -125,7 +125,7 @@ const Dropdown = ({
     !className?.includes('w-[460px]');
 
   return (
-    <DropdownMenuPrimitive.Root onOpenChange={setIsOpen}>
+    <DropdownMenuPrimitive.Root onOpenChange={setIsOpen} modal={false}>
       <DropdownMenuPrimitive.Trigger
         ref={triggerRef}
         className={cn(

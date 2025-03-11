@@ -25,7 +25,7 @@ const CardWrapper = ({ meetingId }: { meetingId: number }) => {
         <VerticalCard
           meetingId={meetingId}
           category={translateCategoryNameToKor(categoryStr)}
-          className="h-fit w-full"
+          className="h-[650px] w-full"
           thumbnailHeight={252}
           thumbnailWidth={343}
           key={meeting.meetingId}

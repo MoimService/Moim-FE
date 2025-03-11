@@ -9,9 +9,9 @@ const useMediaQuery = () => {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width > 376 && width <= 745) {
+      if (width > 376 && width < 745) {
         setBreakpoint('mobile');
-      } else if (width > 745 && width <= 1020) {
+      } else if (width >= 745 && width <= 1020) {
         setBreakpoint('tablet');
       } else if (width > 1020) {
         setBreakpoint('desktop');

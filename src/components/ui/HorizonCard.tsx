@@ -1,21 +1,11 @@
-import {
-  useCancelLikeMeeting,
-  useLikeMeeting,
-} from '@/hooks/mutations/useMeetingMutation';
-import {
-  MEETING_QUERY_KEYS,
-  meetingKeys,
-} from '@/hooks/queries/useMeetingQueries';
-import { getAccessToken } from '@/lib/serverActions';
+import useLikeHandler from '@/hooks/common/useLikeHandler';
 import { getIconComponent } from '@/util/getIconDetail';
-import { useQueryClient } from '@tanstack/react-query';
 import { Heart, Map } from 'lucide-react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { IMeetingSearchCondition } from 'types/meeting';
 
-import { useToast } from '../common/ToastContext';
 import { Button } from './Button';
 import { Progress } from './Progress';
 import Modal from './modal/Modal';
@@ -35,6 +25,7 @@ interface HorizonCardProps {
   thumbnailHeight?: number;
   onClick?: (id: number) => void;
   searchQuery?: IMeetingSearchCondition;
+  showLikeButton?: boolean;
   isLike?: boolean;
   likesCount?: number;
   skills?: string[];
@@ -55,41 +46,20 @@ const HorizonCard = ({
   value,
   total = 100,
   searchQuery,
+  showLikeButton = true,
   likesCount,
   skills,
 }: HorizonCardProps) => {
-  const { showToast } = useToast();
-  const queryClient = useQueryClient();
-  const { mutate: likeMutation } = useLikeMeeting(meetingId, {
-    onSuccess: () => {
-      invalidateMeetingQuery();
-    },
-    onError: () => {
-      showToast('잠시 후 다시 시도해주세요', 'error', { duration: 3000 });
-    },
+  const { toggleLike } = useLikeHandler({
+    meetingId,
+    category,
+    searchQuery,
+    onAuthRequired: () => setIsLoginModalOpen(true),
   });
 
-  const { mutate: cancellikeMutation } = useCancelLikeMeeting(meetingId, {
-    onSuccess: () => {
-      invalidateMeetingQuery();
-    },
-    onError: () => {
-      showToast('잠시 후 다시 시도해주세요', 'error', { duration: 3000 });
-    },
-  });
-
-  const invalidateMeetingQuery = () => {
-    if (category && searchQuery) {
-      queryClient.invalidateQueries({
-        queryKey: MEETING_QUERY_KEYS.meetings(category, searchQuery),
-      });
-    }
-    queryClient.invalidateQueries({
-      queryKey: MEETING_QUERY_KEYS.topMeetings(category),
-    });
-    queryClient.invalidateQueries({
-      queryKey: meetingKeys.detailInfo(meetingId),
-    });
+  const handleLikeButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    toggleLike(isLike);
   };
 
   // TODO: 리팩토링 예정
@@ -98,25 +68,6 @@ const HorizonCard = ({
   const handleClickCard = () => {
     if (isLoginModalOpen) return;
     if (onClick && !id) onClick(meetingId);
-  };
-
-  const handleLikeButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    const token = await getAccessToken();
-
-    // 토큰 없으면 로그인 안내 팝업 노출
-    if (!token) {
-      setIsLoginModalOpen(true);
-      return;
-    }
-
-    if (!isLike) {
-      likeMutation();
-    }
-
-    if (isLike) {
-      cancellikeMutation();
-    }
   };
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -145,23 +96,24 @@ const HorizonCard = ({
       >
         <p className="text-center text-white">로그인이 필요한 서비스 입니다.</p>
       </Modal>
-      <Button
-        className="absolute right-4 top-4 h-auto w-auto"
-        variant="text"
-        size="sm"
-        onClick={(e) => handleLikeButton(e)}
-        icon={
-          <Heart
-            style={{ width: '24px', height: '24px' }}
-            className={`${isLike ? 'fill-main' : 'stroke-Cgray500'} h-4 w-4 md:h-6 md:w-6`}
-          />
-        }
-      >
-        <span className="typo-caption2 absolute top-7 text-Cgray500">
-          {likesCount}
-        </span>
-      </Button>
-
+      {showLikeButton && (
+        <Button
+          className="absolute right-4 top-4 h-auto w-auto"
+          variant="text"
+          size="sm"
+          onClick={(e) => handleLikeButton(e)}
+          icon={
+            <Heart
+              style={{ width: '24px', height: '24px' }}
+              className={`${isLike ? 'fill-main' : 'stroke-Cgray500'} h-4 w-4 md:h-6 md:w-6`}
+            />
+          }
+        >
+          <span className="typo-caption2 absolute top-7 text-Cgray500">
+            {likesCount}
+          </span>
+        </Button>
+      )}
       <div
         className="relative flex-shrink-0"
         style={{ height: `${thumbnailHeight}px`, width: `${thumbnailWidth}px` }}

@@ -39,8 +39,8 @@ const MeetingExtraInfo = ({
           <div
             className={`${isMobile ? 'typo-button2' : 'typo-head2'} mt-1 flex items-center text-Cgray700`}
           >
-            <Profile className="mr-2 h-10 w-10" />
-            <span className="text-ellipsi truncate">{name}</span>
+            <Profile className="mr-2 h-10 w-10 flex-shrink-0" />
+            <span className="truncate text-ellipsis">{name}</span>
           </div>
         </div>
         <div className="flex flex-col">
