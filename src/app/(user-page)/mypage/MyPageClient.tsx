@@ -1,6 +1,9 @@
 'use client';
 
-import { prefetchProfileData } from '@/hooks/queries/useMyPageQueries';
+import {
+  QUERY_KEYS,
+  prefetchProfileData,
+} from '@/hooks/queries/useMyPageQueries';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -22,6 +25,9 @@ const MyPageClient = () => {
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
 
+  // 데이터가 이미 있는지 확인
+  const hasData = queryClient.getQueryData(QUERY_KEYS.profile());
+
   // URL에서 탭 값만 가져오기
   const tabFromUrl = searchParams.get('tab') || TAB_TYPES.BASIC;
 
@@ -40,10 +46,12 @@ const MyPageClient = () => {
     [TAB_TYPES.PASSWORD]: null,
   });
 
-  // 컴포넌트 마운트 시 프로필 데이터 prefetch
+  // 데이터가 없을 때만 prefetch (서버에서 가져오지 못한 경우의 백업)
   useEffect(() => {
-    prefetchProfileData(queryClient);
-  }, [queryClient]);
+    if (!hasData) {
+      prefetchProfileData(queryClient);
+    }
+  }, [queryClient, hasData]);
 
   // URL 변경 감지 및 상태 업데이트 (중요: 뒤로가기/앞으로가기 처리)
   useEffect(() => {

@@ -43,7 +43,7 @@ export default async function RootLayout({
       <body className="bg-BG">
         <ReactQueryProviders>
           <ToastProvider>
-            <Header />
+            {/* <Header /> */}
             <div className="m-auto max-w-[1340px]">{children}</div>
           </ToastProvider>
         </ReactQueryProviders>
