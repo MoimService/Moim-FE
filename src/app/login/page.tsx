@@ -1,5 +1,4 @@
-import { Button } from '@/components/ui/Button';
-import { baseURL } from '@/lib/axios/defaultConfig';
+import { baseURL } from '@/lib/axios/axiosInstance';
 
 import DummyUser from './_features/DummyUser';
 import LoginForm from './_features/LoginForm';

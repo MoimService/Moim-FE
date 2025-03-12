@@ -1,15 +1,15 @@
-import { readFileSync } from 'fs';
-import { createServer } from 'https';
-import next from 'next';
-import { parse } from 'url';
+const { createServer } = require('https');
+const { parse } = require('url');
+const next = require('next');
+const fs = require('fs');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
 const httpsOptions = {
-  key: readFileSync('./localhost-key.pem'),
-  cert: readFileSync('./localhost.pem'),
+  key: fs.readFileSync('./localhost-key.pem'),
+  cert: fs.readFileSync('./localhost.pem'),
 };
 
 app.prepare().then(() => {

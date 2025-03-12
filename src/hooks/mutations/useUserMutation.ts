@@ -1,6 +1,10 @@
 import { useToast } from '@/components/common/ToastContext';
-import { setAccessToken } from '@/lib/serverActions';
-import { useMutation } from '@tanstack/react-query';
+import { setAccessToken, setRefreshToken } from '@/lib/serverActions';
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import {
   getEmailCheck,
   getNameCheck,
@@ -9,21 +13,26 @@ import {
 } from 'service/api/user';
 import { ISignupFormData } from 'types/auth';
 
+import { QUERY_KEYS } from '../queries/useMyPageQueries';
+
 const useLoginMutation = ({
   onSuccessCallback,
 }: {
   onSuccessCallback: () => void;
 }) => {
   const { showToast } = useToast();
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       postLogin({ email, password }),
     onSuccess: async (res) => {
-      // 쿠키 저장
-      const accessToken = res.headers.token;
-      if (accessToken) {
-        await setAccessToken(accessToken);
-      }
+      // 유저 정보 불러오기
+      console.log('유저 정보 invalidate');
+      // queryClient.invalidateQueries({ queryKey: QUERY_KEYS.banner() });
+
+      // refreshToken 저장
+      await setRefreshToken(res.refreshToken);
 
       showToast('로그인 성공', 'success');
       // 메인페이지로 리다이렉트

@@ -1,9 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      'deving-bucket.s3.ap-northeast-2.amazonaws.com',
-      'helpx.adobe.com',
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'deving-bucket.s3.ap-northeast-2.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'helpx.adobe.com',
+      },
     ],
   },
   async redirects() {

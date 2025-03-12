@@ -1,4 +1,4 @@
-import { baseURL } from '@/lib/axios/defaultConfig';
+import { baseURL } from '@/lib/axios/axiosInstance';
 
 import SignupForm from './_features/SignupForm';
 

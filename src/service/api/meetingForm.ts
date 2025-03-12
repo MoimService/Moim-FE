@@ -1,10 +1,10 @@
-import { authAPI } from '@/lib/axios/authApi';
+import axiosInstance from '@/lib/axios/axiosInstance';
 import { CreateMeetingPayload } from 'types/meetingForm';
 
 import { meetingURL } from './endpoints';
 
 export const createMeeting = async (data: CreateMeetingPayload) => {
-  const response = await authAPI.post(meetingURL.create, data);
+  const response = await axiosInstance.post(meetingURL.create, data);
   return response.data;
 };
 
