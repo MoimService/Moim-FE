@@ -27,7 +27,7 @@ async function MeetingListPage({ params }: { params: { category: string } }) {
   const initialSearchQueryObj = {
     keyword: '',
     skillArray: [],
-    sortField: 'NEW',
+    sortField: 'CREATED',
     lastMeetingId: 0,
     size: 4,
   };

@@ -2,8 +2,8 @@ import { CategoryTitle } from 'types/meeting';
 
 export const filterOptions = [
   {
-    value: 'NEW',
-    label: '최신순',
+    value: 'CREATED',
+    label: '생성순',
   },
   {
     value: 'OLD',
