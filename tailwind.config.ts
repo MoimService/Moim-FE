@@ -121,7 +121,15 @@ export default {
       },
       scaleUp: {
         '0%': { scale: '1' },
-        '100%': { scale: '1.2' },
+        '100%': { scale: '1.3' },
+      },
+      heartbeat: {
+        '0%': { transform: 'scale(1)' },
+        '20%': { transform: 'scale(1.2)' },
+        '40%': { transform: 'scale(0.8)' },
+        '60%': { transform: 'scale(1.0)' },
+        '80%': { transform: 'scale(0.95)' },
+        '100%': { transform: 'scale(1)' },
       },
     },
     animation: {
@@ -129,6 +137,7 @@ export default {
       fadeIn: 'fadeIn 0.5s ease-out forwards',
       slideUp: 'slideUp 0.5s ease-out forwards',
       slideDown: 'slideDown 0.5s ease-out forwards',
+      heartbeat: 'heartbeat 0.5s ease-out',
     },
   },
   plugins: [

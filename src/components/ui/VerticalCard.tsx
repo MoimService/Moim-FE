@@ -1,12 +1,12 @@
 import useLikeHandler from '@/hooks/common/useLikeHandler';
 import { getIconComponent } from '@/util/getIconDetail';
 import { Heart, Map } from 'lucide-react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { IMeetingSearchCondition } from 'types/meeting';
 
 import { Button } from './Button';
+import CardImage from './CardImage';
 import { Progress } from './Progress';
 import Modal from './modal/Modal';
 import TechButton from './tech-stack/tech-stack-components/TechButton';
@@ -61,9 +61,15 @@ const VerticalCard = ({
     onAuthRequired: () => setIsLoginModalOpen(true),
   });
 
+  const [like, setLike] = useState(false);
+
   const handleLikeButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     toggleLike(isLike);
+    setLike(true);
+    setTimeout(() => {
+      setLike(false);
+    }, 500);
   };
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -72,9 +78,6 @@ const VerticalCard = ({
   const handleLogin = () => {
     router.push('/login');
   };
-
-  const [thumbnail, setThumbnail] = useState(thumbnailUrl);
-  const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
 
   return (
     <div
@@ -97,16 +100,10 @@ const VerticalCard = ({
         className={'relative'}
         style={{ height: `${thumbnailHeight}px`, width: `${thumbnailWidth}px` }}
       >
-        {!thumbnailLoaded && (
-          <div className="animate-pulse h-full w-full rounded-[20px] bg-Cgray200"></div>
-        )}
-        <Image
-          className="flex-shrink-0 rounded-[20px] object-cover"
-          src={thumbnail ? thumbnail : '/thumbnail.jpg'}
-          alt="card_thumbnail"
-          fill
-          onError={() => setThumbnail('/thumbnail.jpg')}
-          onLoad={() => setThumbnailLoaded(true)}
+        <CardImage
+          src={thumbnailUrl ? thumbnailUrl : '/thumbnail.jpg'}
+          width={thumbnailWidth}
+          height={thumbnailHeight}
         />
       </div>
       <div className="mt-4">
@@ -116,7 +113,7 @@ const VerticalCard = ({
           </span>
           {showLikeButton && (
             <Button
-              className="relative h-auto w-auto"
+              className={`relative h-auto w-auto ${like ? 'animate-heartbeat' : ''}`}
               variant="text"
               size="sm"
               onClick={(e) => handleLikeButton(e)}

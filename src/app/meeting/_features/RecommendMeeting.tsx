@@ -5,7 +5,6 @@ import VerticalCard from '@/components/ui/VerticalCard';
 import { useTopMeetings } from '@/hooks/queries/useMeetingQueries';
 import { translateCategoryNameToKor } from '@/util/searchFilter';
 import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
 import type { TopMeeting } from 'types/meeting';
 
 import RecommendMeetingSkeleton from './skeleton/RecommentMeetingSkeleton';
@@ -13,7 +12,6 @@ import RecommendMeetingSkeleton from './skeleton/RecommentMeetingSkeleton';
 const RecommendMeeting = () => {
   const { category } = useParams();
   const router = useRouter();
-  const [isHovered, setIsHovered] = useState(false);
 
   const categoryStr = Array.isArray(category) ? category[0] : category;
   const {
