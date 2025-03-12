@@ -2,8 +2,12 @@ import Header from '@/components/common/Header';
 import { ToastProvider } from '@/components/common/ToastContext';
 import ReactQueryProviders from '@/hooks/useReactQuery';
 import axiosInstance from '@/lib/axios/axiosInstance';
+import axiosServer from '@/lib/axios/axiosServer';
+import { getAllToken } from '@/lib/serverActions';
+import axios, { AxiosError } from 'axios';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import { cookies } from 'next/headers';
 
 import '../styles/globals.css';
 
@@ -24,26 +28,31 @@ const pretendard = localFont({
 
 async function getUserInfo() {
   try {
-    const { data } = await axiosInstance.get('/api/v1/mypage/banner');
-    return data.data;
+    const res = await axiosInstance.get(
+      'https://deving.shop/api/v1/mypage/banner',
+    );
+    return res.data.data;
   } catch (error) {
+    if (error instanceof AxiosError) {
+      console.log('error: ', error.status);
+    }
     return null;
   }
 }
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const userInfo = await getUserInfo();
-  console.log('[layout] userInfo', userInfo);
 
   return (
     <html lang="ko" className={pretendard.variable}>
       <body className="bg-BG">
         <ReactQueryProviders>
           <ToastProvider>
-            <Header />
+            <Header userInfo={userInfo} />
             <div className="m-auto max-w-[1340px]">{children}</div>
           </ToastProvider>
         </ReactQueryProviders>

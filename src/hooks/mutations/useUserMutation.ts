@@ -27,9 +27,8 @@ const useLoginMutation = ({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       postLogin({ email, password }),
     onSuccess: async (res) => {
-      // 유저 정보 불러오기
-      console.log('유저 정보 invalidate');
-      // queryClient.invalidateQueries({ queryKey: QUERY_KEYS.banner() });
+      // accessToken 저장
+      await setAccessToken(res.accessToken);
 
       // refreshToken 저장
       await setRefreshToken(res.refreshToken);
