@@ -1,7 +1,7 @@
 import Header from '@/components/common/Header';
 import { ToastProvider } from '@/components/common/ToastContext';
 import ReactQueryProviders from '@/hooks/useReactQuery';
-import { authAPI } from '@/lib/axios/authApi';
+import axiosInstance from '@/lib/axios/axiosInstance';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
@@ -24,7 +24,7 @@ const pretendard = localFont({
 
 async function getUserInfo() {
   try {
-    const { data } = await authAPI.get('/api/v1/mypage/banner');
+    const { data } = await axiosInstance.get('/api/v1/mypage/banner');
     return data.data;
   } catch (error) {
     return null;
@@ -36,13 +36,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const userInfo = await getUserInfo();
+  console.log('[layout] userInfo', userInfo);
 
   return (
     <html lang="ko" className={pretendard.variable}>
       <body className="bg-BG">
         <ReactQueryProviders>
           <ToastProvider>
-            <Header userInfo={userInfo} />
+            <Header />
             <div className="m-auto max-w-[1340px]">{children}</div>
           </ToastProvider>
         </ReactQueryProviders>

@@ -1,4 +1,4 @@
-import { authAPI } from '@/lib/axios/authApi';
+import axiosInstance from '@/lib/axios/axiosInstance';
 import { fileToBase64 } from '@/util/imageBase64';
 import { IBanner } from 'types/myMeeting';
 
@@ -17,7 +17,7 @@ import {
 // 프로필 조회 API 함수 (통합된 엔드포인트)
 export const getProfile = async (): Promise<IProfileResponse> => {
   try {
-    const response = await authAPI.get('/api/v1/mypage/profile');
+    const response = await axiosInstance.get('/api/v1/mypage/profile');
     return response.data;
   } catch (error) {
     throw error;
@@ -29,7 +29,10 @@ export const updateProfile = async (
   profileData: IProfileUpdateRequest,
 ): Promise<IProfileUpdateResponse> => {
   try {
-    const response = await authAPI.put('/api/v1/mypage/profile', profileData);
+    const response = await axiosInstance.put(
+      '/api/v1/mypage/profile',
+      profileData,
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -41,7 +44,10 @@ export const updateContactInfo = async (
   contactData: IContactInfoUpdateRequest,
 ): Promise<IContactInfoUpdateResponse> => {
   try {
-    const response = await authAPI.put('/api/v1/mypage/contact', contactData);
+    const response = await axiosInstance.put(
+      '/api/v1/mypage/contact',
+      contactData,
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -62,7 +68,7 @@ export const updateProfileImage = async (
       profilePicName: file.name,
     };
 
-    const response = await authAPI.put(
+    const response = await axiosInstance.put(
       '/api/v1/mypage/profilepic',
       requestData,
     );
@@ -77,7 +83,10 @@ export const updatePassword = async (
   passwordData: IPasswordUpdateRequest,
 ): Promise<IPasswordUpdateResponse> => {
   try {
-    const response = await authAPI.put('/api/v1/mypage/password', passwordData);
+    const response = await axiosInstance.put(
+      '/api/v1/mypage/password',
+      passwordData,
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -89,7 +98,7 @@ export const updateSkills = async (
   skillArray: string[],
 ): Promise<IProfileUpdateResponse> => {
   try {
-    const response = await authAPI.post('/api/v1/mypage/skills', {
+    const response = await axiosInstance.post('/api/v1/mypage/skills', {
       skillArray,
     });
     return response.data;
@@ -99,7 +108,11 @@ export const updateSkills = async (
 };
 
 // 배너 정보 불러오기
-export const getBanner = async (): Promise<IBanner> => {
-  const res = await authAPI.get('/api/v1/mypage/banner');
-  return res.data.data;
+export const getBanner = async (): Promise<IBanner | null> => {
+  try {
+    const res = await axiosInstance.get('/api/v1/mypage/banner');
+    return res.data.data;
+  } catch (error) {
+    return null;
+  }
 };

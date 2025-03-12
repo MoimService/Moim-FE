@@ -1,4 +1,4 @@
-import { basicAPI } from '@/lib/axios/basicApi';
+import axiosInstance from '@/lib/axios/axiosInstance';
 import { ISignupFormData } from 'types/auth';
 
 const postLogin = async ({
@@ -8,23 +8,28 @@ const postLogin = async ({
   email: string;
   password: string;
 }) => {
-  const res = await basicAPI.post('/api/v1/auths/login', { email, password });
+  const res = await axiosInstance.post('/api/v1/auths/login', {
+    email,
+    password,
+  });
 
-  return res;
+  return res.data.data;
 };
 
 const getNameCheck = async (name: string) => {
-  const res = await basicAPI.get(`/api/v1/auths/signup/name?name=${name}`);
+  const res = await axiosInstance.get(`/api/v1/auths/signup/name?name=${name}`);
   return res;
 };
 
 const getEmailCheck = async (email: string) => {
-  const res = await basicAPI.get(`/api/v1/auths/signup/email?email=${email}`);
+  const res = await axiosInstance.get(
+    `/api/v1/auths/signup/email?email=${email}`,
+  );
   return res;
 };
 
 const postSignup = async (data: ISignupFormData) => {
-  const res = await basicAPI.post('/api/v1/auths/signup', data);
+  const res = await axiosInstance.post('/api/v1/auths/signup', data);
   return res;
 };
 

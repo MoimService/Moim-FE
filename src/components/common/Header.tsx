@@ -1,14 +1,16 @@
 'use client';
 
 import Logo from '@/assets/icon/logo.svg';
+import { QUERY_KEYS, useBannerQueries } from '@/hooks/queries/useMyPageQueries';
 import { removeAccessToken } from '@/lib/serverActions';
 import { translateCategoryNameToKor } from '@/util/searchFilter';
+import { useQueryClient } from '@tanstack/react-query';
 import { MEETING_TYPES } from 'constants/category/category';
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Dropdown from './Dropdown';
 import { useToast } from './ToastContext';
@@ -190,9 +192,18 @@ const NavLinks = ({ isMobile }: { isMobile?: boolean }) => {
   );
 };
 
-const Header = ({ userInfo }: { userInfo: IUserInfo }) => {
+const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: userInfo, isLoading } = useBannerQueries();
+  const userId = undefined;
   const isLogIn = !!userInfo;
+
+  console.log('[Header] userInfo: ', userInfo, 'isLogIn: ', isLogIn);
+  // 유저 정보 꺼내기
+  // const queryClient = useQueryClient();
+
+  // const userInfo = queryClient.getQueryData<IUserInfo>(QUERY_KEYS.banner())
+
   return (
     <div>
       {/* desktop */}
