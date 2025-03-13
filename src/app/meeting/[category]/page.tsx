@@ -14,11 +14,6 @@ import { Paginated, SearchMeeting } from 'types/meeting';
 import MeetingList from '../_features/MeetingList';
 import RecommendMeeting from '../_features/RecommendMeeting';
 
-// 정적 경로 사전 생성
-export async function generateStaticParams() {
-  return MEETING_TYPES.map((category) => category.id);
-}
-
 async function MeetingListPage({ params }: { params: { category: string } }) {
   const { category } = params;
 
