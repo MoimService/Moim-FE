@@ -1,4 +1,4 @@
-import { authAPI } from '@/lib/axios/authApi';
+import axiosInstance from '@/lib/axios/axiosInstance';
 import { useMutation } from '@tanstack/react-query';
 import { meetingURL } from 'service/api/endpoints';
 import { CreateMeetingPayload } from 'types/meetingForm';
@@ -16,7 +16,7 @@ const useMeetingFormMutation = ({
 }) => {
   const createMeeting = useMutation({
     mutationFn: async (formData: CreateMeetingPayload) => {
-      const response = await authAPI.post<CreateMeetingResponse>(
+      const response = await axiosInstance.post<CreateMeetingResponse>(
         meetingURL.create,
         formData,
       );

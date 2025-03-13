@@ -1,5 +1,4 @@
-import { authAPI } from '@/lib/axios/authApi';
-import { basicAPI } from '@/lib/axios/basicApi';
+import axiosInstance from '@/lib/axios/axiosInstance';
 
 export interface ICommentsCount {
   fives: number;
@@ -48,7 +47,7 @@ export interface Comments {
 }
 
 const getCommentsCount = async (meetingId: number): Promise<ICommentsCount> => {
-  const res = await basicAPI.get(`/api/v1/comments/count/${meetingId}`);
+  const res = await axiosInstance.get(`/api/v1/comments/count/${meetingId}`);
   return res.data.data;
 };
 
@@ -56,7 +55,7 @@ const getCommentsMeeting = async (
   meetingId: number,
   lastCommentId: number,
 ): Promise<Comments> => {
-  const res = await basicAPI.get(
+  const res = await axiosInstance.get(
     `/api/v1/comments/${meetingId}?lastCommentId=${lastCommentId}&size=3`,
   );
   return res.data.data;
@@ -66,7 +65,7 @@ const postComment = async (
   meetingId: number,
   req: { score: number; content: string },
 ) => {
-  const res = await authAPI.post(`/api/v1/comments/${meetingId}`, req);
+  const res = await axiosInstance.post(`/api/v1/comments/${meetingId}`, req);
   return res.data.data;
 };
 

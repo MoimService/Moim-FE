@@ -1,14 +1,17 @@
 'use client';
 
 import Logo from '@/assets/icon/logo.svg';
+import { QUERY_KEYS } from '@/hooks/queries/useMyPageQueries';
 import { removeAccessToken } from '@/lib/serverActions';
 import { translateCategoryNameToKor } from '@/util/searchFilter';
+import { useQueryClient } from '@tanstack/react-query';
 import { MEETING_TYPES } from 'constants/category/category';
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { IBanner } from 'types/myMeeting';
 
 import Dropdown from './Dropdown';
 import { useToast } from './ToastContext';
@@ -190,9 +193,18 @@ const NavLinks = ({ isMobile }: { isMobile?: boolean }) => {
   );
 };
 
-const Header = ({ userInfo }: { userInfo: IUserInfo }) => {
+const Header = ({ userInfo }: { userInfo: IBanner }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const userId = undefined;
   const isLogIn = !!userInfo;
+
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (userInfo) {
+      queryClient.setQueryData(QUERY_KEYS.banner(), userInfo);
+    }
+  }, [userInfo]);
+
   return (
     <div>
       {/* desktop */}

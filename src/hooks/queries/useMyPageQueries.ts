@@ -43,7 +43,7 @@ export const useProfileQuery = (options = {}) => {
 export const useBannerQueries = (options = {}) => {
   return useQuery({
     queryKey: QUERY_KEYS.banner(),
-    queryFn: () => getBanner(),
+    queryFn: getBanner,
     staleTime: 5 * 60 * 1000, // 5분 동안 fresh 상태 유지
     ...options,
   });

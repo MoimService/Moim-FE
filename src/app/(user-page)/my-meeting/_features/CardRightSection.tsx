@@ -2,21 +2,14 @@
 
 import { Button } from '@/components/ui/Button';
 import { Tag } from '@/components/ui/Tag';
-import Modal from '@/components/ui/modal/Modal';
-import {
-  useExpelMutation,
-  useMemberStatusMutation,
-} from '@/hooks/mutations/useMyMeetingMutation';
 import { myMeetingKeys } from '@/hooks/queries/useMyMeetingQueries';
 import { useBannerQueries } from '@/hooks/queries/useMyPageQueries';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { getMyMeetingMemberProfile } from 'service/api/mymeeting';
 import type { Member } from 'types/myMeeting';
 
-import ModalProfile from './ModalProfile';
-import ModalUserList from './ModalUserList';
 import PublicSelect from './PublicDropdown';
 
 const CardRightSection = ({
@@ -32,50 +25,8 @@ const CardRightSection = ({
   meetingId: number;
   showPublicSelect?: boolean;
 }) => {
-  const [isUserListModalOpen, setIsUserListModalOpen] = useState(false);
-  const handleConfirm = () => {
-    setIsUserListModalOpen(false);
-  };
-
-  const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
-
-  // 가입 승인 / 거절
-  const { mutate: statusMutate } = useMemberStatusMutation(meetingId);
-
-  // 내보내기
-  const { mutate: expelMutate } = useExpelMutation(meetingId);
-
-  const handleSecondModalConfirm = () => {
-    // 가입 확인 api 연동
-    // 만약, status가 approved라면 -> 내보내기 활성화
-    // 만약, status가 pending이 아니라면 -> 닫기만 활성화
-
-    if (selectedUser && selectedUser.memberStatus === 'PENDING') {
-      statusMutate({
-        setMemberStatus: 'APPROVED',
-        userId: selectedUser?.userId,
-      });
-    }
-
-    setIsUserProfileModalOpen(false);
-  };
-
-  const handleSecondModalCancel = () => {
-    // 가입 거절 api 연동
-    if (selectedUser && selectedUser.memberStatus === 'PENDING') {
-      statusMutate({
-        setMemberStatus: 'REJECTED',
-        userId: selectedUser?.userId,
-      });
-    } else if (selectedUser && selectedUser.memberStatus === 'APPROVED') {
-      expelMutate({
-        setMemberStatus: 'EXPEL',
-        userId: selectedUser?.userId,
-      });
-    }
-
-    setIsUserProfileModalOpen(false);
-  };
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   // 데스크탑 뷰에서 유저 프로필 보기
   const handleOpenProfileModal = (
@@ -83,11 +34,10 @@ const CardRightSection = ({
     member: Member,
   ) => {
     e.stopPropagation();
-    setSelectedUser(member);
-    setIsUserProfileModalOpen(true);
+    router.push(
+      `/my-meeting/my/profile?meetingId=${meetingId}&userId=${member.userId}&memberStatus=${member.memberStatus}`,
+    );
   };
-
-  const queryClient = useQueryClient();
 
   const handlePrefetchProfile = async (member: Member) => {
     const queryKey = myMeetingKeys.memberProfile(meetingId, member.userId);
@@ -104,10 +54,7 @@ const CardRightSection = ({
     }
   };
 
-  // 프로필 보기 할 유저
-  const [selectedUser, setSelectedUser] = useState<Member | null>(null);
-
-  const { data: currentUser, isLoading, error } = useBannerQueries();
+  const { data: currentUser, isLoading } = useBannerQueries();
   if (isLoading || !currentUser) {
     return;
   }
@@ -142,7 +89,10 @@ const CardRightSection = ({
               {member.userId !== currentUser?.userId && (
                 <div className="flex h-[40px] gap-[6px]">
                   {showPublicSelect && (
-                    <Tag variant={member.memberStatus} className="w-[49px]" />
+                    <Tag
+                      variant={member.memberStatus}
+                      className="w-[49px] justify-center"
+                    />
                   )}
                   <Button
                     variant={'outline'}
@@ -159,61 +109,18 @@ const CardRightSection = ({
         </div>
       </div>
 
-      <div className="flex flex-1 gap-[16px]">
-        <Button
-          variant="outline"
-          className="flex h-[40px] flex-1 md:h-[46px] lg:hidden"
-          onClick={() => setIsUserListModalOpen(true)}
-        >
-          맴버 명단 보기
-        </Button>
-        {showPublicSelect && (
-          <PublicSelect isPublic={isPublic} meetingId={meetingId} />
-        )}
-      </div>
-
-      <Modal
-        isOpen={isUserProfileModalOpen}
-        onClose={handleSecondModalCancel}
-        onConfirm={handleSecondModalConfirm}
-        confirmText={
-          selectedUser?.memberStatus === 'PENDING' ? '가입승인' : '닫기'
+      <Button
+        variant="outline"
+        className="flex h-[40px] flex-1 md:h-[46px] lg:hidden"
+        onClick={() =>
+          router.push(`/my-meeting/my/user-list?meetingId=${meetingId}`)
         }
-        cancelText={
-          selectedUser?.memberStatus === 'PENDING'
-            ? '가입거절'
-            : selectedUser?.memberStatus === 'APPROVED'
-              ? '내보내기'
-              : '닫기'
-        }
-        closeOnly={
-          !(
-            selectedUser?.memberStatus === 'PENDING' ||
-            selectedUser?.memberStatus === 'APPROVED'
-          )
-        }
-        modalClassName="w-[450px] overflow-hidden bg-BG_2"
-        buttonClassName="w-full"
       >
-        <ModalProfile userId={selectedUser?.userId} meetingId={meetingId} />
-      </Modal>
-      <Modal
-        isOpen={isUserListModalOpen}
-        onClose={() => setIsUserListModalOpen(false)}
-        onConfirm={handleConfirm}
-        showOnly
-        modalClassName="h-[590px] w-[520px] overflow-y-auto"
-      >
-        <ModalUserList
-          memberList={memberList}
-          setSelectedUser={setSelectedUser}
-          setIsUserProfileModalOpen={setIsUserProfileModalOpen}
-          setIsUserListModalOpen={setIsUserListModalOpen}
-          currentUser={currentUser}
-          handlePrefetchProfile={handlePrefetchProfile}
-          showPublicSelect={showPublicSelect}
-        />
-      </Modal>
+        맴버 명단 보기
+      </Button>
+      {showPublicSelect && (
+        <PublicSelect isPublic={isPublic} meetingId={meetingId} />
+      )}
     </div>
   );
 };

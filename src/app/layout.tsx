@@ -1,7 +1,8 @@
 import Header from '@/components/common/Header';
 import { ToastProvider } from '@/components/common/ToastContext';
 import ReactQueryProviders from '@/hooks/useReactQuery';
-import { authAPI } from '@/lib/axios/authApi';
+import axiosInstance from '@/lib/axios/axiosInstance';
+import { AxiosError } from 'axios';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
@@ -24,12 +25,18 @@ const pretendard = localFont({
 
 async function getUserInfo() {
   try {
-    const { data } = await authAPI.get('/api/v1/mypage/banner');
-    return data.data;
+    const res = await axiosInstance.get(
+      'https://deving.shop/api/v1/mypage/banner',
+    );
+    return res.data.data;
   } catch (error) {
+    if (error instanceof AxiosError) {
+      console.log('error: ', error.status);
+    }
     return null;
   }
 }
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -46,6 +53,7 @@ export default async function RootLayout({
             <div className="m-auto max-w-[1340px]">{children}</div>
           </ToastProvider>
         </ReactQueryProviders>
+        <div id="modal-root" />
       </body>
     </html>
   );

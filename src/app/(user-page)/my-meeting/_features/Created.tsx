@@ -53,7 +53,6 @@ const Created = () => {
               >
                 <HorizonCard
                   onClick={handleMoveDetailPage}
-                  key={meeting.meetingId}
                   title={meeting.title}
                   thumbnailUrl={meeting.thumbnail}
                   location={meeting.location}
@@ -81,7 +80,6 @@ const Created = () => {
               >
                 <HorizonCard
                   onClick={handleMoveDetailPage}
-                  key={meeting.meetingId}
                   title={meeting.title}
                   thumbnailUrl={meeting.thumbnail}
                   location={meeting.location}
@@ -110,7 +108,6 @@ const Created = () => {
               >
                 <HorizonCard
                   onClick={handleMoveDetailPage}
-                  key={meeting.meetingId}
                   title={meeting.title}
                   thumbnailUrl={meeting.thumbnail}
                   location={meeting.location}

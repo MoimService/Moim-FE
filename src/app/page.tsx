@@ -36,7 +36,7 @@ export default function Home() {
       members: 8,
       maxMembers: 10,
       location: '온라인',
-      imageUrl: '/api/placeholder/300/160',
+      // imageUrl: '/api/placeholder/300/160',
     },
     {
       title: '주말 모각코 모임',
@@ -44,7 +44,7 @@ export default function Home() {
       members: 12,
       maxMembers: 20,
       location: '서울 강남',
-      imageUrl: '/api/placeholder/300/160',
+      // imageUrl: '/api/placeholder/300/160',
     },
     {
       title: 'AI 챗봇 프로젝트',
@@ -52,7 +52,7 @@ export default function Home() {
       members: 4,
       maxMembers: 6,
       location: '온라인/오프라인',
-      imageUrl: '/api/placeholder/300/160',
+      // imageUrl: '/api/placeholder/300/160',
     },
   ];
 
@@ -129,7 +129,7 @@ export default function Home() {
               >
                 <div className="relative h-40 bg-Cgray300">
                   <Image
-                    src={group.imageUrl}
+                    src={''}
                     alt={group.title}
                     width={300}
                     height={160}
