@@ -32,6 +32,7 @@ interface IMyMeetingManage {
 }
 
 interface IMyMeetingParticipated {
+  categoryTitle: CategoryTitle;
   meetingId: number;
   title: string;
   thumbnail: string;
