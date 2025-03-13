@@ -33,4 +33,9 @@ const postSignup = async (data: ISignupFormData) => {
   return res;
 };
 
-export { postLogin, getNameCheck, getEmailCheck, postSignup };
+const deleteLogout = async () => {
+  const res = await axiosInstance.delete('/api/v1/auths/logout');
+  return res;
+};
+
+export { postLogin, getNameCheck, getEmailCheck, postSignup, deleteLogout };

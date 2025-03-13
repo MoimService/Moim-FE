@@ -1,9 +1,11 @@
 import axios from 'axios';
 
 import {
+  getAccessToken,
   getRefreshToken,
   removeAccessToken,
   removeRefreshToken,
+  setAccessToken,
 } from '../serverActions';
 
 export const baseURL = process.env.NEXT_PUBLIC_API_URL;
@@ -26,9 +28,19 @@ const onAccessTokenFetched = () => {
   refreshSubscribers.forEach((callback) => callback());
   refreshSubscribers = []; // 모든 요청이 처리되었기에 배열 초기화
 };
+
+// 해당 요청이 서버 사이드인지 클라이언트 사이드인지 판별
+const isServer = typeof window === 'undefined';
+
 axiosInstance.interceptors.request.use(
   async (config) => {
-    console.log(`[API Request] ${config.method?.toUpperCase()} ${config.url}`);
+    if (isServer) {
+      const accessToken = await getAccessToken();
+      if (accessToken) {
+        config.headers.Cookie = `access_token= ${accessToken}`;
+      }
+    }
+
     return config;
   },
   async (error) => {
@@ -39,21 +51,15 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    /**
-     * TODO:(refresh 토큰 발급 이후)
-     * - 토근 재발급 로직
-     */
+    // 서버 사이드 환경이면 바로 리턴
+    if (isServer) {
+      return Promise.reject(error);
+    }
 
-    /**
-     * - 401 에러로 실패하면, 로그인 페이지로 리다이렉트하는 로직
-     * - 리다이렉트 전에 사용자에게 경고 메시지
-     */
     if (error.response?.status === 401) {
-      // await removeAccessToken();
       console.log('401 Unauthorized - 토큰 재발급 시도');
 
       const refreshToken = await getRefreshToken();
-      console.log('refreshToken: ', refreshToken);
 
       if (!refreshToken) {
         console.log('Refresh Token 없음 -> 강제 로그아웃');
@@ -68,7 +74,7 @@ axiosInstance.interceptors.response.use(
 
         try {
           // Refresh Token으로 Access Token 재발급 시도
-          await axios.post(
+          const res = await axios.post(
             'https://deving.shop/api/v1/auths/refresh',
             {
               refreshToken,
@@ -77,6 +83,10 @@ axiosInstance.interceptors.response.use(
           );
 
           isRefreshing = false;
+
+          // accessToken 서버 쿠키로 다시 저장
+          const accessToken = res.data.data.accessToken;
+          await setAccessToken(accessToken);
 
           // 대기중인 요청들을 새로운 access token으로 실행
           onAccessTokenFetched();
@@ -93,7 +103,6 @@ axiosInstance.interceptors.response.use(
         }
       } else {
         // refresh token 요청이 진행 중이라면 대기 (Promise를 반환)
-
         return new Promise((resolve) => {
           refreshSubscribers.push(() => {
             resolve(axiosInstance(error.config)); // 기존의 요청을 새로운 토큰으로 재시도

@@ -1,38 +1,46 @@
 import { Tag } from '@/components/ui/Tag';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React from 'react';
-import { Dispatch, SetStateAction } from 'react';
 import type { IBanner, Member } from 'types/myMeeting';
 
 import { Button } from '../../../../components/ui/Button';
 
 const ModalUserList = ({
   memberList,
-  setIsUserProfileModalOpen,
-  setIsUserListModalOpen,
-  setSelectedUser,
-  currentUser,
   className,
+  meetingId,
+  currentUser,
   handlePrefetchProfile,
   showPublicSelect = false,
 }: {
   memberList: Member[];
-  setSelectedUser: Dispatch<React.SetStateAction<Member | null>>;
-  setIsUserProfileModalOpen: Dispatch<SetStateAction<boolean>>;
-  setIsUserListModalOpen: Dispatch<SetStateAction<boolean>>;
   currentUser: IBanner;
   className?: string;
   handlePrefetchProfile: (member: Member) => Promise<void>;
   showPublicSelect?: boolean;
+  meetingId: number;
 }) => {
+  const router = useRouter();
+
   const handleProfileClick = (user: Member) => {
-    setSelectedUser(user);
-    setIsUserProfileModalOpen(true);
-    setIsUserListModalOpen(false);
+    router.push(
+      `/my-meeting/my/profile?meetingId=${meetingId}&userId=${user.userId}&memberStatus=${user.memberStatus}`,
+    );
   };
 
   return (
-    <div className="flex flex-col">
+    <div
+      className="flex flex-col overflow-y-auto rounded-lg bg-BG_2 "
+      onClick={(e) => e.stopPropagation()}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.stopPropagation();
+        }
+      }}
+    >
       <h3 className={`typo-head3 mb-2 text-main`}>맴버 리스트</h3>
       <div className={className}>
         {memberList.map((user) => (
@@ -53,7 +61,10 @@ const ModalUserList = ({
             {user.userId !== currentUser?.userId && (
               <div className="flex gap-[6px]">
                 {showPublicSelect && (
-                  <Tag variant={user.memberStatus} className="w-[49px]" />
+                  <Tag
+                    variant={user.memberStatus}
+                    className="w-[49px] justify-center"
+                  />
                 )}
                 <div>
                   <Button

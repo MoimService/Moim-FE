@@ -1,5 +1,7 @@
 import useLikeHandler from '@/hooks/common/useLikeHandler';
 import { getIconComponent } from '@/util/getIconDetail';
+import { translateCategoryNameToEng } from '@/util/searchFilter';
+import { useQueryClient } from '@tanstack/react-query';
 import { Heart, Map } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -58,7 +60,10 @@ const VerticalCard = ({
     meetingId,
     category,
     searchQuery,
-    onAuthRequired: () => setIsLoginModalOpen(true),
+    onAuthRequired: () =>
+      router.push(
+        `/meeting/${translateCategoryNameToEng(category)}/need-login`,
+      ),
   });
 
   const [like, setLike] = useState(false);
