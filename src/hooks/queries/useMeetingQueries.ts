@@ -74,6 +74,7 @@ export const useDetailQueries = (id: number) => {
   const { data, error, isLoading } = useQuery({
     queryKey: meetingKeys.detailInfo(id),
     queryFn: () => getMeetingDetail(id),
+    retry: 0,
   });
 
   return { data, error, isLoading };

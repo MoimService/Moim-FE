@@ -57,6 +57,7 @@ export interface MeetingDetail {
   isMember: boolean;
   meetingSkillArray: string[];
   categoryTitle: string;
+  isPublic: boolean;
 }
 
 export interface MeetingManager {
