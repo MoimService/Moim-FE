@@ -1,5 +1,7 @@
 'use client';
 
+import { prefetchProfileData } from '@/hooks/queries/useMyPageQueries';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -18,6 +20,7 @@ import TechStackInfo from './_features/TechStackInfo';
 const MyPageClient = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
 
   // URL에서 탭 값만 가져오기
   const tabFromUrl = searchParams.get('tab') || TAB_TYPES.BASIC;
@@ -36,6 +39,11 @@ const MyPageClient = () => {
     [TAB_TYPES.TECH]: null,
     [TAB_TYPES.PASSWORD]: null,
   });
+
+  // 컴포넌트 마운트 시 프로필 데이터 prefetch
+  useEffect(() => {
+    prefetchProfileData(queryClient);
+  }, [queryClient]);
 
   // URL 변경 감지 및 상태 업데이트 (중요: 뒤로가기/앞으로가기 처리)
   useEffect(() => {
@@ -59,6 +67,9 @@ const MyPageClient = () => {
 
   // 탭 변경 핸들러
   const handleTabChange = (tab: string) => {
+    // 탭 변경 전에 해당 탭에 필요한 데이터 prefetch
+    prefetchProfileData(queryClient);
+
     setActiveTab(tab);
     updateUrl(tab);
   };
@@ -69,6 +80,8 @@ const MyPageClient = () => {
   };
 
   const handleEnableEdit = () => {
+    // 편집 모드로 전환하기 전에 프로필 데이터 다시 prefetch하여 최신 데이터 확보
+    prefetchProfileData(queryClient);
     setEditModeSection(activeTab);
   };
 

@@ -2,10 +2,8 @@
 
 import Dropdown from '@/components/common/Dropdown';
 import { Button } from '@/components/ui/Button';
-import {
-  useProfileQuery,
-  useUpdateProfileMutation,
-} from '@/hooks/queries/useMyPageQueries';
+import { useUpdateProfileMutation } from '@/hooks/mutations/useMyPageMutation';
+import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 

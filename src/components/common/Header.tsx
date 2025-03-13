@@ -1,14 +1,18 @@
 'use client';
 
 import Logo from '@/assets/icon/logo.svg';
+import { useLogoutMutation } from '@/hooks/mutations/useUserMutation';
+import { QUERY_KEYS } from '@/hooks/queries/useMyPageQueries';
 import { removeAccessToken } from '@/lib/serverActions';
 import { translateCategoryNameToKor } from '@/util/searchFilter';
+import { useQueryClient } from '@tanstack/react-query';
 import { MEETING_TYPES } from 'constants/category/category';
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { IBanner } from 'types/myMeeting';
 
 import Dropdown from './Dropdown';
 import { useToast } from './ToastContext';
@@ -37,6 +41,8 @@ const BeforeLogin = () => {
 const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
   const router = useRouter();
   const { showToast } = useToast();
+
+  const { mutate } = useLogoutMutation();
   const menu = [
     {
       value: 'mymeeting',
@@ -51,11 +57,7 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
     {
       value: 'logout',
       label: '로그아웃',
-      onSelect: async () => {
-        await removeAccessToken();
-        // 로그아웃 관련 토스트바 노출
-        showToast('로그아웃 되었습니다.', 'success');
-      },
+      onSelect: () => mutate(),
     },
   ];
   return (
@@ -116,15 +118,14 @@ const MobileBeforeLogin = () => {
 
 const MobileAfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
   const { showToast } = useToast();
+  const { mutate } = useLogoutMutation();
+
   return (
     <div className="flex flex-col py-[24px]">
       <div className="flex items-center justify-between">
         <button
           className="typo-head3 p-[16px] text-Cgray500 hover:text-Cgray700"
-          onClick={async () => {
-            await removeAccessToken();
-            showToast('로그아웃 되었습니다.', 'success');
-          }}
+          onClick={() => mutate()}
         >
           로그아웃
         </button>
@@ -190,9 +191,18 @@ const NavLinks = ({ isMobile }: { isMobile?: boolean }) => {
   );
 };
 
-const Header = ({ userInfo }: { userInfo: IUserInfo }) => {
+const Header = ({ userInfo }: { userInfo: IBanner }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const userId = undefined;
   const isLogIn = !!userInfo;
+
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (userInfo) {
+      queryClient.setQueryData(QUERY_KEYS.banner(), userInfo);
+    }
+  }, [userInfo]);
+
   return (
     <div>
       {/* desktop */}

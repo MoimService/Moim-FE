@@ -2,10 +2,8 @@
 
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import {
-  useProfileQuery,
-  useUpdateContactInfoMutation,
-} from '@/hooks/queries/useMyPageQueries';
+import { useUpdateContactInfoMutation } from '@/hooks/mutations/useMyPageMutation';
+import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 

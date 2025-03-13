@@ -1,5 +1,4 @@
-import { authAPI } from '@/lib/axios/authApi';
-import { basicAPI } from '@/lib/axios/basicApi';
+import axiosInstance from '@/lib/axios/axiosInstance';
 import { getAccessToken } from '@/lib/serverActions';
 import type {
   CategoryTitle,
@@ -15,8 +14,8 @@ const getTopMeetings = async (
   categoryTitle: CategoryTitle,
 ): Promise<TopMeeting[]> => {
   const token = await getAccessToken();
+  const res = await axiosInstance.get(`/api/v1/meetings/top`, {
 
-  const res = await (token ? authAPI : basicAPI).get(meetingURL.top, {
     params: { categoryTitle },
   });
 
@@ -30,9 +29,8 @@ const getMeetings = async (
 ): Promise<Paginated<SearchMeeting>> => {
   const newSearchQueryObj = { ...searchQueryObj, lastMeetingId: pageParams };
   const token = await getAccessToken();
-
-  const res = await (token ? authAPI : basicAPI).post(
-    `${meetingURL.search}?categoryTitle=${category}`,
+  const res = await axiosInstance.post(
+    `/api/v1/meetings/search?categoryTitle=${category}`,
     newSearchQueryObj,
   );
 
@@ -40,14 +38,12 @@ const getMeetings = async (
 };
 
 const likeMeeting = async (meetingId: number) => {
-  const res = await authAPI.post(likesURL.create(meetingId));
-
+  const res = await axiosInstance.post(`/api/v1/meetings/${meetingId}/likes`);
   return res.data.data;
 };
 
 const cancelLikeMeeting = async (meetingId: number) => {
-  const res = await authAPI.delete(likesURL.delete(meetingId));
-
+  const res = await axiosInstance.delete(`/api/v1/meetings/${meetingId}/likes`);
   return res.data.data;
 };
 
@@ -76,12 +72,12 @@ export interface MeetingManager {
 }
 
 const getMeetingDetail = async (id: number): Promise<MeetingDetail> => {
-  const res = await authAPI.get(meetingURL.detail(id));
+  const res = await axiosInstance.get(`/api/v1/meetings/detail/${id}`);
   return res.data.data;
 };
 
 const getMeetingDetailManager = async (id: number): Promise<MeetingManager> => {
-  const res = await basicAPI.get(meetingURL.managerDetail(id));
+  const res = await axiosInstance.get(`/api/v1/meetings/detail/manager/${id}`);
   return res.data.data;
 };
 
@@ -93,13 +89,17 @@ const postMeetingRegister = async ({
   meetingId: number;
   message: string;
 }) => {
-  const res = await authAPI.post(memberURL.create(meetingId), { message });
+  const res = await axiosInstance.post(`/api/v1/members/${meetingId}`, {
+    message,
+  });
   return res.data.data;
 };
 
 // Approve 상태에서 모임 탈퇴
 const deleteMeetingQuit = async (meetingId: number) => {
-  const res = await authAPI.delete(myMeetingURL.quit(meetingId));
+  const res = await axiosInstance.delete(
+    `/api/v1/mymeetings/quit/${meetingId}`,
+  );
 
   return res.data.data;
 };

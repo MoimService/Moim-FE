@@ -1,4 +1,4 @@
-import { authAPI } from '@/lib/axios/authApi';
+import axiosInstance from '@/lib/axios/axiosInstance';
 import { Paginated } from 'types/meeting';
 import type { IMemberProfile, IMyMeetingManage } from 'types/myMeeting';
 import { IMyMeetingLikes } from 'types/myMeeting';
@@ -9,7 +9,7 @@ import { myMeetingURL } from './endpoints';
 const getMyMeetingManage = async (
   lastMeetingId: number,
 ): Promise<Paginated<IMyMeetingManage>> => {
-  const res = await authAPI.get(
+  const res = await axiosInstance.get(
     `${myMeetingURL.manage}?lastMeetingId=${lastMeetingId}&size=${6}`,
   );
 
@@ -20,7 +20,7 @@ const getMyMeetingManage = async (
 const getMyMeetingParticipated = async (
   lastMeetingId: number,
 ): Promise<Paginated<IMyMeetingManage>> => {
-  const res = await authAPI.get(
+  const res = await axiosInstance.get(
     `${myMeetingURL.all}?lastMeetingId=${lastMeetingId}&size=${6}`,
   );
 
@@ -46,7 +46,7 @@ const getMyMeetingMemberProfile = async ({
   userId?: number;
   meetingId: number;
 }): Promise<IMemberProfile> => {
-  const res = await authAPI.get(
+  const res = await axiosInstance.get(
     `${myMeetingURL.memberProfile}?userId=${userId}&meetingId=${meetingId}`,
   );
 
@@ -63,7 +63,7 @@ const putMemberStatus = async ({
   meetingId: number;
   setMemberStatus: 'APPROVED' | 'REJECTED';
 }) => {
-  const res = await authAPI.put(`${myMeetingURL.memberStatus}`, {
+  const res = await axiosInstance.put(`${myMeetingURL.memberStatus}`, {
     userId,
     meetingId,
     setMemberStatus,
@@ -82,7 +82,7 @@ const putExpel = async ({
   meetingId: number;
   setMemberStatus: 'EXPEL';
 }) => {
-  const res = await authAPI.put(`${myMeetingURL.expel}`, {
+  const res = await axiosInstance.put(`${myMeetingURL.expel}`, {
     userId,
     meetingId,
     setMemberStatus,
@@ -93,7 +93,7 @@ const putExpel = async ({
 
 // 공개 / 비공개 설정
 const putIsPublic = async (meetingId: number) => {
-  const res = await authAPI.put(`${myMeetingURL.isPublic(meetingId)}`);
+  const res = await axiosInstance.put(`${myMeetingURL.isPublic(meetingId)}`);
   return res.data.data;
 };
 

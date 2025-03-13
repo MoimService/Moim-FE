@@ -1,7 +1,17 @@
 import { useToast } from '@/components/common/ToastContext';
-import { setAccessToken } from '@/lib/serverActions';
-import { useMutation } from '@tanstack/react-query';
 import {
+  removeAccessToken,
+  removeRefreshToken,
+  setAccessToken,
+  setRefreshToken,
+} from '@/lib/serverActions';
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
+import {
+  deleteLogout,
   getEmailCheck,
   getNameCheck,
   postLogin,
@@ -9,21 +19,25 @@ import {
 } from 'service/api/user';
 import { ISignupFormData } from 'types/auth';
 
+import { QUERY_KEYS } from '../queries/useMyPageQueries';
+
 const useLoginMutation = ({
   onSuccessCallback,
 }: {
   onSuccessCallback: () => void;
 }) => {
   const { showToast } = useToast();
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       postLogin({ email, password }),
     onSuccess: async (res) => {
-      // 쿠키 저장
-      const accessToken = res.headers.token;
-      if (accessToken) {
-        await setAccessToken(accessToken);
-      }
+      // accessToken 저장
+      await setAccessToken(res.accessToken);
+
+      // refreshToken 저장
+      await setRefreshToken(res.refreshToken);
 
       showToast('로그인 성공', 'success');
       // 메인페이지로 리다이렉트
@@ -104,9 +118,24 @@ const useSignupMutation = ({
   });
 };
 
+// 로그아웃
+const useLogoutMutation = () => {
+  const { showToast } = useToast();
+  return useMutation({
+    mutationFn: () => deleteLogout(),
+    onSuccess: async () => {
+      await removeAccessToken();
+      await removeRefreshToken();
+      // 로그아웃 관련 토스트바 노출
+      showToast('로그아웃 되었습니다.', 'success');
+    },
+  });
+};
+
 export {
   useLoginMutation,
   useNameCheckMutation,
   useEmailCheckMutation,
   useSignupMutation,
+  useLogoutMutation,
 };

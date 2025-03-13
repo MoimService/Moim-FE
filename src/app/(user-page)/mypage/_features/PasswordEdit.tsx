@@ -3,7 +3,7 @@
 import { useToast } from '@/components/common/ToastContext';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { useUpdatePasswordMutation } from '@/hooks/queries/useMyPageQueries';
+import { useUpdatePasswordMutation } from '@/hooks/mutations/useMyPageMutation';
 import { useForm } from 'react-hook-form';
 
 interface PasswordFormData {

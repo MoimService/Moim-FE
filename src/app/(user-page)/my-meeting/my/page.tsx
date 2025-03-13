@@ -1,3 +1,4 @@
+import NotYet from '@/components/common/NotYet';
 import { myMeetingKeys } from '@/hooks/queries/useMyMeetingQueries';
 import { QUERY_KEYS } from '@/hooks/queries/useMyPageQueries';
 import {

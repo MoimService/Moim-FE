@@ -2,8 +2,8 @@ import { CategoryTitle } from 'types/meeting';
 
 export const filterOptions = [
   {
-    value: 'NEW',
-    label: '최신순',
+    value: 'CREATED',
+    label: '생성순',
   },
   {
     value: 'OLD',
@@ -27,5 +27,20 @@ export const translateCategoryNameToKor = (category: string): CategoryTitle => {
       return '사이드 프로젝트';
     default:
       return '모각코';
+  }
+};
+
+export const translateCategoryNameToEng = (category: string) => {
+  switch (category) {
+    case '모각코':
+      return 'mogakco';
+    case '취미':
+      return 'hobby';
+    case '스터디':
+      return 'study';
+    case '사이드 프로젝트':
+      return 'side-project';
+    default:
+      return 'mogakco';
   }
 };
