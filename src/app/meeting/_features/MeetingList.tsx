@@ -26,7 +26,7 @@ const MeetingList = () => {
   const [searchQuery, setSearchQuery] = useState<IMeetingSearchCondition>({
     keyword: '',
     skillArray: [],
-    sortField: 'NEW',
+    sortField: 'CREATED',
     lastMeetingId: 0,
     size: 4,
   });
@@ -132,7 +132,7 @@ const MeetingList = () => {
           className="w-full md:w-[122px] lg:w-[122px]"
           options={filterOptions}
           onChange={(value) => handleSearchOption({ sortField: value })}
-          trigger="최신순"
+          trigger="생성순"
           variant="doubleArrow"
           sideOffset={8}
         />

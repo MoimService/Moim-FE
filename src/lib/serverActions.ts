@@ -4,7 +4,12 @@ import { cookies } from 'next/headers';
 
 export async function getAccessToken() {
   const cookieStore = cookies();
-  return cookieStore.get('token')?.value || null;
+  return cookieStore.get('accessToken')?.value || null;
+}
+
+export async function getAllToken() {
+  const cookieStore = cookies();
+  return cookieStore.getAll();
 }
 
 export async function getRefreshToken() {
@@ -14,7 +19,7 @@ export async function getRefreshToken() {
 
 export async function removeAccessToken() {
   const cookieStore = cookies();
-  cookieStore.delete('access_token');
+  cookieStore.delete('accessToken');
 }
 
 export async function removeRefreshToken() {
@@ -25,7 +30,7 @@ export async function removeRefreshToken() {
 export async function setAccessToken(token: string) {
   const cookieStore = cookies();
   const isProd = process.env.NODE_ENV === 'production';
-  cookieStore.set('token', token, {
+  cookieStore.set('accessToken', token, {
     httpOnly: true,
     sameSite: 'none',
     secure: true,

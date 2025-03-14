@@ -1,5 +1,4 @@
 import axiosInstance from '@/lib/axios/axiosInstance';
-import { getAccessToken } from '@/lib/serverActions';
 import type {
   CategoryTitle,
   IMeetingSearchCondition,
@@ -11,8 +10,6 @@ import type {
 const getTopMeetings = async (
   categoryTitle: CategoryTitle,
 ): Promise<TopMeeting[]> => {
-  const token = await getAccessToken();
-
   const res = await axiosInstance.get(`/api/v1/meetings/top`, {
     params: { categoryTitle },
   });
@@ -26,8 +23,6 @@ const getMeetings = async (
   searchQueryObj: IMeetingSearchCondition,
 ): Promise<Paginated<SearchMeeting>> => {
   const newSearchQueryObj = { ...searchQueryObj, lastMeetingId: pageParams };
-  const token = await getAccessToken();
-
   const res = await axiosInstance.post(
     `/api/v1/meetings/search?categoryTitle=${category}`,
     newSearchQueryObj,
@@ -61,6 +56,7 @@ export interface MeetingDetail {
   isLike: boolean;
   isMember: boolean;
   meetingSkillArray: string[];
+  categoryTitle: string;
 }
 
 export interface MeetingManager {

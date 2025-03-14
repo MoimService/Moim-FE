@@ -1,5 +1,6 @@
 import useLikeHandler from '@/hooks/common/useLikeHandler';
 import { getIconComponent } from '@/util/getIconDetail';
+import { translateCategoryNameToEng } from '@/util/searchFilter';
 import { Heart, Map } from 'lucide-react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
@@ -54,7 +55,10 @@ const HorizonCard = ({
     meetingId,
     category,
     searchQuery,
-    onAuthRequired: () => setIsLoginModalOpen(true),
+    onAuthRequired: () =>
+      router.push(
+        `/meeting/${translateCategoryNameToEng(category)}/need-login`,
+      ),
   });
 
   const handleLikeButton = (e: React.MouseEvent<HTMLButtonElement>) => {

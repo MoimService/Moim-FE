@@ -1,11 +1,17 @@
 import { useToast } from '@/components/common/ToastContext';
-import { setAccessToken, setRefreshToken } from '@/lib/serverActions';
+import {
+  removeAccessToken,
+  removeRefreshToken,
+  setAccessToken,
+  setRefreshToken,
+} from '@/lib/serverActions';
 import {
   QueryClient,
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
 import {
+  deleteLogout,
   getEmailCheck,
   getNameCheck,
   postLogin,
@@ -27,9 +33,8 @@ const useLoginMutation = ({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       postLogin({ email, password }),
     onSuccess: async (res) => {
-      // 유저 정보 불러오기
-      console.log('유저 정보 invalidate');
-      // queryClient.invalidateQueries({ queryKey: QUERY_KEYS.banner() });
+      // accessToken 저장
+      await setAccessToken(res.accessToken);
 
       // refreshToken 저장
       await setRefreshToken(res.refreshToken);
@@ -113,9 +118,24 @@ const useSignupMutation = ({
   });
 };
 
+// 로그아웃
+const useLogoutMutation = () => {
+  const { showToast } = useToast();
+  return useMutation({
+    mutationFn: () => deleteLogout(),
+    onSuccess: async () => {
+      await removeAccessToken();
+      await removeRefreshToken();
+      // 로그아웃 관련 토스트바 노출
+      showToast('로그아웃 되었습니다.', 'success');
+    },
+  });
+};
+
 export {
   useLoginMutation,
   useNameCheckMutation,
   useEmailCheckMutation,
   useSignupMutation,
+  useLogoutMutation,
 };

@@ -25,21 +25,18 @@ const useMeetingMutation = ({
   onErrorCallback,
   meetingId,
 }: {
-  onSuccessCallback: (state: string) => Promise<void>;
+  onSuccessCallback: (status: string) => void;
   onErrorCallback: () => void;
   meetingId: number;
 }) => {
   const queryClient = useQueryClient();
   const { showToast } = useToast();
+
   return useMutation({
     mutationFn: ({ message }: { message: string }) =>
       postMeetingRegister({ meetingId, message }),
     onSuccess: async (res) => {
-      if (res.status === 'APPROVED') {
-        onSuccessCallback('registerComplete');
-      } else if (res.status === 'PENDING') {
-        onSuccessCallback('registerWait');
-      }
+      onSuccessCallback(res.status);
       queryClient.invalidateQueries({
         queryKey: meetingKeys.detailInfo(meetingId),
       });

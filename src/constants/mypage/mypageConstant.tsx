@@ -100,3 +100,29 @@ export const LOCATION_OPTIONS = [
   { value: '제주', label: '제주' },
   { value: '선택 안함', label: '선택 안함' },
 ];
+
+export const MY_MEETING_TAB_LIST = [
+  {
+    label: '내가 만든 모임',
+    value: 'created',
+    url: '/my-meeting/my',
+  },
+  {
+    label: '내가 참여하고 있는 모임',
+    value: 'joined',
+    url: '/my-meeting/my',
+  },
+];
+
+export const MY_COMMENT_TAB_LIST = [
+  {
+    label: '리뷰 작성 가능한 모임',
+    value: 'writable',
+    url: '/my-meeting/comments',
+  },
+  {
+    label: '작성한 리뷰',
+    value: 'written',
+    url: '/my-meeting/comments',
+  },
+];

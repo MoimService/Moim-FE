@@ -6,6 +6,7 @@ import {
   QueryClient,
   dehydrate,
 } from '@tanstack/react-query';
+import { MY_MEETING_TAB_LIST } from 'constants/mypage/mypageConstant';
 import {
   getMyMeetingManage,
   getMyMeetingParticipated,
@@ -56,7 +57,7 @@ export default async function Page({
   return (
     <div>
       <div className="mt-6 flex flex-col gap-[24px]">
-        <Tab type={type} />
+        <Tab type={type} tabList={MY_MEETING_TAB_LIST} />
       </div>
       <HydrationBoundary state={dehydrate(queryClient)}>
         {type === 'created' ? <Created /> : <Participated />}

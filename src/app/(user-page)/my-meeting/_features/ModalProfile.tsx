@@ -1,30 +1,11 @@
 import Description from '@/components/common/Description';
-import { useMyMeetingMemberProfileQuries } from '@/hooks/queries/useMyMeetingQueries';
+import TechButton from '@/components/ui/tech-stack/tech-stack-components/TechButton';
+import { getIconComponent } from '@/util/getIconDetail';
 import Image from 'next/image';
 import React from 'react';
+import { IMemberProfile } from 'types/myMeeting';
 
-import SkeletonProfile from './skeletons/SkeletonProfile';
-
-const ModalProfile = ({
-  userId,
-  meetingId,
-}: {
-  userId: number | undefined;
-  meetingId: number;
-}) => {
-  const {
-    data: user,
-    isLoading,
-    error,
-  } = useMyMeetingMemberProfileQuries({
-    meetingId,
-    userId: userId!,
-  });
-
-  if (isLoading || !user) {
-    return <SkeletonProfile />;
-  }
-
+const ModalProfile = ({ user }: { user: IMemberProfile }) => {
   return (
     <div className="p-4">
       <div className="mb-4 flex gap-4">
@@ -50,21 +31,22 @@ const ModalProfile = ({
         <div className="flex flex-col gap-2 pl-2">
           <Description label="포지션" value={user.position} />
           <Description label="기술스택">
-            <div className=" flex flex-wrap gap-[6px] text-Cgray500">
-              <div className="typo-caption1 rounded-[8px] bg-disable px-[8px] py-[4px]">
-                자바스크립트
-              </div>
-              <div className="typo-caption1 rounded-[8px] bg-disable px-[8px] py-[4px]">
-                자바스크립트
-              </div>
-              <div className="typo-caption1 rounded-[8px] bg-disable px-[8px] py-[4px]">
-                자바스크립트
-              </div>
-              <div className="typo-caption1 rounded-[8px] bg-disable px-[8px] py-[4px]">
-                자바스크립트
-              </div>
-              <div className="typo-caption1 rounded-[8px] bg-disable px-[8px] py-[4px]">
-                자바스크립트
+            <div className="ml-[8px] flex gap-[6px] text-Cgray500">
+              <div className="flex flex-wrap gap-2">
+                {user.skillArray &&
+                  user.skillArray?.length > 0 &&
+                  user.skillArray.map((skill) => (
+                    <TechButton
+                      className="h-6"
+                      key={skill}
+                      name={skill}
+                      icon={getIconComponent(skill)}
+                      color={'#333'}
+                      isClicked={true}
+                      isMaxReached={false}
+                      onClick={() => {}}
+                    />
+                  ))}
               </div>
             </div>
           </Description>

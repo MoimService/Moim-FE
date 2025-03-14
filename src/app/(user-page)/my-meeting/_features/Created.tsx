@@ -53,7 +53,6 @@ const Created = () => {
               >
                 <HorizonCard
                   onClick={handleMoveDetailPage}
-                  key={meeting.meetingId}
                   title={meeting.title}
                   thumbnailUrl={meeting.thumbnail}
                   location={meeting.location}
@@ -68,6 +67,7 @@ const Created = () => {
                     isPublic={meeting.isPublic}
                     className="hidden lg:flex"
                     meetingId={meeting.meetingId}
+                    showPublicSelect={true}
                   />
                 </HorizonCard>
               </div>
@@ -81,7 +81,6 @@ const Created = () => {
               >
                 <HorizonCard
                   onClick={handleMoveDetailPage}
-                  key={meeting.meetingId}
                   title={meeting.title}
                   thumbnailUrl={meeting.thumbnail}
                   location={meeting.location}
@@ -98,6 +97,7 @@ const Created = () => {
                   isPublic={meeting.isPublic}
                   className="flex lg:hidden"
                   meetingId={meeting.meetingId}
+                  showPublicSelect={true}
                 />
               </div>
 
@@ -110,7 +110,6 @@ const Created = () => {
               >
                 <HorizonCard
                   onClick={handleMoveDetailPage}
-                  key={meeting.meetingId}
                   title={meeting.title}
                   thumbnailUrl={meeting.thumbnail}
                   location={meeting.location}
@@ -127,6 +126,7 @@ const Created = () => {
                   isPublic={meeting.isPublic}
                   className="flex lg:hidden"
                   meetingId={meeting.meetingId}
+                  showPublicSelect={true}
                 />
               </div>
             </div>
