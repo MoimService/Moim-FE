@@ -207,7 +207,7 @@ const Header = ({ userInfo }: { userInfo: IBanner }) => {
     <div>
       {/* desktop */}
       <header
-        className={`flex h-20 items-center bg-BG px-[24px] md:bg-main ${!isOpen && 'bg-main'}`}
+        className={`flex h-20 items-center bg-BG px-[24px] md:bg-main ${!isOpen && 'bg-main'} fixed left-0 top-0 z-50 w-full`}
       >
         <div className="item-center mx-auto flex w-full max-w-[1340px] items-center justify-between">
           <Link href="/" className="mr-[40px] flex-shrink-0">
