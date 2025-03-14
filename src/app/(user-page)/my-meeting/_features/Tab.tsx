@@ -3,12 +3,16 @@
 import { Button } from '@/components/ui/Button';
 import { useRouter } from 'next/navigation';
 
-const tabList = [
-  { label: '내가 만든 모임', value: 'created' },
-  { label: '내가 참여하고 있는 모임', value: 'joined' },
-];
+interface TabProps {
+  type: string;
+  tabList: {
+    label: string;
+    value: string;
+    url: string;
+  }[];
+}
 
-const Tab = ({ type }: { type: string }) => {
+const Tab = ({ type, tabList }: TabProps) => {
   const router = useRouter();
 
   return (
@@ -18,7 +22,7 @@ const Tab = ({ type }: { type: string }) => {
           key={item.value}
           className="w-fit px-4"
           variant={type === item.value ? 'solid' : 'default'}
-          onClick={() => router.push(`/my-meeting/my?type=${item.value}`)}
+          onClick={() => router.push(`${item.url}?type=${item.value}`)}
         >
           {item.label}
         </Button>

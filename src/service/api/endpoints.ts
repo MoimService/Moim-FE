@@ -14,6 +14,7 @@ export const mypageURL = {
   contact: `${CURRENT_API_VERSION}/mypage/contact`,
   skills: `${CURRENT_API_VERSION}/mypage/skills`,
   comments: `${CURRENT_API_VERSION}/mypage/comments`,
+  mettingComments: `${CURRENT_API_VERSION}/mypage/meeting-comment`,
   banner: `${CURRENT_API_VERSION}/mypage/banner`,
 };
 

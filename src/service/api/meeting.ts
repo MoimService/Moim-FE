@@ -26,7 +26,6 @@ const getMeetings = async (
   searchQueryObj: IMeetingSearchCondition,
 ): Promise<Paginated<SearchMeeting>> => {
   const newSearchQueryObj = { ...searchQueryObj, lastMeetingId: pageParams };
-  const token = await getAccessToken();
 
   const res = await axiosInstance.post(
     `/api/v1/meetings/search?categoryTitle=${category}`,
