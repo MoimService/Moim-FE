@@ -58,6 +58,7 @@ export interface MeetingDetail {
   meetingSkillArray: string[];
   categoryTitle: string;
   isPublic: boolean;
+  memberStatus: string;
 }
 
 export interface MeetingManager {
@@ -102,6 +103,15 @@ const deleteMeetingQuit = async (meetingId: number) => {
   return res.data.data;
 };
 
+// Pending 상태에서 모임 신청 취소
+const deleteMeetingCancel = async (meetingId: number) => {
+  const res = await axiosInstance.delete(
+    `/api/v1/mymeetings/cancel/${meetingId}`,
+  );
+
+  return res.data.data;
+};
+
 export {
   getMeetingDetail,
   getMeetingDetailManager,
@@ -111,4 +121,5 @@ export {
   getMeetings,
   likeMeeting,
   cancelLikeMeeting,
+  deleteMeetingCancel,
 };

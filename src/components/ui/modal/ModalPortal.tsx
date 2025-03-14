@@ -126,7 +126,7 @@ const ModalPortal: React.FC<AlertModalProps> = ({
         <div className={`p-6 ${contentClassName}`}>{children}</div>
 
         {!showOnly && (
-          <div className={`flex justify-end gap-2 p-4 ${buttonClassName}`}>
+          <div className={`flex justify-end gap-2 p-4 pt-0 ${buttonClassName}`}>
             {closeOnly ? (
               <Button onClick={handleClose} type="button" className="w-full">
                 {cancelText}

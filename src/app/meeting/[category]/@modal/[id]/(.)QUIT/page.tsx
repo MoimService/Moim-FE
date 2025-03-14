@@ -1,6 +1,7 @@
 'use client';
 
 import ModalCancel from '@/app/meeting/_features/modal-content/ModalCancel';
+import ModalQuit from '@/app/meeting/_features/modal-content/ModalQUIT';
 import ModalPortal from '@/components/ui/modal/ModalPortal';
 import {
   useMeetingCancelMutation,
@@ -17,12 +18,12 @@ export default function UserListModal({
   const category = params.category;
   const meetingId = Number(params.id);
 
-  const { mutate: cancelMutate } = useMeetingCancelMutation({
+  const { mutate: quitMutate } = useMeetingQuitMutation({
     meetingId: meetingId,
   });
 
   const handleConfirm = () => {
-    cancelMutate();
+    quitMutate();
     router.back();
   };
 
@@ -33,11 +34,11 @@ export default function UserListModal({
         router.push(`/meeting/${category}/${meetingId}`, { scroll: false })
       }
       onConfirm={handleConfirm}
-      confirmText="신청 취소"
+      confirmText="탈퇴하기"
       cancelText="돌아가기"
       modalClassName="w-[450px]"
     >
-      <ModalCancel />
+      <ModalQuit />
     </ModalPortal>
   );
 }
