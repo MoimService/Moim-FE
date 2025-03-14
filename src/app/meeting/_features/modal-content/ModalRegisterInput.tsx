@@ -3,11 +3,11 @@
 import { Dispatch, SetStateAction } from 'react';
 
 const ModalRegisterInput = ({
-  ment,
-  setMent,
+  value,
+  setValue,
 }: {
-  ment: string;
-  setMent: Dispatch<SetStateAction<string>>;
+  value: string;
+  setValue: Dispatch<SetStateAction<string>>;
 }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-[24px]">
@@ -15,8 +15,9 @@ const ModalRegisterInput = ({
         마이 페이지에 등록된 정보가 주최자에게 전달됩니다!
       </h3>
       <textarea
-        value={ment}
-        onChange={(e) => setMent(e.target.value)}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onClick={(e) => e.stopPropagation()}
         className="typo-button1 h-[120px] w-full resize-none rounded-[12px] bg-Cgray200 px-[16px] py-[14px] text-Cgray500 placeholder:text-Cgray400"
         placeholder="인삿말을 남겨주세요!"
       />

@@ -1,20 +1,31 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
-import Modal from '@/components/ui/modal/Modal';
-import useCard from '@/hooks/useCard';
+import { getAccessToken } from '@/lib/serverActions';
 import { getDDay } from '@/util/date';
+import { translateCategoryNameToEng } from '@/util/searchFilter';
+import { useRouter } from 'next/navigation';
 import { MeetingDetail } from 'service/api/meeting';
 
 const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
-  const {
-    handleModalOpen,
-    isModalOpen,
-    setIsModalOpen,
-    handleModalConfirm,
-    modalValue,
-    renderModalContent,
-  } = useCard(meeting);
+  const router = useRouter();
+
+  const handleRegister = async () => {
+    const token = await getAccessToken();
+
+    // 로그인 전인지 확인
+    if (!token) {
+      router.push(
+        `/meeting/${translateCategoryNameToEng(meeting.categoryTitle)}/${meeting.meetingId}/need-login`,
+        { scroll: false },
+      );
+    } else {
+      router.push(
+        `/meeting/${translateCategoryNameToEng(meeting.categoryTitle)}/${meeting.meetingId}/register`,
+        { scroll: false },
+      );
+    }
+  };
 
   return (
     <div className="flex w-full flex-col justify-end gap-[24px] py-[16px] md:p-[16px] lg:h-[208px] lg:w-[318px]">
@@ -33,10 +44,7 @@ const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
             인원이 꽉찼어요
           </Button>
         ) : (
-          <Button
-            className="w-full"
-            onClick={() => handleModalOpen('registerCheck')}
-          >
+          <Button className="w-full" onClick={handleRegister}>
             신청하기
           </Button>
         )
@@ -44,22 +52,16 @@ const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
         <Button
           className="w-full"
           variant={'outline'}
-          onClick={() => handleModalOpen('cancel')}
+          onClick={() =>
+            router.push(
+              `/meeting/${translateCategoryNameToEng(meeting.categoryTitle)}/${meeting.meetingId}/CANCEL`,
+              { scroll: false },
+            )
+          }
         >
           신청 취소하기
         </Button>
       )}
-
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onConfirm={handleModalConfirm}
-        confirmText={modalValue.confirmText}
-        cancelText={modalValue.cancelText}
-        modalClassName={`w-96 ${modalValue.modalClassName}`}
-      >
-        {renderModalContent()}
-      </Modal>
     </div>
   );
 };
