@@ -1,4 +1,5 @@
 import axiosInstance from '@/lib/axios/axiosInstance';
+import { Paginated } from 'types/meeting';
 
 export interface ICommentsCount {
   fives: number;
@@ -54,7 +55,7 @@ const getCommentsCount = async (meetingId: number): Promise<ICommentsCount> => {
 const getCommentsMeeting = async (
   meetingId: number,
   lastCommentId: number,
-): Promise<Comments> => {
+): Promise<Paginated<Comments>> => {
   const res = await axiosInstance.get(
     `/api/v1/comments/${meetingId}?lastCommentId=${lastCommentId}&size=3`,
   );

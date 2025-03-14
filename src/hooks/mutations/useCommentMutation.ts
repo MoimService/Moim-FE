@@ -16,7 +16,7 @@ const useCommentMutation = (meetingId: number) => {
       // onSuccessCallback?.();
       showToast('댓글 작성이 완료되었어요.');
       queryClient.invalidateQueries({
-        queryKey: commentKeys.commentInfo(meetingId),
+        queryKey: commentKeys.comments(meetingId),
       });
     },
     onError: (error: AxiosError) => {
