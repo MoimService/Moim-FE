@@ -8,7 +8,7 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 import {
-  Comments,
+  Comment,
   getCommentsCount,
   getCommentsMeeting,
 } from 'service/api/comment';
@@ -43,7 +43,7 @@ export default async function page({ params }: { params: { id: string } }) {
     queryClient.prefetchInfiniteQuery({
       queryKey: commentKeys.comments(meetingId),
       queryFn: ({ pageParam }) => getCommentsMeeting(meetingId, pageParam),
-      getNextPageParam: (lastPage: Paginated<Comments>) =>
+      getNextPageParam: (lastPage: Paginated<Comment>) =>
         lastPage.nextCursor ?? false,
       initialPageParam: 0,
     }),
