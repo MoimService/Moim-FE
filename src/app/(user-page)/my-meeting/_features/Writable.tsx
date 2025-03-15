@@ -48,7 +48,7 @@ const Writable = () => {
   return (
     <div>
       {allMeetings.length === 0 && (
-        <div className="text-gray-500 py-8 text-center text-white">
+        <div className="py-8 text-center text-Cgray500">
           리뷰 작성 가능한 모임이 없습니다. <br />
           모임에 참여하고 리뷰를 작성해보세요!
         </div>

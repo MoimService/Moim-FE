@@ -50,7 +50,7 @@ const Written = () => {
     <div>
       {/* 데이터가 없는 경우 표시 */}
       {allComments.length === 0 && (
-        <div className="text-gray-500 py-8 text-center text-white">
+        <div className="py-8 text-center text-Cgray500">
           작성한 리뷰가 없습니다. <br />
           모임에 참여하고 리뷰를 작성해보세요!
         </div>

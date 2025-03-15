@@ -9,7 +9,7 @@ import {
 } from '@/hooks/queries/useMeetingQueries';
 import { InfiniteData, QueryKey, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import {
   ErrorData,
   IMeetingSearchCondition,
@@ -17,6 +17,8 @@ import {
   SearchMeeting,
   TopMeeting,
 } from 'types/meeting';
+
+import { myMeetingKeys } from '../queries/useMyMeetingQueries';
 
 interface UseLikeHandlerProps {
   meetingId: number;
@@ -32,6 +34,8 @@ const useLikeHandler = ({
   onAuthRequired,
 }: UseLikeHandlerProps) => {
   const queryClient = useQueryClient();
+  const path = usePathname();
+  const isLikesPage = path.includes('/likes');
 
   // 배열 캐시 업데이트
   const updateCacheArray = <T extends TopMeeting>(
@@ -105,7 +109,7 @@ const useLikeHandler = ({
       }
 
       // 추천모임
-      if (category && !id) {
+      if (category && !id && !isLikesPage) {
         updateCacheArray(
           MEETING_QUERY_KEYS.topMeetings(category),
           meetingId,
@@ -116,8 +120,14 @@ const useLikeHandler = ({
       }
 
       // 상세모임
-      if (id) {
+      if (id && !isLikesPage) {
         updateCacheObject(meetingKeys.detailInfo(meetingId), true, 1);
+        return;
+      }
+
+      // 찜한모임
+      if (isLikesPage) {
+        updateInfiniteMeetingCache(myMeetingKeys.likes(), meetingId, true, 1);
         return;
       }
     },
@@ -151,7 +161,7 @@ const useLikeHandler = ({
       }
 
       // 추천모임
-      if (category && !id) {
+      if (category && !id && !isLikesPage) {
         updateCacheArray(
           MEETING_QUERY_KEYS.topMeetings(category),
           meetingId,
@@ -162,8 +172,13 @@ const useLikeHandler = ({
       }
 
       // 상세모임
-      if (id) {
+      if (id && !isLikesPage) {
         updateCacheObject(meetingKeys.detailInfo(meetingId), false, -1);
+      }
+
+      // 찜한모임
+      if (isLikesPage) {
+        updateInfiniteMeetingCache(myMeetingKeys.likes(), meetingId, false, -1);
         return;
       }
     },
@@ -183,7 +198,7 @@ const useLikeHandler = ({
       }
 
       // 추천모임
-      if (category && !id) {
+      if (category && !id && !isLikesPage) {
         updateCacheArray(
           MEETING_QUERY_KEYS.topMeetings(category),
           meetingId,
@@ -194,8 +209,14 @@ const useLikeHandler = ({
       }
 
       // 상세모임
-      if (id) {
+      if (id && !isLikesPage) {
         updateCacheObject(meetingKeys.detailInfo(meetingId), false, -1);
+        return;
+      }
+
+      // 찜한모임
+      if (isLikesPage) {
+        updateInfiniteMeetingCache(myMeetingKeys.likes(), meetingId, false, -1);
         return;
       }
     },
@@ -203,6 +224,7 @@ const useLikeHandler = ({
       showToast('찜한 모임에서 삭제되었습니다!', 'success', { duration: 2000 });
     },
     onError: (err: AxiosError<ErrorData>) => {
+      console.log(err);
       // 에러 상태에 따른 예외처리
       if (
         err.status === 403 &&
@@ -229,7 +251,7 @@ const useLikeHandler = ({
       }
 
       // 추천모임
-      if (category && !id) {
+      if (category && !id && !isLikesPage) {
         updateCacheArray(
           MEETING_QUERY_KEYS.topMeetings(category),
           meetingId,
@@ -240,10 +262,19 @@ const useLikeHandler = ({
       }
 
       // 상세모임
-      if (id) {
+      if (id && !isLikesPage) {
         updateCacheObject(meetingKeys.detailInfo(meetingId), true, 1);
         return;
       }
+
+      // 찜한모임
+      if (isLikesPage) {
+        updateInfiniteMeetingCache(myMeetingKeys.likes(), meetingId, true, 1);
+        return;
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: myMeetingKeys.likes() });
     },
   });
 
