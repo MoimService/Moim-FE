@@ -2,6 +2,7 @@ import { useToast } from '@/components/common/ToastContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { postComment } from 'service/api/comment';
+import { ErrorResponse } from 'types/error';
 
 import { commentKeys } from '../queries/useCommentQueries';
 
@@ -19,8 +20,10 @@ const useCommentMutation = (meetingId: number) => {
         queryKey: commentKeys.comments(meetingId),
       });
     },
-    onError: (error: AxiosError) => {
-      if (error.response?.status) {
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response?.data.data.request.startsWith('Comment exists')) {
+        showToast('모임 리뷰는 하나만 작성 가능합니다', 'error');
+      } else {
         showToast('모임 참여자만 댓글 작성이 가능합니다.', 'error');
       }
     },
