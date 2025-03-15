@@ -1,5 +1,6 @@
 'use client';
 
+import { useToast } from '@/components/common/ToastContext';
 import RatingStarsEdit from '@/components/common/review/RatingStarsEdit';
 import { Button } from '@/components/ui/Button';
 import { useCommentMutation } from '@/hooks/mutations/useCommentMutation';
@@ -8,8 +9,10 @@ import { useState } from 'react';
 const ReviewInput = ({ meetingId }: { meetingId: number }) => {
   const [selectedRating, setSelectedRating] = useState<number>(0);
   const [review, setReview] = useState('');
-
+  const { showToast } = useToast();
   const { mutate } = useCommentMutation(meetingId);
+
+  const isReady = !!selectedRating && !!review;
 
   const handleSubmit = () => {
     const req = {
@@ -42,6 +45,7 @@ const ReviewInput = ({ meetingId }: { meetingId: number }) => {
         <Button
           className="h-[40px] w-full rounded-[12px] sm:h-full sm:w-[88px]"
           onClick={handleSubmit}
+          disabled={!isReady}
         >
           등록하기
         </Button>
