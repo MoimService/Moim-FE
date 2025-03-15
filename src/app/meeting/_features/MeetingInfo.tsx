@@ -2,6 +2,7 @@
 
 import { useDetailQueries } from '@/hooks/queries/useMeetingQueries';
 import { formatDate } from '@/util/date';
+import { notFound } from 'next/navigation';
 
 import ContentLabel from './ContextLabel';
 import SkeletonMeetingInfo from './skeletons/SkeletonMeetingInfo';
@@ -9,6 +10,9 @@ import SkeletonMeetingInfo from './skeletons/SkeletonMeetingInfo';
 const MeetingInfo = ({ meetingId }: { meetingId: number }) => {
   const { data: meeting, isLoading, error } = useDetailQueries(meetingId);
 
+  if (error) {
+    notFound();
+  }
   if (isLoading || !meeting) {
     return <SkeletonMeetingInfo />;
   }

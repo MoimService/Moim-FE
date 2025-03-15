@@ -4,7 +4,7 @@ import HorizonCard from '@/components/ui/HorizonCard';
 import VerticalCard from '@/components/ui/VerticalCard';
 import { useDetailQueries } from '@/hooks/queries/useMeetingQueries';
 import { translateCategoryNameToKor } from '@/util/searchFilter';
-import { useParams } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 
 import CardRightSection from './CardRightSection';
 import SkeletonMeetingTotalInfo from './skeletons/SkeletonMeetingTotalInfo';
@@ -14,6 +14,9 @@ const CardWrapper = ({ meetingId }: { meetingId: number }) => {
   const { category } = useParams();
   const categoryStr = Array.isArray(category) ? category[0] : category;
 
+  if (error) {
+    notFound();
+  }
   if (isLoading || !meeting) {
     return <SkeletonMeetingTotalInfo />;
   }

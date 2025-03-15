@@ -1,7 +1,11 @@
 import { useToast } from '@/components/common/ToastContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { cancelLikeMeeting, likeMeeting } from 'service/api/meeting';
+import {
+  cancelLikeMeeting,
+  deleteMeetingCancel,
+  likeMeeting,
+} from 'service/api/meeting';
 import { deleteMeetingQuit, postMeetingRegister } from 'service/api/meeting';
 
 import { meetingKeys } from '../queries/useMeetingQueries';
@@ -53,12 +57,32 @@ const useMeetingMutation = ({
   });
 };
 
+// 모임 탈퇴
 const useMeetingQuitMutation = ({ meetingId }: { meetingId: number }) => {
   const { showToast } = useToast();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: () => deleteMeetingQuit(meetingId),
+    onSuccess: async (res) => {
+      showToast('모임에서 탈퇴하였습니다', 'success');
+      queryClient.invalidateQueries({
+        queryKey: meetingKeys.detailInfo(meetingId),
+      });
+    },
+    onError: (error: AxiosError) => {
+      showToast('모임 탈퇴에 실패하였습니다.', 'error');
+    },
+  });
+};
+
+// 모임 신청 취소
+const useMeetingCancelMutation = ({ meetingId }: { meetingId: number }) => {
+  const { showToast } = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => deleteMeetingCancel(meetingId),
     onSuccess: async (res) => {
       showToast('모임 신청이 취소되었습니다.', 'success');
       queryClient.invalidateQueries({
@@ -76,4 +100,5 @@ export {
   useMeetingQuitMutation,
   useLikeMeeting,
   useCancelLikeMeeting,
+  useMeetingCancelMutation,
 };

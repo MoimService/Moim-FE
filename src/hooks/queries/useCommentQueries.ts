@@ -3,7 +3,6 @@ import { getCommentsCount, getCommentsMeeting } from 'service/api/comment';
 
 export const commentKeys = {
   all: ['comments'] as const,
-  commentInfo: (meetingId: number) => [...commentKeys.all, meetingId] as const,
   count: (meetingId: number) =>
     [...commentKeys.all, meetingId, 'count'] as const,
   comments: (meetingId: number) =>

@@ -50,7 +50,7 @@ export default async function RootLayout({
         <ReactQueryProviders>
           <ToastProvider>
             <Header userInfo={userInfo} />
-            <div className="m-auto max-w-[1340px]">{children}</div>
+            <div className="m-auto max-w-[1340px] pt-20">{children}</div>
           </ToastProvider>
         </ReactQueryProviders>
         <div id="modal-root" />

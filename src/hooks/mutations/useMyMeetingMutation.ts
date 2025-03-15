@@ -77,7 +77,6 @@ const useChangePublic = (meetingId: number) => {
   return useMutation({
     mutationFn: (isPublic: boolean) => putIsPublic(meetingId),
     onSuccess: (data, variables) => {
-      console.log('비공개 api 응답 확인 data: ', data);
       if (!data.isPublic) {
         showToast('해당 모임을 비공개로 바꿨어요!', 'success');
       } else {

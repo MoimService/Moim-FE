@@ -1,4 +1,5 @@
 import axiosInstance from '@/lib/axios/axiosInstance';
+import { Paginated } from 'types/meeting';
 
 export interface ICommentsCount {
   fives: number;
@@ -18,34 +19,6 @@ export interface Comment {
   profilePic?: string;
 }
 
-export interface Comments {
-  content: Comment[];
-  pageable: {
-    pageNumber: number;
-    pageSize: number;
-    sort: {
-      sorted: boolean;
-      empty: boolean;
-      unsorted: boolean;
-    };
-    offset: number;
-    paged: boolean;
-    unpaged: boolean;
-  };
-  nextCursor: null | number;
-  size: number;
-  number: number;
-  sort: {
-    sorted: boolean;
-    empty: boolean;
-    unsorted: boolean;
-  };
-  numberOfElements: number;
-  first: boolean;
-  last: boolean;
-  empty: boolean;
-}
-
 const getCommentsCount = async (meetingId: number): Promise<ICommentsCount> => {
   const res = await axiosInstance.get(`/api/v1/comments/count/${meetingId}`);
   return res.data.data;
@@ -54,7 +27,7 @@ const getCommentsCount = async (meetingId: number): Promise<ICommentsCount> => {
 const getCommentsMeeting = async (
   meetingId: number,
   lastCommentId: number,
-): Promise<Comments> => {
+): Promise<Paginated<Comment>> => {
   const res = await axiosInstance.get(
     `/api/v1/comments/${meetingId}?lastCommentId=${lastCommentId}&size=3`,
   );
