@@ -16,7 +16,7 @@ const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex w-[544px] flex-col gap-[48px] rounded-[16px] bg-BG_2 p-[40px]"
+      className="flex w-[544px] flex-col gap-[28px] rounded-[16px] bg-BG_2 p-[40px]"
     >
       <div>
         <h2 className="typo-head2 mb-[40px] text-center text-white">로그인</h2>
@@ -33,12 +33,12 @@ const LoginForm = () => {
             errors={errors}
             trigger={trigger}
           />
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <p className="text-Cgray700">비밀번호를 잊으셨나요?</p>
             <Link href="/" className="text-main underline">
               비밀번호 수정
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="flex flex-col gap-[16px]">
