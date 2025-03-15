@@ -49,7 +49,7 @@ const RecommendMeeting = () => {
         {meetings?.map((meeting: TopMeeting) => (
           <VerticalCard
             onClick={handleMoveDetailPage}
-            className={`animate-slideDown hover:animate-slideUp`}
+            className="animate-slideDown hover:animate-slideUp"
             category={translateCategoryNameToKor(categoryStr)}
             key={meeting.meetingId}
             meetingId={meeting.meetingId}

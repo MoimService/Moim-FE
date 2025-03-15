@@ -115,14 +115,6 @@ export default {
         '0%': { transform: 'translateY(-10px)' },
         '100%': { transform: 'translateY(0)' },
       },
-      fadeIn: {
-        '0%': { opacity: '0' },
-        '100%': { opacity: '1' },
-      },
-      scaleUp: {
-        '0%': { scale: '1' },
-        '100%': { scale: '1.3' },
-      },
       heartbeat: {
         '0%': { transform: 'scale(1)' },
         '20%': { transform: 'scale(1.2)' },
@@ -134,7 +126,6 @@ export default {
     },
     animation: {
       fadeInUp: 'fadeInUp 0.5s ease-out forwards',
-      fadeIn: 'fadeIn 0.5s ease-out forwards',
       slideUp: 'slideUp 0.5s ease-out forwards',
       slideDown: 'slideDown 0.5s ease-out forwards',
       heartbeat: 'heartbeat 0.5s ease-out',
