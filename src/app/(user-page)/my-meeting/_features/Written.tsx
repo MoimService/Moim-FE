@@ -50,11 +50,14 @@ const Written = () => {
     <div>
       {/* 데이터가 없는 경우 표시 */}
       {allComments.length === 0 && (
-        <div className="py-8 text-center text-Cgray500">
-          작성한 리뷰가 없습니다. <br />
-          모임에 참여하고 리뷰를 작성해보세요!
+        <div className="typo-head3 flex h-[60vh] w-full items-center justify-center text-center text-Cgray500">
+          <div>
+            <p className="mb-2">작성한 리뷰가 없습니다.</p>
+            <p>모임에 참여하고 리뷰를 작성해보세요!</p>
+          </div>
         </div>
       )}
+
       <div>
         {allComments.map((comment) => (
           <div key={comment.meetingId}>

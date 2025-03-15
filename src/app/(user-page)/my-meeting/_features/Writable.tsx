@@ -48,11 +48,14 @@ const Writable = () => {
   return (
     <div>
       {allMeetings.length === 0 && (
-        <div className="py-8 text-center text-Cgray500">
-          리뷰 작성 가능한 모임이 없습니다. <br />
-          모임에 참여하고 리뷰를 작성해보세요!
+        <div className="typo-head3 flex h-[60vh] w-full items-center justify-center text-center text-Cgray500">
+          <div>
+            <p className="mb-2">리뷰 작성 가능한 모임이 없습니다.</p>
+            <p>모임에 참여하고 리뷰를 작성해보세요!</p>
+          </div>
         </div>
       )}
+
       <div>
         {allMeetings.map((meeting) => (
           <div key={meeting.meetingId}>

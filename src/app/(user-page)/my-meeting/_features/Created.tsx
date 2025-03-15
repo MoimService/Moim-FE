@@ -133,6 +133,18 @@ const Created = () => {
           ))}
         </div>
       ))}
+      {/* 추가 데이터 로딩 중 표시 */}
+      {isFetchingNextPage && <MeetingListSkeleton />}
+
+      {/* 데이터가 없는 경우 표시 */}
+      {meetingData.pages[0].content.length === 0 && (
+        <div className="typo-head3 flex h-[60vh] w-full items-center justify-center text-center text-Cgray500">
+          <div>
+            <p className="mb-2">내가 만든 모임이 없어요.</p>
+            <p>원하는 모임을 만들어보세요!</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

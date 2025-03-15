@@ -124,7 +124,7 @@ const Likes = () => {
 
       {/* 데이터가 없는 경우 표시 */}
       {meetingData.pages[0].content.length === 0 && (
-        <div className="flex h-[60vh] w-full items-center justify-center text-center text-Cgray500">
+        <div className="typo-head3 flex h-[60vh] w-full items-center justify-center pt-[130px] text-center text-Cgray500">
           <div>
             <p className="mb-2">찜한 모임이 없어요.</p>
             <p>원하는 모임을 찜해보세요!</p>
