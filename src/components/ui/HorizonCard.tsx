@@ -58,6 +58,7 @@ const HorizonCard = ({
     onAuthRequired: () =>
       router.push(
         `/meeting/${translateCategoryNameToEng(category)}/need-login`,
+        { scroll: false },
       ),
   });
 

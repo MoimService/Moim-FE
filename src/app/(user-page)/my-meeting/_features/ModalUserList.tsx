@@ -26,6 +26,9 @@ const ModalUserList = ({
   const handleProfileClick = (user: Member) => {
     router.push(
       `/my-meeting/my/profile?meetingId=${meetingId}&userId=${user.userId}&memberStatus=${user.memberStatus}`,
+      {
+        scroll: false,
+      },
     );
   };
 

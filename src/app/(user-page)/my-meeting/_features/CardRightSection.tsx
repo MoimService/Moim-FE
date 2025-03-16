@@ -62,6 +62,9 @@ const CardRightSection = ({
     );
     router.push(
       `/my-meeting/my/user-list?meetingId=${meetingId}&type=${showPublicSelect ? 'created' : 'participated'}`,
+      {
+        scroll: false,
+      },
     );
   };
 
