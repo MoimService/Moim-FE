@@ -24,11 +24,6 @@ export const PendingStatusChip = ({
     <div className="absolute left-2 top-2 z-10 flex h-8 overflow-hidden rounded-md shadow-md">
       <div className="flex items-center bg-main bg-opacity-90 px-3 py-1 text-sm font-medium text-white">
         <span>승인 대기중</span>
-        <span className="ml-1 inline-flex">
-          <span className="animate-delay-100">.</span>
-          <span className="animate-delay-200">.</span>
-          <span className="animate-delay-300">.</span>
-        </span>
       </div>
 
       <button
