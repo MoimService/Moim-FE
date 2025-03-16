@@ -21,7 +21,7 @@ const TechStackInfo = ({ onEnableEdit }: TechStackInfoProps) => {
   }
 
   return (
-    <div className="rounded-[16px] border border-Cgray300 bg-BG p-[32px]">
+    <div className="rounded-[16px] border border-Cgray300 bg-BG p-[24px] md:p-[32px]">
       <div className="mb-4 flex items-center justify-between">
         <div className="typo-head3 text-Cgray700">기술 스택</div>
       </div>

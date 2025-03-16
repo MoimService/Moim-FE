@@ -107,3 +107,14 @@ export interface IPasswordUpdateResponse {
   };
   timestamp: string;
 }
+
+export interface IPasswordUpdateResponse {
+  success: boolean;
+  message?: string;
+}
+
+// 서버 에러 응답 타입 정의
+export interface ErrorResponse {
+  message?: string;
+  code?: string;
+}

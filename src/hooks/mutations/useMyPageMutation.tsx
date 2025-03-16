@@ -1,5 +1,6 @@
 import { useToast } from '@/components/common/ToastContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 import {
   updateContactInfo,
@@ -8,7 +9,7 @@ import {
   updateProfileImage,
   updateSkills,
 } from '../../service/api/mypageProfile';
-import { IProfileResponse } from '../../types/mypageTypes';
+import { ErrorResponse, IProfileResponse } from '../../types/mypageTypes';
 import { QUERY_KEYS } from '../queries/useMyPageQueries';
 
 // 프로필 정보 업데이트 커스텀 훅
@@ -191,14 +192,23 @@ export const useUpdatePasswordMutation = () => {
   return useMutation({
     mutationFn: updatePassword,
 
-    onError: (error) => {
-      // 서버 에러 메시지 추출 시도
-      const errorMessage = error?.message || '비밀번호 변경에 실패했습니다.';
-      showToast(errorMessage, 'error');
+    onError: (error: AxiosError<ErrorResponse>) => {
+      // 서버 에러 응답 구조에 따라 조건 확인
+      const errorData = error.response?.data;
+
+      const isPasswordMismatch =
+        errorData?.message?.includes('password') ||
+        errorData?.code === 'INVALID_PASSWORD' ||
+        errorData?.message?.includes('비밀번호');
+
+      if (isPasswordMismatch) {
+        // 기타 오류에 대한 일반적인 메시지
+        showToast('비밀번호 변경에 실패했습니다', 'error');
+      }
     },
 
     onSuccess: () => {
-      showToast('비밀번호가 성공적으로 변경되었습니다.', 'success');
+      showToast('비밀번호가 성공적으로 변경되었습니다', 'success');
     },
   });
 };

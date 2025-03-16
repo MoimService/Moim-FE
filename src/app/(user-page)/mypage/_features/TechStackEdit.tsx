@@ -108,14 +108,14 @@ const TechStackEdit = ({
         <Button
           type="button"
           variant="outline"
-          className="h-[40px] w-[140px] md:h-[46px]"
+          className="h-[40px] w-[80px] md:h-[46px] md:w-[180px]"
           onClick={onEditComplete}
         >
           취소
         </Button>
         <Button
           type="button"
-          className="h-[40px] w-[140px] select-none md:h-[46px]"
+          className="h-[40px] w-[130px] select-none md:h-[46px] md:w-[200px]"
           disabled={isUpdating}
           onClick={handleSave}
         >

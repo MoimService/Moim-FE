@@ -7,7 +7,6 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { getProfile } from 'service/api/mypageProfile';
 
 import { TAB_TYPES } from '../../../constants/mypage/mypageConstant';
 // 컴포넌트 임포트
