@@ -10,11 +10,6 @@ export default {
   ],
   theme: {
     extend: {
-      animation: {
-        'delay-100': 'bounce 1s infinite 100ms',
-        'delay-200': 'bounce 1s infinite 200ms',
-        'delay-300': 'bounce 1s infinite 300ms',
-      },
       screens: {
         sm: {
           min: '375px',
