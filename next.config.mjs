@@ -26,14 +26,23 @@ const nextConfig = {
       },
     ];
   },
-
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack'],
     });
+
+    // 추가된 부분
+    config.resolve.fallback = {
+      fs: false,
+      net: false,
+      tls: false,
+    };
+
     return config;
   },
+  reactStrictMode: false, // 추가
+  transpilePackages: ['@fullpage/react-fullpage'], // 추가
 };
 
 export default nextConfig;

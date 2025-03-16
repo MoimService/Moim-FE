@@ -4,7 +4,7 @@ const SkeletonBasic = ({ className }: { className?: string }) => {
   return (
     <div
       className={cn(
-        'h-[20px] w-[100px] animate-pulse rounded-[8px] bg-Cgray200',
+        'animate-pulse h-[20px] w-[100px] rounded-[8px] bg-Cgray200',
         className,
       )}
     />

@@ -209,7 +209,7 @@ const Header = ({ userInfo }: { userInfo: IBanner }) => {
     <div>
       {/* desktop */}
       <header
-        className={`flex h-20 items-center bg-BG px-[24px] md:bg-main ${!isOpen && 'bg-main'}`}
+        className={`fixed left-0 right-0 top-0 z-50 flex h-20 items-center bg-BG px-[24px] md:bg-main ${!isOpen && 'bg-main'}`}
       >
         <div className="item-center mx-auto flex w-full max-w-[1340px] items-center justify-between">
           <Link href="/" className="mr-[40px] flex-shrink-0">
@@ -218,7 +218,7 @@ const Header = ({ userInfo }: { userInfo: IBanner }) => {
           <NavLinks />
           {!isLogIn ? <BeforeLogin /> : <AfterLogin userInfo={userInfo} />}
           <Menu
-            className="text-white md:hidden"
+            className="cursor-pointer text-white md:hidden"
             onClick={() => setIsOpen((prev) => !prev)}
           />
         </div>
@@ -226,7 +226,7 @@ const Header = ({ userInfo }: { userInfo: IBanner }) => {
 
       {/* mobile */}
       <div
-        className={`fixed right-0 z-50 h-screen w-screen transform overflow-x-hidden bg-BG px-[24px] transition-transform duration-300 ease-in-out ${
+        className={`fixed right-0 z-50 h-screen w-screen transform cursor-default overflow-x-hidden bg-BG px-[24px] transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } md:hidden`}
         role="button"

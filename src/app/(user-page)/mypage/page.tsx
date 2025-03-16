@@ -16,7 +16,7 @@ export default async function MyPage() {
   await prefetchProfileData(queryClient);
 
   return (
-    <div className="flex flex-col px-[24px] pb-[100px]">
+    <div className="flex flex-col px-[24px] pb-[100px] pt-[80px]">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <div className="md:mb-8">
           <ProfileImage />
