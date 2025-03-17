@@ -32,6 +32,7 @@ const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
   };
 
   const status = meeting.isMeetingManager ? 'LEADER' : meeting.memberStatus;
+  const isRejected = status === 'REJECTED' || status === 'EXPEL';
 
   return (
     <div className="flex w-full flex-col justify-end gap-[24px] py-[16px] md:p-[16px] lg:h-[208px] lg:w-[318px]">
@@ -48,6 +49,11 @@ const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
         // 주최자인 경우
         <Button className="w-full" onClick={handleLeader}>
           내 모임 보러가기
+        </Button>
+      ) : isRejected ? (
+        // 거절되거나 추방된 경우
+        <Button className="w-full" disabled>
+          신청이 불가능합니다
         </Button>
       ) : ['false', 'new user'].includes(status) ? (
         meeting.maxMember === meeting.memberCount ? (
