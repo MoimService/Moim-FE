@@ -21,6 +21,7 @@ export default {
         lg: {
           min: '1920px',
         },
+        short: { raw: '(max-height: 900px)' }, // 900px 이하의 화면
       },
       md: {
         min: '744px',
