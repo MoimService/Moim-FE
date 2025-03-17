@@ -184,6 +184,7 @@ const MeetingList = () => {
                 startDate={meeting.startDate}
                 meetingId={meeting.meetingId}
                 variant="desktop"
+                profilePic={meeting.profilePic}
               />
             </HorizonCard>
           ))}
@@ -223,6 +224,7 @@ const MeetingList = () => {
                 startDate={meeting.startDate}
                 meetingId={meeting.meetingId}
                 variant="tablet"
+                profilePic={meeting.profilePic}
               />
             </HorizonCard>
           ))}
@@ -262,6 +264,7 @@ const MeetingList = () => {
                 startDate={meeting.startDate}
                 meetingId={meeting.meetingId}
                 variant="mobile"
+                profilePic={meeting.profilePic}
               />
             </VerticalCard>
           ))}

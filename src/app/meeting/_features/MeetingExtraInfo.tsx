@@ -1,6 +1,6 @@
-import Profile from '@/assets/icon/profile.svg';
 import { Button } from '@/components/ui/Button';
 import { getDDay } from '@/util/date';
+import Image from 'next/image';
 import React from 'react';
 
 interface MeetingExtraInfoProps {
@@ -10,6 +10,7 @@ interface MeetingExtraInfoProps {
   meetingId: number;
   variant?: 'desktop' | 'tablet' | 'mobile';
   onClick?: () => void;
+  profilePic: string;
 }
 
 const MeetingExtraInfo = ({
@@ -18,6 +19,7 @@ const MeetingExtraInfo = ({
   startDate,
   variant = 'desktop',
   onClick,
+  profilePic,
 }: MeetingExtraInfoProps) => {
   // 스타일 조건 분기
   const isTablet = variant === 'tablet';
@@ -30,8 +32,8 @@ const MeetingExtraInfo = ({
           <div
             className={
               isMobile
-                ? 'typo-caption1 text-Cgray500'
-                : 'typo-head3 text-Cgray500'
+                ? 'typo-caption1 mb-2 text-Cgray500'
+                : 'typo-head3 mb-2 text-Cgray500'
             }
           >
             모임장
@@ -39,7 +41,13 @@ const MeetingExtraInfo = ({
           <div
             className={`${isMobile ? 'typo-button2' : 'typo-head2'} mt-1 flex items-center text-Cgray700`}
           >
-            <Profile className="mr-2 h-10 w-10 flex-shrink-0" />
+            <Image
+              src={`${profilePic}`}
+              alt="profile_img"
+              width={40}
+              height={40}
+              className="mr-2 h-10 w-10 flex-shrink-0 rounded-[50%] border-2 border-Cgray500 object-cover"
+            />
             <span className="truncate text-ellipsis">{name}</span>
           </div>
         </div>
@@ -47,8 +55,8 @@ const MeetingExtraInfo = ({
           <div
             className={
               isMobile
-                ? 'typo-caption1 text-Cgray500'
-                : 'typo-head3 text-Cgray500'
+                ? 'typo-caption1 mt-2 text-Cgray500'
+                : 'typo-head3 mt-2 text-Cgray500'
             }
           >
             모임시작
