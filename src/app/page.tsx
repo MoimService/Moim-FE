@@ -1,5 +1,12 @@
 'use client';
 
+import BeigeCat from '@/components/landing/BeigeCat';
+import FrontNotebook from '@/components/landing/FrontNotebook';
+import GrayCat from '@/components/landing/GrayCat';
+import HeartNotebookCat from '@/components/landing/HeartNotebookCat';
+import ReadingCat from '@/components/landing/ReadingCat';
+import WhiteNotebookCat from '@/components/landing/WhiteNotebookCat';
+import YellowCat from '@/components/landing/YellowCat';
 import { Button } from '@/components/ui/Button';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -12,6 +19,7 @@ import LandingLogo from '../assets/icon/landing_logo.svg';
 import MediumCheckIcon from '../assets/icon/medium_check_icon.svg';
 import NotionIcon from '../assets/icon/notion_icon.svg';
 import SmallCheckIcon from '../assets/icon/small_check_Icon.svg';
+import BasketballCat from '../components/landing/BasketballCat';
 
 // FullPage 타입 정의
 interface FullPageProps {
@@ -355,57 +363,14 @@ export default function Home() {
                   >
                     {/* Next.js Image 대신 일반 img 태그 사용 */}
                     <div className="relative flex h-[450px] w-[375px] justify-center md:w-[744px] lg:w-[1110px] md:short:h-[300px]">
-                      <img
-                        src="/white_cat.png"
-                        alt="고양이"
-                        className="absolute left-[164px] top-[30px] h-[62px] w-[61px] md:left-[342px] md:h-[82px] md:w-[81px] lg:left-[480px] lg:top-[0px] lg:h-[122px] lg:w-[121px]"
-                      />
-                      <img
-                        src="/headset.png"
-                        alt="고양이"
-                        className="absolute left-[164px] top-[32px] h-[30px] w-[57px] md:left-[342px] md:top-[30px] md:h-[40px] md:w-[76px] lg:left-[480px] lg:top-[0px] lg:h-[59px] lg:w-[113px]"
-                      />
-                      <img
-                        src="/basketball.png"
-                        alt="고양이"
-                        className="absolute left-[165px] top-[72px] h-[18px] w-[18px] md:left-[342px] md:top-[90px] md:h-[24px] md:w-[24px] lg:left-[480px] lg:top-[80px] lg:h-[36px] lg:w-[36px]"
-                      />
-                      <img
-                        src="/heart_notebook.png"
-                        alt="고양이"
-                        className="absolute left-[52px] top-[154px] h-[44px] w-[55px] md:left-[80px] md:top-[136px] md:h-[58px] md:w-[73px] lg:left-[130px] lg:top-[130px] lg:h-[86px] lg:w-[109px]"
-                      />
-                      <img
-                        src="/beige_cat.png"
-                        alt="고양이"
-                        className="absolute left-[32px] top-[175px] h-[66px] w-[54px] md:left-[40px] md:top-[170px] md:h-[88px] md:w-[71px] lg:left-[70px] lg:top-[180px] lg:h-[131px] lg:w-[106px]"
-                      />
-                      <img
-                        src="/yellow_cat.png"
-                        alt="고양이"
-                        className="absolute left-[0px] top-[163px] h-[59px] w-[60px] md:left-[0px] md:top-[145px] md:h-[79px] md:w-[80px] lg:left-[10px] lg:top-[140px] lg:h-[117px] lg:w-[119px]"
-                      />
-                      <img
-                        src="/read_cat.png"
-                        alt="고양이"
-                        className="absolute left-[300px] top-[132px] h-[73px] w-[66px] md:left-[617px] md:top-[128px] md:h-[97px] md:w-[87px] lg:left-[900px] lg:top-[120px] lg:h-[144px] lg:w-[130px]"
-                      />
-
-                      <img
-                        src="/white_notebook_cat.png"
-                        alt="고양이"
-                        className="absolute left-[114px] top-[355px] h-[74px] w-[57px] md:left-[244px] md:top-[319px] md:h-[98px] md:w-[75px] lg:left-[372px] lg:top-[324px] lg:h-[146px] lg:w-[112px]"
-                      />
-                      <img
-                        src="/front_notebook.png"
-                        alt="고양이"
-                        className="absolute left-[263px] top-[298px] h-[51px] w-[40px] md:left-[456px] md:top-[269px] md:h-[67px] md:w-[53px] lg:left-[598px] lg:top-[280px] lg:h-[100px] lg:w-[79px]"
-                      />
-                      <img
-                        src="/gray_cat.png"
-                        alt="고양이"
-                        className="absolute left-[300px] top-[290px] h-[67px] w-[54px] md:left-[502px] md:top-[259px] md:h-[89px] md:w-[72px] lg:left-[668px] lg:top-[270px] lg:h-[133px] lg:w-[108px]"
-                      />
+                      <BasketballCat />
+                      <HeartNotebookCat />
+                      <BeigeCat />
+                      <YellowCat />
+                      <ReadingCat />
+                      <WhiteNotebookCat />
+                      <FrontNotebook />
+                      <GrayCat />
                     </div>
                   </motion.div>
                 </main>
@@ -593,9 +558,26 @@ export default function Home() {
                     viewport={{ once: true }}
                     variants={animations.popIn}
                   >
-                    <Button className="" aria-label="Deving 모임 시작하기">
-                      지금 시작하기
-                    </Button>
+                    <motion.div
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true }}
+                      variants={animations.popIn}
+                    >
+                      <motion.div
+                        whileHover={{
+                          scale: 1.05,
+                          transition: {
+                            duration: 0.3,
+                            ease: 'easeOut',
+                          },
+                        }}
+                      >
+                        <Button className="" aria-label="Deving 모임 시작하기">
+                          지금 시작하기
+                        </Button>
+                      </motion.div>
+                    </motion.div>
                   </motion.div>
                 </section>
               </div>
