@@ -86,7 +86,7 @@ const Participated = () => {
     <div>
       {/* 승인 대기중인 모임 섹션 (상단에 배치) */}
       <PendingSection />
-      <h1 className="typo-head1 text-white">나의 Deving 모임</h1>
+      <h1 className="typo-head1 mt-10 text-white">나의 Deving 모임</h1>
       {meetingData.pages.map((page, pageIdx) => (
         <div key={pageIdx}>
           {page.content.map((meeting) => (
