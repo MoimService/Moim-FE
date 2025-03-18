@@ -1,3 +1,4 @@
+import Footer from '@/components/common/Footer';
 import Header from '@/components/common/Header';
 import { ToastProvider } from '@/components/common/ToastContext';
 import ReactQueryProviders from '@/hooks/useReactQuery';
@@ -51,6 +52,7 @@ export default async function RootLayout({
           <ToastProvider>
             <Header userInfo={userInfo} />
             <div className="m-auto max-w-[1340px] pt-20">{children}</div>
+            <Footer />
           </ToastProvider>
         </ReactQueryProviders>
         <div id="modal-root" />
