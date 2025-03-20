@@ -10,6 +10,7 @@ import YellowCat from '@/components/landing/YellowCat';
 import { Button } from '@/components/ui/Button';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 // import Image from 'next/image'; // Next.js Image 컴포넌트 제거
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -132,6 +133,11 @@ const SafeFullPage: React.FC<FullPageProps> = (props) => {
   const [mounted, setMounted] = useState(false);
   const styleRef = useRef<HTMLStyleElement | null>(null);
   const originalConsoleErrorRef = useRef<typeof console.error | null>(null);
+  const router = useRouter();
+
+  const handleStartMeeting = useCallback(() => {
+    router.push('/meeting/mogakco');
+  }, [router]);
 
   useEffect(() => {
     // 클라이언트 환경에 완전히 있는지 확인하기 위해 다음 틱까지 대기
@@ -253,6 +259,7 @@ export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [fullPageLoaded, setFullPageLoaded] = useState(false);
+  const router = useRouter();
 
   // 디바운스가 있는 모바일 감지
   const checkMobile = useCallback(() => {
@@ -280,6 +287,9 @@ export default function Home() {
       console.error('FullPage 모듈 로드 실패:', error);
     }
   }, []);
+  const handleStartMeeting = useCallback(() => {
+    router.push('/meeting/mogakco');
+  }, [router]);
 
   useEffect(() => {
     // 정리로 메모리 누수 방지
@@ -573,7 +583,11 @@ export default function Home() {
                           },
                         }}
                       >
-                        <Button className="" aria-label="Deving 모임 시작하기">
+                        <Button
+                          onClick={handleStartMeeting}
+                          className="cursor-pointer transition-colors duration-300 hover:bg-opacity-90 active:bg-opacity-100"
+                          aria-label="Deving 모임 시작하기"
+                        >
                           지금 시작하기
                         </Button>
                       </motion.div>
@@ -608,13 +622,13 @@ export default function Home() {
                   <div className="w-full border border-Cgray200 lg:w-[1460px]"></div>
                   <div className="flex gap-2">
                     <a
-                      href="https://github.com/your-github"
+                      href="https://github.com/MoimService/Moim-FE"
                       aria-label="GitHub 계정 방문하기"
                     >
                       <GithubIcon />
                     </a>
                     <a
-                      href="https://notion.so/your-notion"
+                      href="https://www.notion.so/kangyunji/18568460118e80178a89ce22a03ce534?pvs=4"
                       aria-label="Notion 페이지 방문하기"
                     >
                       <NotionIcon />
