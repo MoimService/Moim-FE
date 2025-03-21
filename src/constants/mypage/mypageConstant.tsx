@@ -2,10 +2,6 @@ import { Code, Compass, Mars, Paintbrush, Venus, X } from 'lucide-react';
 
 import { IIconProps } from '../../types/mypageTypes';
 
-//기본 이미지 url
-export const DEFAULT_PROFILE_IMAGE =
-  'https://deving-bucket.s3.ap-northeast-2.amazonaws.com/cat_profile.png';
-
 // 탭 타입 상수
 export const TAB_TYPES = {
   BASIC: 'basic',

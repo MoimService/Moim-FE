@@ -6,15 +6,13 @@ import Modal from '@/components/ui/modal/Modal';
 import { useUpdateProfileImageMutation } from '@/hooks/mutations/useMyPageMutation';
 import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import { QUERY_KEYS } from '@/hooks/queries/useMyPageQueries';
+import axiosInstance from '@/lib/axios/axiosInstance';
 import { useQueryClient } from '@tanstack/react-query';
 import { Pencil } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
-import {
-  DEFAULT_PROFILE_IMAGE,
-  MAX_FILE_SIZE,
-} from '../../../../constants/mypage/mypageConstant';
+import { MAX_FILE_SIZE } from '../../../../constants/mypage/mypageConstant';
 import SkeletonProfileImage from './skeletons/SkeletonProfileImage';
 
 const ProfileImage = () => {
@@ -35,7 +33,7 @@ const ProfileImage = () => {
 
   // 프로필 이미지 URL
   const profileImageUrl = profileData?.data?.profilePic || null;
-  const isDefaultImage = profileImageUrl?.includes('default-profile.png');
+  const isDefaultImage = profileImageUrl?.includes('cat_profile.png');
 
   // 반응형 화면 크기 감지
   useEffect(() => {
@@ -98,12 +96,19 @@ const ProfileImage = () => {
     });
   };
 
-  // 기본 이미지로 변경하는 핸들러
+  // 기본 이미지로 변경하는 핸들러 - CORS 에러 해결을 위해 수정
   const handleResetToDefault = async () => {
     try {
-      // 기본 이미지 URL을 Blob으로 변환
-      const response = await fetch(DEFAULT_PROFILE_IMAGE);
-      const blob = await response.blob();
+      // 로컬 기본 이미지 경로 사용 (public 폴더 내 이미지)
+      const defaultImagePath = '/cat_profile.png';
+
+      // axiosInstance를 사용하여 로컬 이미지 가져오기
+      const response = await axiosInstance.get(defaultImagePath, {
+        responseType: 'blob',
+        baseURL: window.location.origin, // API 서버가 아닌 현재 호스트에서 가져오기
+      });
+
+      const blob = response.data;
 
       // 이전 미리보기 URL 해제
       if (previewUrl) URL.revokeObjectURL(previewUrl);
@@ -112,16 +117,14 @@ const ProfileImage = () => {
       const objectUrl = URL.createObjectURL(blob);
       setPreviewUrl(objectUrl);
 
-      // 선택된 파일 설정 (이것이 handleConfirm에서 사용됨)
-      const defaultImageFile = new File([blob], 'default-profile.png', {
-        type: blob.type,
+      // 선택된 파일 설정
+      const defaultImageFile = new File([blob], 'cat_profile.png', {
+        type: 'image/png',
       });
       setSelectedFile(defaultImageFile);
 
       // 파일 크기 에러 초기화
       setFileSizeError(null);
-
-      // 여기서 updateImage 호출 제거 - 변경 버튼 클릭할 때만 적용되도록
     } catch (error) {
       console.error('기본 이미지 변경 중 오류 발생:', error);
     }
