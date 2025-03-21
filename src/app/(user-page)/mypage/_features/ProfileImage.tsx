@@ -5,11 +5,16 @@ import { Button } from '@/components/ui/Button';
 import Modal from '@/components/ui/modal/Modal';
 import { useUpdateProfileImageMutation } from '@/hooks/mutations/useMyPageMutation';
 import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
+import { QUERY_KEYS } from '@/hooks/queries/useMyPageQueries';
+import { useQueryClient } from '@tanstack/react-query';
 import { Pencil } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
-import { MAX_FILE_SIZE } from '../../../../constants/mypage/mypageConstant';
+import {
+  DEFAULT_PROFILE_IMAGE,
+  MAX_FILE_SIZE,
+} from '../../../../constants/mypage/mypageConstant';
 import SkeletonProfileImage from './skeletons/SkeletonProfileImage';
 
 const ProfileImage = () => {
@@ -19,6 +24,7 @@ const ProfileImage = () => {
   const [fileSizeError, setFileSizeError] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
 
   // 프로필 데이터 조회
   const { data: profileData, isLoading: isProfileLoading } = useProfileQuery();
@@ -29,6 +35,7 @@ const ProfileImage = () => {
 
   // 프로필 이미지 URL
   const profileImageUrl = profileData?.data?.profilePic || null;
+  const isDefaultImage = profileImageUrl?.includes('default-profile.png');
 
   // 반응형 화면 크기 감지
   useEffect(() => {
@@ -85,8 +92,39 @@ const ProfileImage = () => {
         resetImageState();
         // 모달 닫기
         setIsModalOpen(false);
+        // 배너 쿼리 무효화 (중요! - 헤더의 프로필 이미지도 업데이트되도록)
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.banner() });
       },
     });
+  };
+
+  // 기본 이미지로 변경하는 핸들러
+  const handleResetToDefault = async () => {
+    try {
+      // 기본 이미지 URL을 Blob으로 변환
+      const response = await fetch(DEFAULT_PROFILE_IMAGE);
+      const blob = await response.blob();
+
+      // 이전 미리보기 URL 해제
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+
+      // 새 미리보기 URL 생성
+      const objectUrl = URL.createObjectURL(blob);
+      setPreviewUrl(objectUrl);
+
+      // 선택된 파일 설정 (이것이 handleConfirm에서 사용됨)
+      const defaultImageFile = new File([blob], 'default-profile.png', {
+        type: blob.type,
+      });
+      setSelectedFile(defaultImageFile);
+
+      // 파일 크기 에러 초기화
+      setFileSizeError(null);
+
+      // 여기서 updateImage 호출 제거 - 변경 버튼 클릭할 때만 적용되도록
+    } catch (error) {
+      console.error('기본 이미지 변경 중 오류 발생:', error);
+    }
   };
 
   // 상태 초기화 함수 (중복 코드 제거)
@@ -201,7 +239,25 @@ const ProfileImage = () => {
         disableConfirm={!!fileSizeError || !selectedFile}
       >
         <div className="flex flex-col items-center justify-center gap-[16px]">
-          <div className="typo-head3 text-Cgray700">프로필 이미지</div>
+          <div className="flex w-full justify-between">
+            <div className="typo-head3 text-Cgray700">프로필 이미지</div>
+            <button
+              className={`text-[12px] ${
+                isDefaultImage && !previewUrl
+                  ? 'cursor-not-allowed text-Cgray400 opacity-50'
+                  : 'cursor-pointer text-Cgray500 underline hover:text-Cgray700'
+              }`}
+              onClick={
+                isDefaultImage && !previewUrl ? undefined : handleResetToDefault
+              }
+              disabled={isDefaultImage && !previewUrl}
+              aria-disabled={isDefaultImage && !previewUrl}
+            >
+              {isDefaultImage && !previewUrl
+                ? '기본 이미지 적용됨'
+                : '기본 이미지로 변경'}
+            </button>
+          </div>
           <div className="flex justify-center">
             <button
               type="button"

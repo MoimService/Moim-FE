@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import {
+  getBanner,
   updateContactInfo,
   updatePassword,
   updateProfile,
@@ -23,11 +24,16 @@ export const useUpdateProfileMutation = () => {
     onMutate: async (newProfileData) => {
       // 진행 중인 쿼리 취소
       await queryClient.cancelQueries({ queryKey: QUERY_KEYS.profile() });
+      // banner 쿼리도 취소 (추가)
+      await queryClient.cancelQueries({ queryKey: QUERY_KEYS.banner() });
 
       // 현재 캐시 저장
       const previousData = queryClient.getQueryData<IProfileResponse>(
         QUERY_KEYS.profile(),
       );
+
+      // 배너 데이터도 저장
+      const previousBannerData = queryClient.getQueryData(QUERY_KEYS.banner());
 
       if (previousData) {
         // 캐시 업데이트
@@ -43,9 +49,17 @@ export const useUpdateProfileMutation = () => {
             location: newProfileData.location,
           },
         });
+
+        // 배너 데이터도 업데이트 (이름만 변경)
+        if (previousBannerData) {
+          queryClient.setQueryData(QUERY_KEYS.banner(), {
+            ...previousBannerData,
+            name: newProfileData.name,
+          });
+        }
       }
 
-      return { previousData };
+      return { previousData, previousBannerData };
     },
 
     onError: (error, _, context) => {
@@ -56,14 +70,32 @@ export const useUpdateProfileMutation = () => {
       if (context?.previousData) {
         queryClient.setQueryData(QUERY_KEYS.profile(), context.previousData);
       }
+      if (context?.previousBannerData) {
+        queryClient.setQueryData(
+          QUERY_KEYS.banner(),
+          context.previousBannerData,
+        );
+      }
     },
 
-    onSuccess: () => {
+    onSuccess: async () => {
       showToast('기본 정보가 성공적으로 업데이트되었습니다.', 'success');
+
+      // 성공 후 최신 배너 데이터 가져오기
+      try {
+        const bannerData = await getBanner();
+        if (bannerData) {
+          queryClient.setQueryData(QUERY_KEYS.banner(), bannerData);
+        }
+      } catch (error) {
+        console.error('배너 데이터 가져오기 실패:', error);
+      }
     },
 
     onSettled: () => {
+      // 쿼리 무효화
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.profile() });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.banner() });
     },
   });
 };
@@ -134,12 +166,16 @@ export const useUpdateProfileImageMutation = () => {
 
     onMutate: async (file) => {
       await queryClient.cancelQueries({ queryKey: QUERY_KEYS.profile() });
+      await queryClient.cancelQueries({ queryKey: QUERY_KEYS.banner() });
 
       const previousData = queryClient.getQueryData<IProfileResponse>(
         QUERY_KEYS.profile(),
       );
 
-      // 파일을 임시 URL로 변환 (브라우저 메모리에 저장)
+      // 배너 데이터 가져오기
+      const previousBannerData = queryClient.getQueryData(QUERY_KEYS.banner());
+
+      // 파일을 임시 URL로 변환
       const tempUrl = URL.createObjectURL(file);
 
       if (previousData) {
@@ -147,40 +183,65 @@ export const useUpdateProfileImageMutation = () => {
           ...previousData,
           data: {
             ...previousData.data,
-            profilePic: tempUrl, // 임시 URL로 이미지 경로 업데이트
+            profilePic: tempUrl,
           },
         });
       }
 
-      return { previousData, tempUrl };
+      // 배너 데이터에도 프로필 이미지 업데이트
+      if (previousBannerData) {
+        queryClient.setQueryData(QUERY_KEYS.banner(), {
+          ...previousBannerData,
+          profilePic: tempUrl,
+        });
+      }
+
+      return { previousData, previousBannerData, tempUrl };
     },
 
     onError: (error, _, context) => {
       showToast('프로필 이미지 업로드에 실패했습니다.', 'error');
 
-      // 이전 데이터로 롤백
+      // 롤백
       if (context?.previousData) {
         queryClient.setQueryData(QUERY_KEYS.profile(), context.previousData);
       }
+      if (context?.previousBannerData) {
+        queryClient.setQueryData(
+          QUERY_KEYS.banner(),
+          context.previousBannerData,
+        );
+      }
 
-      // 임시 URL 해제 (메모리 누수 방지)
+      // 임시 URL 해제
       if (context?.tempUrl) {
         URL.revokeObjectURL(context.tempUrl);
       }
     },
 
-    onSuccess: (_, __, context) => {
+    onSuccess: async (response, _, context) => {
       showToast('프로필 이미지가 성공적으로 업데이트되었습니다.', 'success');
 
-      // 성공 시에도 임시 URL 해제 필요
+      // 임시 URL 해제
       if (context?.tempUrl) {
         URL.revokeObjectURL(context.tempUrl);
+      }
+
+      // 성공 후 최신 배너 데이터 가져오기
+      try {
+        const bannerData = await getBanner();
+        if (bannerData) {
+          queryClient.setQueryData(QUERY_KEYS.banner(), bannerData);
+        }
+      } catch (error) {
+        console.error('배너 데이터 가져오기 실패:', error);
       }
     },
 
     onSettled: () => {
-      // 서버에서 최신 이미지 URL 가져오기
+      // 모든 관련 쿼리 무효화
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.profile() });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.banner() });
     },
   });
 };

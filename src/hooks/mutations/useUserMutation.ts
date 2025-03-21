@@ -19,6 +19,9 @@ import {
 } from 'service/api/user';
 import { ISignupFormData } from 'types/auth';
 
+import { getBanner } from '../../service/api/mypageProfile';
+import { QUERY_KEYS } from '../queries/useMyPageQueries';
+
 const useLoginMutation = ({
   onSuccessCallback,
 }: {
@@ -37,7 +40,19 @@ const useLoginMutation = ({
       // refreshToken 저장
       await setRefreshToken(res.refreshToken);
 
+      // 로그인 성공 후 즉시 배너 데이터 가져와서 캐시에 저장
+      try {
+        const bannerData = await getBanner();
+        if (bannerData) {
+          queryClient.setQueryData(QUERY_KEYS.banner(), bannerData);
+          console.log('로그인 후 배너 데이터 설정:', bannerData);
+        }
+      } catch (error) {
+        console.error('로그인 후 배너 데이터 가져오기 실패:', error);
+      }
+
       showToast('로그인 성공', 'success');
+
       // 메인페이지로 리다이렉트
       onSuccessCallback();
     },
@@ -129,6 +144,9 @@ const useLogoutMutation = () => {
       // 토큰 삭제
       await removeAccessToken();
       await removeRefreshToken();
+
+      // banner 쿼리 데이터 초기화
+      queryClient.setQueryData(QUERY_KEYS.banner(), null);
 
       // 모든 캐시 지우기
       queryClient.invalidateQueries();

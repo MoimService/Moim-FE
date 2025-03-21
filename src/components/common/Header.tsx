@@ -3,6 +3,7 @@
 import Logo from '@/assets/icon/logo.svg';
 import { useLogoutMutation } from '@/hooks/mutations/useUserMutation';
 import { QUERY_KEYS } from '@/hooks/queries/useMyPageQueries';
+import { useBannerQueries } from '@/hooks/queries/useMyPageQueries';
 import { translateCategoryNameToKor } from '@/util/searchFilter';
 import { useQueryClient } from '@tanstack/react-query';
 import { MEETING_TYPES } from 'constants/category/category';
@@ -189,17 +190,26 @@ const NavLinks = ({ isMobile }: { isMobile?: boolean }) => {
   );
 };
 
-const Header = ({ userInfo }: { userInfo: IBanner }) => {
+const Header = ({ userInfo: initialUserInfo }: { userInfo?: IBanner }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const userId = undefined;
+
+  // useBannerQueries 훅을 사용하여 배너 정보를 가져옵니다.
+  const { data: queryUserInfo, isLoading } = useBannerQueries({
+    initialData: initialUserInfo || undefined, // 초기 데이터로 서버에서 받아온 값 사용
+  });
+
+  // 서버에서 받은 정보와 쿼리로 받은 정보를 병합
+  const userInfo = queryUserInfo || initialUserInfo;
   const isLogIn = !!userInfo;
 
   const queryClient = useQueryClient();
+
+  // 배너 정보가 변경될 때마다 쿼리 캐시 업데이트
   useEffect(() => {
     if (userInfo) {
       queryClient.setQueryData(QUERY_KEYS.banner(), userInfo);
     }
-  }, [userInfo]);
+  }, [userInfo, queryClient]);
 
   return (
     <div>
@@ -244,4 +254,5 @@ const Header = ({ userInfo }: { userInfo: IBanner }) => {
     </div>
   );
 };
+
 export default Header;
