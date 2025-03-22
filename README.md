@@ -19,9 +19,9 @@ DEVING은 개발자와 디자이너를 위한 전문 모임 플랫폼입니다. 
 
 </br>
 
-# 🧑‍💻 팀원 소개
+# 🧑‍💻 FE 팀원 소개
 
-| 강윤지 | 이윤재 | 이한나 | 이동석 |
+| 강윤지- Leader | 이윤재 | 이한나 | 이동석 |
 |:-----:|:-----:|:-----:|:-----:|
 | ![강윤지](https://github.com/dbswl701.png) | ![이윤재](https://github.com/clyde-yoonjae.png) | ![이한나](https://github.com/lee1nna.png) | ![이동석](https://github.com/Lee-Dong-Seok.png) |
 | [:octocat: GitHub](https://github.com/dbswl701) | [:octocat: GitHub](https://github.com/clyde-yoonjae) | [:octocat: GitHub](https://github.com/lee1nna) | [:octocat: GitHub](https://github.com/Lee-Dong-Seok) |
@@ -124,6 +124,54 @@ Next.js의 App Router를 활용하여 서버 컴포넌트 기반의 아키텍처
 - **개발 효율성**: 컴포넌트 재사용으로 개발 시간 단축
 
 </br>
+
+## 🏗️ 프로젝트 아키텍처
+
+### Next.js App Router 기반 설계
+
+프로젝트는 Next.js App Router를 기반으로 구축되었으며, 서버 컴포넌트와 클라이언트 컴포넌트를 전략적으로 분리하여 최적의 성능과 개발 경험을 제공합니다.
+
+유저 페이지 예시
+
+```bash
+app/
+└─── (user-page)/           # 사용자 관련 페이지 그룹
+   ├── my-meeting/            # 내 모임 페이지
+   │   ├── _features/         # 페이지별 기능 컴포넌트
+   │   ├── comments/         
+   │   ├── likes/             
+   │   │   └── page.tsx       # 찜한 모임 서버컴포넌트
+   │   └── my/                # 내 정보 서브페이지
+   │       ├── (modal)/       # 모달 컴포넌트 그룹
+   │       ├── @modal/        # 인터셉팅 라우트 모달
+   │       ├── layout.tsx     # 레이아웃 컴포넌트
+   │       └── page.tsx       # 페이지 컴포넌트
+   └── mypage/                
+       ├── _features/         
+       ├── MyPageClient.tsx   
+       └── page.tsx           
+```
+
+### 서버 컴포넌트 (page.tsx)
+각 라우트의 진입점으로, SEO 최적화 및 초기 데이터 로딩을 담당합니다.
+
+- **데이터 프리페칭**: 페이지 렌더링 전 필요한 데이터를 서버에서 미리 로드
+- **사용자 인증 확인**: 서버 상태에서 인증 상태 검증으로 보안 강화
+- **초기 HTML 생성**: 클라이언트에 전달될 초기 마크업 구성
+
+### 기능별 컴포넌트 분리 (_features/)
+- 페이지별로 `_features` 폴더를 두어 관련 기능을 모듈화
+- 각 컴포넌트는 특정 기능에 집중하여 책임 분리
+- 재사용성과 유지보수성 향상
+
+### 컴포넌트 자율성
+- 각 컴포넌트는 자신의 기능과 관련된 로직을 직접 담당
+- 상태 관리, API 호출, 이벤트 핸들링 등을 캡슐화
+- `"use client"` 지시어를 통한 클라이언트 컴포넌트 명시적 구분
+
+
+</br>
+
 
 # ✨ 주요 기능
 
