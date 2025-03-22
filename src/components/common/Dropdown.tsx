@@ -6,15 +6,17 @@ import { ChevronDown, ChevronsUpDown } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
 
+import { SortFieldType } from '../../../type-clyde/common/pagination';
+
 interface IDropdownOption {
-  value: string;
+  value: SortFieldType;
   label: string;
   onSelect?: () => void;
 }
 
 interface IDropdownProps {
   options?: IDropdownOption[]; // 드롭다운에 표시될 옵션들
-  onChange?: (value: string) => void; // 선택 변경 시 호출될 콜백
+  onChange?: (value: SortFieldType) => void; // 선택 변경 시 호출될 콜백
   variant?: 'default' | 'icon' | 'doubleArrow' | 'image'; // 드롭다운 스타일 변형
   size?: 's' | 'l'; // 크기 옵션
   className?: string; // 트리거 스타일 커스터마이징

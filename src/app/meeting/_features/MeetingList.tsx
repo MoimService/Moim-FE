@@ -18,8 +18,9 @@ import { keepPreviousData } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback, useState } from 'react';
-import type { IMeetingSearchCondition, SearchMeeting } from 'types/meeting';
+import type { SearchMeeting } from 'types/meeting';
 
+import { IMeetingSearchCondition } from '../../../../type-clyde/meeting/search';
 import MeetingExtraInfo from './MeetingExtraInfo';
 import NoResultsMeeting from './NoResultsMeeting';
 import MeetingListSkeleton from './skeleton/MeetingListSkeleton';
