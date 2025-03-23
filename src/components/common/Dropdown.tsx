@@ -6,7 +6,7 @@ import { ChevronDown, ChevronsUpDown } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
 
-import { SortFieldType } from '../../../type-clyde/common/pagination';
+import { SortFieldType } from '../../type-clyde/common/pagination';
 
 interface IDropdownOption {
   value: SortFieldType;

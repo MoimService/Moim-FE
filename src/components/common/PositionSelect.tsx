@@ -1,7 +1,7 @@
 import Chip from '@/components/ui/Chip';
 import { POSITION_OPTIONS } from 'constants/mypage/mypageConstant';
 
-import { UserPosition } from '../../../type-clyde/auth/acount';
+import { UserPosition } from '../../type-clyde/auth/acount';
 
 export const PositionSelect = ({
   position,

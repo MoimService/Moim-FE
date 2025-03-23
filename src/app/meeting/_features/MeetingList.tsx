@@ -20,7 +20,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback, useState } from 'react';
 import type { SearchMeeting } from 'types/meeting';
 
-import { IMeetingSearchCondition } from '../../../../type-clyde/meeting/search';
+import { IMeetingSearchCondition } from '../../../type-clyde/meeting/search';
 import MeetingExtraInfo from './MeetingExtraInfo';
 import NoResultsMeeting from './NoResultsMeeting';
 import MeetingListSkeleton from './skeleton/MeetingListSkeleton';

@@ -3,7 +3,7 @@ import { positionValidation } from '@/util/validation';
 import { useWatch } from 'react-hook-form';
 import { IInputProps, ISignupFormData } from 'types/auth';
 
-import { UserPosition } from '../../../../type-clyde/auth/acount';
+import { UserPosition } from '../../../type-clyde/auth/acount';
 
 interface IPositionInputProps extends IInputProps<ISignupFormData> {
   handleClickPosition: (value: UserPosition) => void;

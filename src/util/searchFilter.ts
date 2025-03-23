@@ -1,6 +1,6 @@
 import { CategoryTitle } from 'types/meeting';
 
-import { SortFieldType } from '../../type-clyde/common/pagination';
+import { SortFieldType } from '../type-clyde/common/pagination';
 
 export const filterOptions: Array<{ value: SortFieldType; label: string }> = [
   {
