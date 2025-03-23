@@ -19,20 +19,20 @@ interface IMeetingSearchCondition {
   size: number;
 }
 
-interface Sort {
-  sorted: boolean;
-  empty: boolean;
-  unsorted: boolean;
-}
+// interface Sort {
+//   sorted: boolean;
+//   empty: boolean;
+//   unsorted: boolean;
+// }
 
-interface Pageable {
-  pageNumber: number;
-  pageSize: number;
-  paged: boolean;
-  offset: number;
-  sort: Sort;
-  unpaged: boolean;
-}
+// interface Pageable {
+//   pageNumber: number;
+//   pageSize: number;
+//   paged: boolean;
+//   offset: number;
+//   sort: Sort;
+//   unpaged: boolean;
+// }
 
 interface SearchMeeting {
   meetingId: number;
@@ -68,8 +68,8 @@ interface ErrorData {
 export type {
   CategoryTitle,
   TopMeeting,
-  Sort,
-  Pageable,
+  // Sort,
+  // Pageable,
   SearchMeeting,
   IMeetingSearchCondition,
   // Paginated,

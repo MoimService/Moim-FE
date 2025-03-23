@@ -10,7 +10,7 @@ import {
   getMyWrittenComments,
 } from 'service/api/mycomments';
 import { Paginated } from 'type-clyde/common/pagination';
-import { MyComment } from 'types/myComment';
+import { MyComment } from 'type-clyde/meeting/comment';
 
 import Tab from '../_features/Tab';
 import Writable from '../_features/Writable';

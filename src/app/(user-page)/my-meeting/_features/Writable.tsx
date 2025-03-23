@@ -5,7 +5,7 @@ import useInfiniteScroll from '@/hooks/common/useInfiniteScroll';
 import { useInfiniteWritableMyMeetingsQueries } from '@/hooks/queries/useMyCommentQueries';
 import { translateCategoryNameToEng } from '@/util/searchFilter';
 import { useRouter } from 'next/navigation';
-import { MyComment } from 'types/myComment';
+import { MyComment } from 'type-clyde/meeting/comment';
 
 import MeetingListSkeleton from './skeletons/SkeletonMeetingList';
 

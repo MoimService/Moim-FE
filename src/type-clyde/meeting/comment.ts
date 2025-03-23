@@ -15,3 +15,12 @@ export interface Comment {
   userName?: string;
   profilePic?: string;
 }
+
+export interface MyComment extends Comment {
+  meetingTitle: string;
+  thumbnail: string;
+  location: string;
+  memberCount: number;
+  maxMember: number;
+  categoryTitle: string;
+}
