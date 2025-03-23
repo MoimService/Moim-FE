@@ -1,7 +1,7 @@
 import useTechSelection from '@/hooks/useTechSelection';
 import { getIconColor, getIconsByCategory } from '@/util/getIconDetail';
 import React, { useEffect, useState } from 'react';
-import { CategoryType } from 'types/techStack';
+import { CategoryType } from 'type-clyde/common/icon/techStacks';
 
 import CategoryTabs from './tech-stack-components/CategoryTabs';
 import SelectedTechList from './tech-stack-components/SelectedTechList';

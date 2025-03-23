@@ -5,11 +5,8 @@ import {
   design,
   frontend,
 } from '@/components/ui/Icon/iconRegistry';
-import {
-  CategoryType,
-  IconComponent,
-  IconWithComponent,
-} from 'types/techStack';
+import { CategoryType, IconComponent } from 'type-clyde/common/icon/techStacks';
+import { IconWithComponent } from 'type-clyde/common/icon/techStacks';
 
 // 컴포넌트 이름 카멜케이스로 변경
 export function convertComponentName(name: string) {

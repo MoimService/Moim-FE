@@ -1,5 +1,8 @@
 import React from 'react';
-import { ClickedButtonsState, IconWithComponent } from 'types/techStack';
+import {
+  ClickedButtonsState,
+  IconWithComponent,
+} from 'type-clyde/common/icon/techStacks';
 
 import TechButton from './TechButton';
 
@@ -37,7 +40,7 @@ const TechButtonList = ({
             background: transparent;
           }
           div::-webkit-scrollbar-thumb {
-            background-color: #a0aec0; /* Cgray500 */
+            background-color: #a0aec0;
             border-radius: 10px;
           }
           div::-webkit-scrollbar-thumb:hover {

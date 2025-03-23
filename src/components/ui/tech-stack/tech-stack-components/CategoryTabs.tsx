@@ -1,6 +1,6 @@
 import { RotateCcw } from 'lucide-react';
 import React, { useState } from 'react';
-import { CategoryType } from 'types/techStack';
+import { CategoryType } from 'type-clyde/common/icon/techStacks';
 
 import TabButton from './TabButton';
 

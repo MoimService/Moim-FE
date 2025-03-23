@@ -6,7 +6,7 @@ import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import useTechSelection from '@/hooks/useTechSelection';
 import { getIconColor, getIconsByCategory } from '@/util/getIconDetail';
 import React, { useEffect, useState } from 'react';
-import { CategoryType } from 'types/techStack';
+import { CategoryType } from 'type-clyde/common/icon/techStacks';
 
 import CategoryTabs from '../../../../components/ui/tech-stack/tech-stack-components/CategoryTabs';
 import SelectedTechList from '../../../../components/ui/tech-stack/tech-stack-components/SelectedTechList';

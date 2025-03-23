@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ClickedButtonsState } from 'types/techStack';
+import { ClickedButtonsState } from 'type-clyde/common/icon/techStacks';
 
 interface UseTechSelectionProps {
   maxSelections?: number;

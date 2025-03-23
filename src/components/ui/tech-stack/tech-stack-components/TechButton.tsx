@@ -1,6 +1,6 @@
 import { isLightColor } from '@/util/getIconDetail';
 import React from 'react';
-import { IconComponent } from 'types/techStack';
+import { IconComponent } from 'type-clyde/common/icon/techStacks';
 
 interface TechButtonProps {
   className?: string;
