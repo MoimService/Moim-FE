@@ -1,12 +1,29 @@
 import axiosInstance from '@/lib/axios/axiosInstance';
-import { CreateMeetingPayload } from 'types/meetingForm';
+import {
+  CreateMeetingPayload,
+  CreateMeetingResponse,
+  UpdateMeetingPayload,
+} from 'types/meetingForm';
 
 import { meetingURL } from './endpoints';
 
-export const createMeeting = async (data: CreateMeetingPayload) => {
-  const response = await axiosInstance.post(meetingURL.create, data);
+export const createMeeting = async (
+  data: CreateMeetingPayload,
+): Promise<CreateMeetingResponse> => {
+  const response = await axiosInstance.post<CreateMeetingResponse>(
+    meetingURL.create,
+    data,
+  );
   return response.data;
 };
 
-// 폼수정 API
-export const editMeeting = async () => {};
+export const editMeeting = async (
+  meetingId: number,
+  data: UpdateMeetingPayload,
+): Promise<CreateMeetingResponse> => {
+  const response = await axiosInstance.put<CreateMeetingResponse>(
+    meetingURL.update(meetingId),
+    data,
+  );
+  return response.data;
+};
