@@ -5,10 +5,15 @@
 # 목차
 
 ## 1. [프로젝트 소개](#-프로젝트-소개)
+
 ## 2. [팀원 소개](#-팀원-소개)
+
 ## 3. [프로젝트 기획](#-프로젝트-기획)
+
 ## 4. [기간 및 협업관리](#️-기간-및-협업관리)
+
 ## 5. [기술스택](#-기술스택)
+
 ## 6. [주요 기능](#-주요-기능)
 
 </br>
@@ -21,9 +26,9 @@ DEVING은 개발자와 디자이너를 위한 전문 모임 플랫폼입니다. 
 
 # 🧑‍💻 FE 팀원 소개
 
-| 강윤지- Leader | 이윤재 | 이한나 | 이동석 |
-|:-----:|:-----:|:-----:|:-----:|
-| ![강윤지](https://github.com/dbswl701.png) | ![이윤재](https://github.com/clyde-yoonjae.png) | ![이한나](https://github.com/lee1nna.png) | ![이동석](https://github.com/Lee-Dong-Seok.png) |
+|                 강윤지- Leader                  |                        이윤재                        |                     이한나                     |                        이동석                        |
+| :---------------------------------------------: | :--------------------------------------------------: | :--------------------------------------------: | :--------------------------------------------------: |
+|   ![강윤지](https://github.com/dbswl701.png)    |   ![이윤재](https://github.com/clyde-yoonjae.png)    |   ![이한나](https://github.com/lee1nna.png)    |   ![이동석](https://github.com/Lee-Dong-Seok.png)    |
 | [:octocat: GitHub](https://github.com/dbswl701) | [:octocat: GitHub](https://github.com/clyde-yoonjae) | [:octocat: GitHub](https://github.com/lee1nna) | [:octocat: GitHub](https://github.com/Lee-Dong-Seok) |
 
 </br>
@@ -44,26 +49,30 @@ DEVING은 개발자와 디자이너를 위한 전문 모임 플랫폼입니다. 
 
 </br>
 
+## 🎈 프로젝트 산출물
+
+| 문서 종류            | 링크                                                                                                                                       |
+| :------------------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
+| 📝 **와이어 프레임** | [DEVING - 와이어 프레임](https://www.figma.com/board/bUMqsflFYlDe6pNhGeqWrp/DEVING%EC%99%80%ED%94%84?node-id=0-1&p=f&t=cidZ5kv8hqPVDQRC-0) |
+| 🎨 **디자인 시안**   | [DEVING - 디자인 시안](https://www.figma.com/design/whAR7r8MPfWo9Cl93zhKlL/DEVING-%EC%8B%9C%EC%95%88?node-id=0-1&p=f&t=hQ9Sr369FbrTyGqY-0) |
+| 📘 **API 문서**      | [DEVING - 스웨거](https://deving.shop/swagger-ui/index.html#/auth-controller)                                                              |
+
+### 배포 링크
+
+- https://deving-together.netlify.app/
+- 테스트 계정
+  - 아이디: a1056719@gmail.com
+  - 비밀번호: test1234
+
+</br>
+
 # 🖥️ 기간 및 협업관리
 
 </br>
 
-### [ 기간 ]
+### [ 개발 기간 ]
 
-<table style="font-size: 20px;">
- <tr>
-   <th>구분</th>
-   <th> 날짜</th>
- </tr>
- <tr>
-   <td>기획 기간</td>
-   <td>2025.01.24 ~ 02.10</td>
- </tr>
- <tr>
-   <td>개발 기간</td>
-   <td>2025.02.11 ~ 03.14</td>
- </tr>
-</table>
+2025.02.11 ~ 2025.03.14
 
 </br>
 
@@ -74,12 +83,12 @@ DEVING은 개발자와 디자이너를 위한 전문 모임 플랫폼입니다. 
 ![Jira](https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jira&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 
-| 협업 도구      | 활용 내용                                                                               |
-| -------------- | --------------------------------------------------------------------------------------- |
-| 📝 **Notion**  | • 데일리 스크럼 기록<br>• 트러블슈팅 문서화<br>• 기술 Wiki 구축<br>• 프로젝트 정보 공유 |
-| 🎙️ **Discord** | • 실시간 화상 회의<br>• 팀 커뮤니케이션                                                 |
-| 📊 **Jira**    | • 브랜치 관리<br>• 스프린트 계획 및 추적<br>• 작업 할당 및 진행상황 모니터링            |
-| 📌 **GitHub**  | • 코드 버전 관리<br>• PR 및 코드 리뷰<br>• 이슈 트래킹                                  |
+| 협업 도구      | 활용 내용                                                       |
+| -------------- | --------------------------------------------------------------- |
+| 📝 **Notion**  | • 데일리 스크럼 기록<br>• 트러블슈팅 문서화<br>• 기술 Wiki 구축 |
+| 🎙️ **Discord** | • 실시간 화상 회의<br>• 팀 커뮤니케이션                         |
+| 📊 **Jira**    | • 스프린트 계획 및 추적<br>• 작업 할당 및 진행상황 모니터링     |
+| 📌 **GitHub**  | • 코드 버전 관리<br>• PR 및 코드 리뷰<br>• 이슈 트래킹          |
 
 </br>
 
@@ -89,11 +98,9 @@ DEVING은 개발자와 디자이너를 위한 전문 모임 플랫폼입니다. 
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white)
-![Zustand](https://img.shields.io/badge/Zustand-624DE3?style=for-the-badge&logo=react&logoColor=white)
 ![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000000?style=for-the-badge&logo=shadcnui&logoColor=white)
-![MUI](https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=mui&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
-
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white)
 
 ### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" width="20" height="20"/> Next.js (App Router)
 
@@ -104,20 +111,19 @@ Next.js의 App Router를 활용하여 서버 컴포넌트 기반의 아키텍처
 - **데이터 프리페칭**: 페이지 렌더링 전에 필요한 데이터를 미리 로드하여 사용자 경험 개선
 - **서버 상태 기반 인증**: 보안성이 향상된 사용자 인증 시스템 구현
 
-
 ### <img src="https://cdn.jsdelivr.net/gh/TanStack/query/media/emblem-light.svg" width="20" height="20"/> TanStack Query
 
 서버 상태 관리를 위해 TanStack Query(React Query)를 사용했습니다:
+
 - **효율적인 데이터 페칭**: 자동 캐싱, 백그라운드 업데이트, 재시도 로직 구현
 - **서버 상태와 클라이언트 상태 분리**: 상태 관리 로직 단순화
-- **데이터 동기화**: 최신 데이터를 항상 유지하면서도 불필요한 네트워크 요청 최소화
 - **쿼리키 팩토리패턴**: 프로젝트 내 전략적인 쿼리키 관리
 - **무한 스크롤**: 대용량 데이터 효율적 처리
 
-
-### <img src="https://ui.shadcn.com/favicon.ico" width="20" height="20"/> shadcn/ui & <img src="https://mui.com/favicon.ico" width="20" height="20"/> MUI
+### <img src="https://ui.shadcn.com/favicon.ico" width="20" height="20"/> shadcn/ui
 
 디자인 시안 확정 전 신속한 개발 환경 구축을 위해 두 UI 라이브러리를 전략적으로 활용했습니다:
+
 - **프로토타이핑 가속화**: 고품질 컴포넌트로 빠른 MVP 개발
 - **일관된 디자인 시스템**: 프로젝트 초기 단계에서 디자인 일관성 유지
 - **사용자 경험 향상**: 검증된 UI 패턴 적용으로 직관적인 인터페이스 구현
@@ -129,7 +135,7 @@ Next.js의 App Router를 활용하여 서버 컴포넌트 기반의 아키텍처
 
 ### Next.js App Router 기반 설계
 
-프로젝트는 Next.js App Router를 기반으로 구축되었으며, 서버 컴포넌트와 클라이언트 컴포넌트를 전략적으로 분리하여 최적의 성능과 개발 경험을 제공합니다.
+Deving 프로젝트는 Next.js App Router를 기반으로 구축되었으며, 서버 컴포넌트와 클라이언트 컴포넌트를 전략적으로 분리하여 최적의 성능과 개발 경험을 제공합니다.
 
 유저 페이지 예시
 
@@ -138,65 +144,50 @@ app/
 └─── (user-page)/           # 사용자 관련 페이지 그룹
    ├── my-meeting/            # 내 모임 페이지
    │   ├── _features/         # 페이지별 기능 컴포넌트
-   │   ├── comments/         
-   │   ├── likes/             
+   │   ├── comments/
+   │   ├── likes/
    │   │   └── page.tsx       # 찜한 모임 서버컴포넌트
    │   └── my/                # 내 정보 서브페이지
    │       ├── (modal)/       # 모달 컴포넌트 그룹
    │       ├── @modal/        # 인터셉팅 라우트 모달
    │       ├── layout.tsx     # 레이아웃 컴포넌트
    │       └── page.tsx       # 페이지 컴포넌트
-   └── mypage/                
-       ├── _features/         
-       ├── MyPageClient.tsx   
-       └── page.tsx           
+   └── mypage/
+       ├── _features/
+       ├── MyPageClient.tsx
+       └── page.tsx
 ```
 
 ### 서버 컴포넌트 (page.tsx)
+
 각 라우트의 진입점으로, SEO 최적화 및 초기 데이터 로딩을 담당합니다.
 
 - **데이터 프리페칭**: 페이지 렌더링 전 필요한 데이터를 서버에서 미리 로드
 - **사용자 인증 확인**: 서버 상태에서 인증 상태 검증으로 보안 강화
-- **초기 HTML 생성**: 클라이언트에 전달될 초기 마크업 구성
 
-### 기능별 컴포넌트 분리 (_features/)
+### 기능별 컴포넌트 분리 (\_features/)
+
 - 페이지별로 `_features` 폴더를 두어 관련 기능을 모듈화
 - 각 컴포넌트는 특정 기능에 집중하여 책임 분리
 - 재사용성과 유지보수성 향상
 
-### 컴포넌트 자율성
-- 각 컴포넌트는 자신의 기능과 관련된 로직을 직접 담당
-- 상태 관리, API 호출, 이벤트 핸들링 등을 캡슐화
-- `"use client"` 지시어를 통한 클라이언트 컴포넌트 명시적 구분
-
-
 </br>
-
 
 # ✨ 주요 기능
 
-
-| 모임 찾기 | 모임 상세보기 |
-|:---:|:---:|
-| 여러가지 필터를 통해 모임을 쉽고 빠르게 찾을 수 있습니다. | 모임에 대한 상세 정보를 한눈에 확인할 수 있습니다. |
+|                                모임 찾기                                 |                                 모임 상세보기                                  |
+| :----------------------------------------------------------------------: | :----------------------------------------------------------------------------: |
+|        여러가지 필터를 통해 모임을 쉽고 빠르게 찾을 수 있습니다.         |               모임에 대한 상세 정보를 한눈에 확인할 수 있습니다.               |
 | <img src="./src/assets/readme-img/list.png" alt="모임 찾기" width="450"> | <img src="./src/assets/readme-img/detail.png" alt="모임 상세보기" width="450"> |
 
-| 모임 신청 | 모임 관리 및 멤버관리 |
-|:---:|:---:|
-| 간편한 절차를 통해 모임에 참여 신청을 할 수 있습니다. | 주최모임과 참여자들을 관리 및 상태를 변경 할 수 있습니다. |
+|                                모임 신청                                 |                           모임 관리 및 멤버관리                            |
+| :----------------------------------------------------------------------: | :------------------------------------------------------------------------: |
+|          간편한 절차를 통해 모임에 참여 신청을 할 수 있습니다.           |         주최모임과 참여자들을 관리 및 상태를 변경 할 수 있습니다.          |
 | <img src="./src/assets/readme-img/join.png" alt="모임 신청" width="450"> | <img src="./src/assets/readme-img/member.png" alt="모임 관리" width="450"> |
 
-| 내 정보 수정 | |
-|:---:|:---:|
-| 프로필 정보를 간편하게 수정할 수 있습니다. | |
-| <img src="./src/assets/readme-img/mypage.png" alt="내정보" width="450"> | |
+|                              내 정보 수정                               |     |
+| :---------------------------------------------------------------------: | :-: |
+|               프로필 정보를 간편하게 수정할 수 있습니다.                |     |
+| <img src="./src/assets/readme-img/mypage.png" alt="내정보" width="450"> |     |
+
 </br>
-
-
-## 🎈 프로젝트 산출물
-
-| 문서 종류 | 링크 |
-|:---|:---|
-| 📝 **와이어 프레임** | [DEVING - 와이어 프레임](https://www.figma.com/files/team/1239829768059524989/recents-and-sharing?fuid=1239829763104263861) |
-| 🎨 **디자인 시안** | [DEVING - 디자인 시안](https://www.figma.com/design/whAR7r8MPfWo9Cl93zhKlL/DEVING-%EC%8B%9C%EC%95%88?node-id=0-1&p=f&t=hQ9Sr369FbrTyGqY-0) |
-| 📘 **API 문서** | [DEVING - 스웨거](https://deving.shop/swagger-ui/index.html#/auth-controller) |
